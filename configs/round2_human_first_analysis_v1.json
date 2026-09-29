@@ -1,0 +1,175 @@
+{
+  "schema_version": "round2_human_first_analysis_v1",
+  "study_label": "Blinded human-first controlled-edit reranking analysis",
+  "outcome_blind_method_freeze": true,
+  "authorization": {
+    "analysis_authorized": true,
+    "manuscript_changes_authorized": false,
+    "new_annotation_or_recode_authorized": false
+  },
+  "inputs": {
+    "released_workbook": {
+      "path": "outputs/round2/human_first_reranking/human_first_review_packet.xlsx",
+      "sha256": "07d294645a7fbdb4a10c74cb4ce8b959d1db97c7cc8979922435a9dc159d82d9"
+    },
+    "completed_workbook": {
+      "path": "outputs/round2/human_first_reranking/human_first_review_packet_done.xlsx",
+      "sha256": "73312e07427d7d4b9aada98261c91b22d6e287cf134cbfed0c22cf36253430e7",
+      "review_rows": 180,
+      "allowed_scores": ["1", "2", "3", "4", "5", "X"]
+    },
+    "private_review_key": "outputs/round2/human_first_reranking/private_review_key.csv",
+    "candidate_metrics": "outputs/round2/human_first_reranking/candidate_metric_deltas.csv",
+    "policy_selections": "outputs/round2/human_first_reranking/policy_selections.csv",
+    "automatic_proxy_audit": "outputs/round2/human_first_reranking/automatic_proxy_audit.csv",
+    "packet_protocol": {
+      "path": "configs/round2_human_first_reranking_v1.json",
+      "sha256": "c14fc73dbf12c4e1cf603044d0eaadcdcea7b6f4177dab9ba147101496f274e0"
+    }
+  },
+  "pre_unblinding_validation": {
+    "required": [
+      "completed file exists and its SHA-256 matches",
+      "Review ID, A, and B are exact by released-packet row",
+      "exactly 180 scores are present and allowed",
+      "no review row or instruction content changed"
+    ],
+    "status": "passed_without_opening_hidden_artifacts",
+    "clerical_corrections": []
+  },
+  "annotation_protocol": {
+    "score_meanings": {
+      "1": "A clearly more specific",
+      "2": "A slightly more specific",
+      "3": "A and B have about the same specificity",
+      "4": "B slightly more specific",
+      "5": "B clearly more specific",
+      "X": "No usable meaning comparison could be derived and specificity did not matter"
+    },
+    "user_rule_caveat": "Score 3 was used whenever specificity was judged the same, even if wording introduced a subtle meaning difference or alternative interpretation. X was reserved for cases where no meaning could be derived and specificity did not matter. A small number of rows may have this score-3 caveat. Scores are not recoded post hoc.",
+    "claim_boundary": "A direction-valid result is specificity agreement under the user's operational rule, not proof that an edit fully preserves semantics, factuality, or communicative intent.",
+    "tracked_examples": "Do not quote review sentences in compact tracked evidence; describe the narrow same-specificity/subtle-semantic-shift caveat conceptually."
+  },
+  "orientation": {
+    "candidate_delta": "candidate specificity minus original specificity",
+    "candidate_side_A": {"1": 2, "2": 1, "3": 0, "4": -1, "5": -2, "X": null},
+    "candidate_side_B": {"1": -2, "2": -1, "3": 0, "4": 1, "5": 2, "X": null},
+    "direction_aligned_utility": {
+      "add_specific": "candidate_delta",
+      "de_specify": "-candidate_delta",
+      "irrelevant_rewrite": "-abs(candidate_delta)"
+    },
+    "primary_direction_validity": {
+      "add_specific": "candidate_delta > 0",
+      "de_specify": "candidate_delta < 0",
+      "irrelevant_rewrite": "candidate_delta == 0",
+      "X": "false"
+    },
+    "score_3_sensitivity_rule": "Score 3 is non-success for add_specific and de_specify and success only for irrelevant_rewrite. Report score-3 prevalence separately; do not infer semantic preservation from it.",
+    "x_handling": "X is a failure in all-case direction-validity rates, excluded from ordinal utilities and correlations, and reported separately as an X rate."
+  },
+  "analysis_sets": {
+    "primary": {
+      "name": "all_180",
+      "review_positions": "1..180 in completed workbook order"
+    },
+    "order_drift_descriptive": [
+      {"name": "first_60", "review_positions": "1..60"},
+      {"name": "middle_60", "review_positions": "61..120"},
+      {"name": "final_60", "review_positions": "121..180"}
+    ],
+    "order_drift_sensitivity": [
+      {"name": "exclude_first_20", "review_positions": "21..180"},
+      {"name": "exclude_first_30", "review_positions": "31..180"}
+    ],
+    "transformations": "No rescaling, recentering, calibration, or post hoc correction. Earlier scores remain unchanged absent a documented clerical error; none is reported."
+  },
+  "policies": {
+    "reference": "unguided_slot01",
+    "primary": [
+      "unguided_slot01",
+      "speciteller_frozen_round1",
+      "ko_run01",
+      "ko_run02",
+      "ko_run03",
+      "granuscore_direction_aligned"
+    ],
+    "secondary": [
+      "ko_three_run_arithmetic_mean_secondary",
+      "rank_consensus_secondary"
+    ],
+    "consensus_inclusion_reason": "The rank-consensus policy was frozen before ratings in round2_human_first_reranking_v1.",
+    "estimands": [
+      "selected-candidate direction-validity rate with X counted as failure",
+      "selected-candidate X rate",
+      "comparable-only mean direction-aligned ordinal utility with denominator",
+      "paired percentage-point difference in direction-validity versus unguided",
+      "paired ordinal win/loss/tie versus unguided on mutually comparable selections"
+    ],
+    "strata": ["overall", "corpus_id", "edit_type"],
+    "drift_sensitivity_pairing": "After excluding early review positions, a guided-versus-unguided contrast retains a source case only when both selected rows survive; report paired case count for every contrast."
+  },
+  "candidate_level_predictor_agreement": {
+    "models": [
+      "speciteller_frozen_round1",
+      "ko_run01",
+      "ko_run02",
+      "ko_run03",
+      "ko_three_run_arithmetic_mean_secondary",
+      "granuscore_direction_aligned"
+    ],
+    "estimand": "Spearman correlation of specificity-aligned candidate-minus-original metric delta with human candidate_delta among non-X rows",
+    "strata": ["overall", "corpus_id", "edit_type"],
+    "interpretation": "association with one evaluator's operational specificity judgment, not accuracy or truth"
+  },
+  "automatic_proxy_comparison": {
+    "proxy_positive": "proxy_pass == true",
+    "human_positive": "primary_direction_validity == true",
+    "confusion_cells": {
+      "true_accept": "proxy positive and human positive",
+      "false_accept": "proxy positive and human negative",
+      "false_reject": "proxy negative and human positive",
+      "true_reject": "proxy negative and human negative"
+    },
+    "rates": {
+      "false_accept_rate": "false_accept / (false_accept + true_reject)",
+      "false_reject_rate": "false_reject / (true_accept + false_reject)"
+    },
+    "strata": ["overall", "corpus_id", "edit_type"],
+    "x_rule": "X is human negative in the primary confusion table and is also reported as a separate component.",
+    "drift_sensitivity": ["all_180", "exclude_first_20", "exclude_first_30"]
+  },
+  "uncertainty": {
+    "method": "deterministic nonparametric paired bootstrap",
+    "replicates": 20000,
+    "confidence_level": 0.95,
+    "interval": "percentile",
+    "master_seed": 2026081115,
+    "unit": "source case",
+    "overall_resampling": "resample source cases within frozen corpus-by-edit_type cells and concatenate strata",
+    "subset_resampling": "resample source cases within the displayed subset; reuse identical draws across policies/models in each paired contrast",
+    "candidate_independent_resampling_forbidden": true,
+    "small_or_degenerate_strata": "report point estimate, denominator, and an unavailable or degenerate interval transparently"
+  },
+  "outputs": {
+    "raw_directory": "outputs/round2/human_first_reranking_analysis",
+    "compact_directory": "analysis/round2_human_first_reranking_analysis",
+    "tracked": [
+      "README.md",
+      "analysis_manifest.json",
+      "rating_order_distribution.csv",
+      "policy_summary.csv",
+      "policy_contrasts.csv",
+      "predictor_agreement.csv",
+      "proxy_confusion.csv"
+    ],
+    "privacy": "Tracked artifacts contain only aggregate counts/statistics, stable method labels, hashes, and provenance. They contain no sentence text, review IDs, source/candidate IDs, selector mappings, or row-level human outcomes."
+  },
+  "reporting": {
+    "report_all_results_including_unfavorable": true,
+    "preserve_all_three_ko_runs_as_primary": true,
+    "one_evaluator_boundary": "Do not claim accuracy, truth, gold-standard validity, or general human preference from one evaluator.",
+    "independence_boundary": "The 180 judgments are three candidates for each of 60 source cases, not 180 independent sources.",
+    "next_gate": "No manuscript integration without separate primary review and authorization."
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "schema_version": "round2_dgx_gptoss120b_rubric_delta_v1",
+  "enabled": true,
+  "priority": "secondary_after_primary_complete_and_time_gate",
+  "base_bindings": [
+    {"path": "configs/round2_qwen_rubric_v1.json", "sha256": "41686f9c2a9819d45485be7c952d852368a09884290b2b522ed52d37eb268cc7"},
+    {"path": "configs/round2_local_rubric_replication_v1.json", "sha256": "96382c87a667be3dbb781d62b1a8535bfb01c11552b47165c0da25f8ebda9cb3"}
+  ],
+  "model_runtime_delta": {
+    "judge_id": "gptoss_120b_zero_shot_rubric",
+    "model": "gpt-oss:120b",
+    "model_tag_digest": "a951a23b46a1f6093dafee2ea481d634b4e31ac720a8a16f3f91e04f5a40ecd9",
+    "model_blob_sha256": "6be6d66a3f546d8c19b130dc41dc24b2fc159f84ffbc76a0ee0676205083cf5a",
+    "ollama_version": "0.32.5",
+    "think": "low",
+    "num_predict": 128,
+    "output_namespace": "output/run/rubric"
+  },
+  "allowed_differences": [
+    "/judge_id", "/model", "/model_tag_digest", "/model_blob_sha256",
+    "/ollama_version", "/think", "/num_predict", "/output_namespace"
+  ],
+  "inherited_without_change": [
+    "exact 80 rows and order", "rubric wording", "fresh conversation",
+    "one attempt", "one-field integer JSON score", "score range 1 through 5",
+    "temperature 0", "top_k 1", "top_p 1", "repeat_penalty 1",
+    "seed 20260809", "context 4096", "blindness"
+  ],
+  "release_gate": "exactly 80 unique valid rows; otherwise suppress rubric eligibility without changing primary status",
+  "reasoning_text_retained": false
+}

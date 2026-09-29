@@ -1,0 +1,16 @@
+{
+  "schema_version": "round2_dgx_gptoss120b_rubric_preanalysis_correction_v1",
+  "method_config_sha256": "bec4873f4990ae3bcba6bc6d30e5c5da991f483d77d49abe6425d83026fb40e6",
+  "freeze_record_sha256": "9b1260fc09bf024bef71b50cb411a69d8e9d3b566d0564e1c2ccf765b7942ee8",
+  "failed_preanalysis_gate": "exact remote model_identity serialization",
+  "frozen_semantic_identity": "gpt-oss:120b@a951a23b46a1f6093dafee2ea481d634b4e31ac720a8a16f3f91e04f5a40ecd9",
+  "exact_remote_serialization": "gpt-oss:120b@sha256:a951a23b46a1f6093dafee2ea481d634b4e31ac720a8a16f3f91e04f5a40ecd9",
+  "correction": "Require the exact remote serialization while preserving the same pinned manifest digest and all frozen scientific rules.",
+  "outcome_access": {
+    "score_values_parsed_or_inspected": false,
+    "statistics_or_summaries_computed": false,
+    "failure_occurred_before_score_field_conversion": true,
+    "metadata_fields_inspected": ["run_id", "model_identity", "schema_version", "config_sha256", "prompt_sha256"]
+  },
+  "scientific_changes": []
+}

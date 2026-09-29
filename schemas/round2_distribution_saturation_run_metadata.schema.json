@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spectech.invalid/schemas/round2_distribution_saturation_run_metadata.schema.json",
+  "title": "Round 2 distribution and saturation run metadata",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "completed_at_utc", "config", "join_validation",
+    "baseline_gate", "bounds_gate", "granuscore_no_unit_gate", "bootstrap",
+    "outputs", "figure", "claim_boundary"
+  ],
+  "properties": {
+    "schema_version": {"const": "round2_distribution_saturation_results_v1"},
+    "completed_at_utc": {"type": "string", "format": "date-time"},
+    "command": {"type": "string"},
+    "config": {
+      "type": "object",
+      "required": ["path", "sha256", "schema_version", "outcome_blind_freeze"],
+      "properties": {
+        "path": {"type": "string"},
+        "sha256": {"pattern": "^[0-9a-f]{64}$"},
+        "schema_version": {"const": "round2_distribution_saturation_v1"},
+        "outcome_blind_freeze": {"const": true}
+      }
+    },
+    "join_validation": {
+      "type": "object",
+      "required": ["total_rows", "corpus_order", "ordered_sent_id_join", "coverage_rate", "input_hashes_passed"],
+      "properties": {
+        "total_rows": {"const": 1295205},
+        "corpus_order": {"type": "array", "minItems": 4, "maxItems": 4},
+        "ordered_sent_id_join": {"const": true},
+        "coverage_rate": {"const": 1.0},
+        "input_hashes_passed": {"const": true}
+      }
+    },
+    "baseline_gate": {
+      "type": "object",
+      "required": ["passed", "strict_counts_passed"],
+      "properties": {"passed": {"const": true}, "strict_counts_passed": {"const": true}}
+    },
+    "bounds_gate": {
+      "type": "object",
+      "required": ["passed", "model_instances"],
+      "properties": {"passed": {"const": true}, "model_instances": {"type": "array", "minItems": 6, "maxItems": 6}}
+    },
+    "granuscore_no_unit_gate": {
+      "type": "object",
+      "required": ["passed", "single_mass_point"],
+      "properties": {"passed": {"const": true}, "single_mass_point": {"const": true}}
+    },
+    "bootstrap": {
+      "type": "object",
+      "required": ["replicates", "master_seed", "cluster_key", "confidence_interval"],
+      "properties": {
+        "replicates": {"const": 1000},
+        "master_seed": {"const": 20260810},
+        "cluster_key": {"const": "doc_path"},
+        "confidence_interval": {"type": "string"}
+      }
+    },
+    "outputs": {
+      "type": "object",
+      "minProperties": 11,
+      "additionalProperties": {
+        "type": "object",
+        "required": ["path", "sha256", "rows"],
+        "properties": {
+          "path": {"type": "string"},
+          "sha256": {"pattern": "^[0-9a-f]{64}$"},
+          "rows": {"type": "integer", "minimum": 1}
+        }
+      }
+    },
+    "figure": {
+      "type": "object",
+      "required": ["svg_path", "svg_sha256", "png_path", "png_sha256", "facets", "bins"],
+      "properties": {
+        "svg_path": {"type": "string"},
+        "svg_sha256": {"pattern": "^[0-9a-f]{64}$"},
+        "png_path": {"type": "string"},
+        "png_sha256": {"pattern": "^[0-9a-f]{64}$"},
+        "facets": {"const": 20},
+        "bins": {"const": 50}
+      }
+    },
+    "claim_boundary": {"type": "string", "minLength": 20}
+  }
+}

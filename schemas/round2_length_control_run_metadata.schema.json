@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/spectech/round2-length-control-run-metadata.schema.json",
+  "title": "SpecTech Round 2 length-control run metadata",
+  "type": "object",
+  "required": [
+    "analysis",
+    "analysis_version",
+    "method_version",
+    "completed_at_utc",
+    "configs",
+    "input_artifacts",
+    "preprocessing_manifest",
+    "join_validation",
+    "baseline_gate_passed",
+    "common_support",
+    "bootstrap",
+    "regression",
+    "output_tables",
+    "result_categories",
+    "claim_boundary"
+  ],
+  "properties": {
+    "analysis": {"const": "round2_length_controlled"},
+    "analysis_version": {"type": "integer", "minimum": 1},
+    "method_version": {"const": "round2_length_control_v1"},
+    "completed_at_utc": {"type": "string", "format": "date-time"},
+    "command": {"type": "string"},
+    "configs": {"type": "object"},
+    "input_artifacts": {"type": "object"},
+    "preprocessing_manifest": {
+      "type": "object",
+      "required": ["path", "sha256", "row_count"]
+    },
+    "join_validation": {
+      "type": "object",
+      "required": ["one_to_one_sent_id", "ordered_identically", "duplicates", "total_rows"],
+      "properties": {
+        "one_to_one_sent_id": {"const": true},
+        "ordered_identically": {"const": true},
+        "duplicates": {"const": 0},
+        "total_rows": {"type": "integer", "minimum": 1}
+      }
+    },
+    "baseline_gate_passed": {"const": true},
+    "common_support": {"type": "object"},
+    "bootstrap": {
+      "type": "object",
+      "required": ["method", "cluster_key", "replicates", "master_seed", "analysis_seeds", "reference_distribution_fixed"],
+      "properties": {
+        "replicates": {"const": 1000},
+        "master_seed": {"const": 20260809},
+        "reference_distribution_fixed": {"const": true}
+      }
+    },
+    "regression": {"type": "object"},
+    "output_tables": {"type": "object"},
+    "result_categories": {"type": "object"},
+    "claim_boundary": {"type": "string"}
+  },
+  "additionalProperties": true
+}

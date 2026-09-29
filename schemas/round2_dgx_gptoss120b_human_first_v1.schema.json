@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spectech.local/schemas/round2_dgx_gptoss120b_human_first_v1.schema.json",
+  "title": "GPT-OSS-120B human-first packet protocol",
+  "type": "object",
+  "required": ["schema_version", "outcome_blind_method_freeze", "authorization", "inherited_protocol", "returned_candidates", "local_alias", "scoring", "automatic_proxy_audit", "selection_policies", "blinding", "outputs", "stop_conditions"],
+  "properties": {
+    "schema_version": {"const": "round2_dgx_gptoss120b_human_first_v1"},
+    "study_label": {"type": "string"},
+    "outcome_blind_method_freeze": {"const": true},
+    "authorization": {"type": "object"},
+    "inherited_protocol": {"type": "object"},
+    "returned_candidates": {"type": "object"},
+    "local_alias": {"type": "object"},
+    "scoring": {"type": "object"},
+    "automatic_proxy_audit": {"type": "object"},
+    "selection_policies": {"type": "object"},
+    "blinding": {"type": "object"},
+    "outputs": {"type": "object"},
+    "stop_conditions": {"type": "array", "minItems": 1, "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

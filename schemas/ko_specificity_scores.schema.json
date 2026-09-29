@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spectech.invalid/schemas/ko_specificity_scores.schema.json",
+  "title": "Ko et al. model-aware score row",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "sent_id", "corpus_id", "model_id", "score_raw", "score_min", "score_max",
+    "score_direction", "model_version", "adaptation_context", "upstream_commit"
+  ],
+  "properties": {
+    "sent_id": {"type": "string", "minLength": 1},
+    "corpus_id": {"type": "string", "minLength": 1},
+    "model_id": {"const": "ko2019_se_ad_mean_std"},
+    "score_raw": {"type": "number", "minimum": 0.0, "maximum": 1.0},
+    "score_min": {"const": 0.0},
+    "score_max": {"const": 1.0},
+    "score_direction": {"const": "higher_is_more_specific"},
+    "model_version": {"type": "string", "minLength": 1},
+    "adaptation_context": {"type": "string", "minLength": 1},
+    "upstream_commit": {"pattern": "^[0-9a-f]{40}$"}
+  }
+}

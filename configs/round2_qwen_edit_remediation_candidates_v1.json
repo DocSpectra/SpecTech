@@ -1,0 +1,111 @@
+{
+  "schema_version": "round2_qwen_edit_remediation_candidates_v1",
+  "frozen_at_utc": "2026-08-11T00:00:00Z",
+  "study_label": "QE-R development remediation; separate from prespecified QE-A inference",
+  "split_config_path": "configs/round2_qwen_edit_remediation_split_v1.json",
+  "split_config_sha256": "065cc8023c9ad7baed122b0b27ba09db9fadcbd52cbf747fa144fb36d7a86659",
+  "split_freeze_commit": "bca966334e4685cd354710676167991c0e69c785",
+  "qe_a_config_path": "configs/round2_qwen_edit_source_v1.json",
+  "qe_a_config_sha256": "79e94d7b78e96ef8711d22081d1961627b5c4545e887b89ef2314da195b06b72",
+  "round": 1,
+  "round_master_seed": 2026081011,
+  "maximum_attempts_per_case": 3,
+  "development_cases": 30,
+  "candidate_order": ["c1_prompt_only", "c2_proxy_aligned", "c3_micro_edit"],
+  "runtime": {
+    "model": "qwen3:14b",
+    "model_list_id": "bdbd181c33f2",
+    "backing_blob_sha256": "a8cc1361f3145dc01f6d77c6c82c9116b9ffe3c97b34716fe20418455876c40e",
+    "api_url": "http://127.0.0.1:11434/api/chat",
+    "thinking": false,
+    "stream": false,
+    "keep_alive": "30m",
+    "fresh_conversation_per_attempt": true,
+    "options": {
+      "temperature": 0.2,
+      "top_k": 20,
+      "top_p": 0.9,
+      "repeat_penalty": 1.0,
+      "num_ctx": 4096,
+      "num_predict": 256
+    },
+    "response_schema": {
+      "type": "object",
+      "properties": {"edited_sentence": {"type": "string"}},
+      "required": ["edited_sentence"],
+      "additionalProperties": false
+    }
+  },
+  "system_prompt": "You generate one controlled rewrite for a sentence-specificity sensitivity study. Preserve the main proposition, factual commitments, polarity, modality, and communicative intent. Keep every polarity word (such as not or without) and modal word (such as can, may, must, should, will, or would) exactly as written. Produce exactly one sentence on one line. Use general world knowledge only and do not assume hidden document context. Do not mention the task, scores, models, labels, authors, or instructions. Return only the required JSON object with edited_sentence and no explanation.",
+  "candidate_profiles": {
+    "c1_prompt_only": {
+      "description": "Operation-specific prompt repair with QE-A v1 directional thresholds unchanged.",
+      "prompt_variant": "bounded",
+      "gate_variant": "v1",
+      "method_change_count": 1
+    },
+    "c2_proxy_aligned": {
+      "description": "Bounded prompt plus positive-control-justified lexical-proxy corrections.",
+      "prompt_variant": "bounded",
+      "gate_variant": "proxy_aligned",
+      "method_change_count": 4
+    },
+    "c3_micro_edit": {
+      "description": "Proxy-aligned gates with the most concise one-operation micro-edit prompt.",
+      "prompt_variant": "micro",
+      "gate_variant": "proxy_aligned",
+      "method_change_count": 4
+    }
+  },
+  "prompt_variants": {
+    "bounded": {
+      "add_specific": "Rewrite the sentence by adding exactly one concrete detail to the same proposition. Keep every original substantive detail verbatim where practical. Add no example, explanation, purpose, background, second condition, or second sentence. Use at most {add_word_limit} words (the original has {original_word_count}). Preserve every name, number, identifier, code span, URL, polarity word, and modal word exactly.\n\nOriginal sentence:\n{sentence_original}",
+      "de_specify": "Rewrite the sentence to be less specific by generalizing or removing exactly one concrete name, value, identifier, location, version, command, parameter, condition, or content-bearing qualifier. Add no new detail, example, explanation, or second sentence. Do not make the sentence longer than {de_word_limit} words (the original has {original_word_count}). Preserve the main proposition and every polarity and modal word exactly.\n\nOriginal sentence:\n{sentence_original}",
+      "irrelevant_rewrite": "Paraphrase the sentence without changing specificity. Preserve every name, number, identifier, code span, URL, polarity word, and modal word exactly. Retain at least 60 percent of the original content words verbatim; change syntax or a few nontechnical words only. Add or remove no concrete detail and produce no second sentence. Use between {neutral_word_min} and {neutral_word_max} words (the original has {original_word_count}).\n\nOriginal sentence:\n{sentence_original}"
+    },
+    "micro": {
+      "add_specific": "Make one minimal edit that adds exactly one concrete detail to the same sentence. Do not add an example, explanation, purpose, background, or extra condition. Preserve the original wording, names, code, URLs, polarity, and modality. Return one sentence of at most {micro_add_word_limit} words (original: {original_word_count}).\n\nOriginal sentence:\n{sentence_original}",
+      "de_specify": "Make one minimal edit that removes or generalizes exactly one concrete detail or qualifier. Add nothing. Preserve all other wording, the proposition, polarity, and modality. Return one sentence no longer than {de_word_limit} words (original: {original_word_count}).\n\nOriginal sentence:\n{sentence_original}",
+      "irrelevant_rewrite": "Make a minimal wording or syntax paraphrase with the same specificity. Preserve all concrete details, at least 60 percent of content words verbatim, and every polarity and modal word exactly. Add and remove no detail. Return one sentence between {neutral_word_min} and {neutral_word_max} words (original: {original_word_count}).\n\nOriginal sentence:\n{sentence_original}"
+    }
+  },
+  "gate_variants": {
+    "v1": {
+      "neutral_content_anchor_recall_min": 0.7,
+      "de_token_ratio_max": 1.05,
+      "de_required_change": "edited tokens at most original minus 2 OR concrete markers decrease"
+    },
+    "proxy_aligned": {
+      "neutral_content_anchor_recall_min": 0.6,
+      "de_token_ratio_max": 1.1,
+      "de_required_change": "edited tokens at most original minus 1 OR concrete markers decrease OR content recall at most 0.9 with no content-token-count increase",
+      "justification": "Development author controls include neutral anchor recall 0.636, de-specific token ratio 1.055, and legitimate de-specific lexical generalizations rejected by the v1 minus-two-token proxy."
+    }
+  },
+  "invariant_safeguards": {
+    "exact_json_field_only": true,
+    "one_nonempty_line": true,
+    "exactly_one_sentence": true,
+    "minimum_characters": 5,
+    "maximum_characters": 2000,
+    "must_differ_after_normalization": true,
+    "polarity_token_multiset_must_match": true,
+    "modal_token_multiset_must_match": true,
+    "new_non_latin_letter_script_forbidden_when_original_has_none": true,
+    "add_preserves_all_original_concrete_markers": true,
+    "add_marker_count_must_not_decrease": true,
+    "de_marker_count_must_not_increase": true,
+    "neutral_marker_multiset_must_match": true
+  },
+  "selection_rule_source": "configs/round2_qwen_edit_remediation_split_v1.json development_budget.candidate_selection_rule",
+  "forbidden_inputs": [
+    "held-out text or outcome",
+    "SpeciTeller outcome",
+    "Ko outcome",
+    "GranuScore outcome",
+    "Qwen rubric or self-judgment",
+    "human label or judgment"
+  ],
+  "raw_output_directory": "outputs/round2/qwen_edit_remediation/development/round1",
+  "compact_output_directory": "analysis/round2_qwen_edit_remediation/development_candidates"
+}

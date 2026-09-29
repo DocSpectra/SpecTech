@@ -1,0 +1,65 @@
+{
+  "rule_version": "strict_natural_language_v1",
+  "frozen_at_utc": "2026-08-09T04:32:14Z",
+  "outcome_blind_freeze": true,
+  "scope": "Selection of existing scored rows only; no text alteration, resplitting, or rescoring.",
+  "applies_identically_to": [
+    "wikipedia_en",
+    "github_docs",
+    "ansible_docs",
+    "python_312_html"
+  ],
+  "reason_order": [
+    "template_markup",
+    "code_markup",
+    "table_markup",
+    "url",
+    "command_path_dominated",
+    "heading_fragment",
+    "list_fragment",
+    "very_short_fragment",
+    "low_alphabetic_content"
+  ],
+  "thresholds": {
+    "minimum_whitespace_tokens": 5,
+    "minimum_alphabetic_ratio_non_space": 0.6,
+    "command_path_minimum_evidence_tokens": 2,
+    "command_path_general_evidence_ratio": 0.5,
+    "command_led_unpunctuated_evidence_ratio": 0.35
+  },
+  "rules": {
+    "template_markup": "Reject Liquid/Jekyll markers {% %}, {{, or }} anywhere.",
+    "code_markup": "Reject code fences, isolated backtick-wrapped rows, and retained code/pre/kbd HTML tags.",
+    "table_markup": "Reject pipe rows with at least three pipes or a markdown separator.",
+    "url": "Reject rows containing an http, https, ftp, www, or mailto URL token.",
+    "command_path_dominated": "Reject prompt-led commands or rows dominated by a fixed command starter plus shell flag, assignment, operator, or path syntax.",
+    "heading_fragment": "Reject rows beginning with one to six Markdown heading markers.",
+    "list_fragment": "Reject marked bullet or numbered-list rows only when terminal sentence punctuation is absent.",
+    "very_short_fragment": "Reject rows with fewer than five whitespace-delimited tokens.",
+    "low_alphabetic_content": "Reject rows whose alphabetic-character share among non-space characters is below 0.60."
+  },
+  "fixed_command_starters": [
+    "ansible",
+    "ansible-playbook",
+    "cd",
+    "cp",
+    "curl",
+    "docker",
+    "export",
+    "git",
+    "kubectl",
+    "make",
+    "mkdir",
+    "mv",
+    "npm",
+    "pip",
+    "pip3",
+    "python",
+    "python3",
+    "rm",
+    "set",
+    "sudo",
+    "wget",
+    "yarn"
+  ]
+}

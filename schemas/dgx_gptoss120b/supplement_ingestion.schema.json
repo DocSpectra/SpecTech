@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://speciteller.local/dgx/supplement-ingestion-v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "study_id", "run_id", "content_blind", "no_model_execution", "supplement", "bindings", "required_members", "unchanged_output_members", "acceptance_rule", "preservation"],
+  "properties": {
+    "schema_version": {"const": "round2_dgx_gptoss120b_supplement_ingestion_v1"},
+    "study_id": {"type": "string", "minLength": 1},
+    "run_id": {"const": "dgx-5411bb15be9f"},
+    "content_blind": {"const": true},
+    "no_model_execution": {"const": true},
+    "supplement": {
+      "type": "object", "additionalProperties": false,
+      "required": ["path_role", "sha256", "adjacent_checksum_present", "expected_root", "expected_regular_files"],
+      "properties": {
+        "path_role": {"const": "lab_partner_preserved_run_directory_zip"},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "adjacent_checksum_present": {"type": "boolean"},
+        "expected_root": {"const": "run"},
+        "expected_regular_files": {"const": 14}
+      }
+    },
+    "bindings": {
+      "type": "object", "additionalProperties": false,
+      "required": ["original_return_archive_sha256", "source_packet_sha256", "original_audit_sha256", "prior_acceptance_summary_sha256", "freeze_id", "source_git_commit", "runtime_version", "model_manifest_sha256", "model_blob_sha256", "runtime_archive_sha256"],
+      "properties": {
+        "original_return_archive_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "source_packet_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "original_audit_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "prior_acceptance_summary_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "freeze_id": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "source_git_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "runtime_version": {"type": "string", "minLength": 1},
+        "model_manifest_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "model_blob_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "runtime_archive_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "required_members": {"type": "array", "minItems": 14, "items": {"type": "string", "minLength": 1}},
+    "unchanged_output_members": {"type": "array", "minItems": 10, "items": {"type": "string", "minLength": 1}},
+    "acceptance_rule": {
+      "type": "object", "additionalProperties": false,
+      "required": ["required_attempt_count", "required_accepted_count", "required_rubric_count", "required_smoke_fixture_count", "require_outputs_unchanged", "disposition_on_pass", "supplement_status_on_pass"],
+      "properties": {
+        "required_attempt_count": {"const": 180},
+        "required_accepted_count": {"const": 180},
+        "required_rubric_count": {"const": 80},
+        "required_smoke_fixture_count": {"const": 3},
+        "require_outputs_unchanged": {"const": true},
+        "disposition_on_pass": {"const": "accepted_with_author_provenance_waiver"},
+        "supplement_status_on_pass": {"const": "partial_provenance_recovery"}
+      }
+    },
+    "preservation": {
+      "type": "object", "additionalProperties": false,
+      "required": ["original_audit_unchanged", "prior_author_waiver_unchanged", "original_receipt_unchanged", "scientific_outputs_unchanged"],
+      "properties": {
+        "original_audit_unchanged": {"const": true},
+        "prior_author_waiver_unchanged": {"const": true},
+        "original_receipt_unchanged": {"const": true},
+        "scientific_outputs_unchanged": {"const": true}
+      }
+    }
+  }
+}

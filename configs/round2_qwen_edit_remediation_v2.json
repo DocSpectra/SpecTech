@@ -1,0 +1,140 @@
+{
+  "schema_version": "round2_qwen_edit_remediation_v2",
+  "frozen_at_utc": "2026-08-11T00:15:00Z",
+  "study_label": "QE-R held-out confirmation of a separately developed remediation protocol; not prespecified QE-A inference",
+  "selection_provenance": {
+    "selected_candidate_id": "c3_micro_edit",
+    "selection_commit": "69b14fefb6439af6c09a1775354987cf91253112",
+    "candidate_config_path": "configs/round2_qwen_edit_remediation_candidates_v1.json",
+    "candidate_config_sha256": "b4ad0af52c50b8a9db8f3121a14447fc1eee04151397f8aa322ead581b52cb4b",
+    "development_attempts_sha256": "530787b3d2cf79977f5b1a24a3d1ad1b5d68307b3ce749a6c481c0016804e38b",
+    "development_accepted_sha256": "bf55b1413017de0235b4a6f087974f7904401e2090e78cf5eb162055eeb4650b",
+    "development_coverage": "27/30 overall; minimum cell 4/6",
+    "development_rounds_used": 1,
+    "candidate_configurations_used": 3
+  },
+  "inputs": {
+    "split_config_path": "configs/round2_qwen_edit_remediation_split_v1.json",
+    "split_config_sha256": "065cc8023c9ad7baed122b0b27ba09db9fadcbd52cbf747fa144fb36d7a86659",
+    "split_manifest_path": "configs/round2_qwen_edit_remediation_split_v1.csv",
+    "split_manifest_sha256": "54dd2f4d4fad287a6125cdd303196fce82c08ebf2c7f6d535b7cc17381db44f5",
+    "ordered_assignment_sha256": "877b34a6af8c53cc735c5a1c495aeba5381fe3fdfd52606ceb1ccf9152f9e82d",
+    "qe_a_config_path": "configs/round2_qwen_edit_source_v1.json",
+    "qe_a_config_sha256": "79e94d7b78e96ef8711d22081d1961627b5c4545e887b89ef2314da195b06b72",
+    "split": "held_out",
+    "required_cases": 30
+  },
+  "runtime": {
+    "ollama_version": "0.32.5",
+    "model": "qwen3:14b",
+    "model_list_id": "bdbd181c33f2",
+    "backing_blob_sha256": "a8cc1361f3145dc01f6d77c6c82c9116b9ffe3c97b34716fe20418455876c40e",
+    "api_url": "http://127.0.0.1:11434/api/chat",
+    "thinking": false,
+    "stream": false,
+    "keep_alive": "30m",
+    "fresh_conversation_per_attempt": true,
+    "maximum_attempts_per_case": 3,
+    "master_seed": 2026081099,
+    "seed_derivation": "first 31 bits of sha256(utf8(str(master_seed) + ':' + 'v2-held-out:' + case_id + ':' + str(attempt_index))) interpreted big-endian",
+    "options": {
+      "temperature": 0.2,
+      "top_k": 20,
+      "top_p": 0.9,
+      "repeat_penalty": 1.0,
+      "num_ctx": 4096,
+      "num_predict": 256
+    },
+    "response_schema": {
+      "type": "object",
+      "properties": {"edited_sentence": {"type": "string"}},
+      "required": ["edited_sentence"],
+      "additionalProperties": false
+    }
+  },
+  "prompts": {
+    "system": "You generate one controlled rewrite for a sentence-specificity sensitivity study. Preserve the main proposition, factual commitments, polarity, modality, and communicative intent. Keep every polarity word (such as not or without) and modal word (such as can, may, must, should, will, or would) exactly as written. Produce exactly one sentence on one line. Use general world knowledge only and do not assume hidden document context. Do not mention the task, scores, models, labels, authors, or instructions. Return only the required JSON object with edited_sentence and no explanation.",
+    "user_templates": {
+      "add_specific": "Make one minimal edit that adds exactly one concrete detail to the same sentence. Do not add an example, explanation, purpose, background, or extra condition. Preserve the original wording, names, code, URLs, polarity, and modality. Return one sentence of at most {micro_add_word_limit} words (original: {original_word_count}).\n\nOriginal sentence:\n{sentence_original}",
+      "de_specify": "Make one minimal edit that removes or generalizes exactly one concrete detail or qualifier. Add nothing. Preserve all other wording, the proposition, polarity, and modality. Return one sentence no longer than {de_word_limit} words (original: {original_word_count}).\n\nOriginal sentence:\n{sentence_original}",
+      "irrelevant_rewrite": "Make a minimal wording or syntax paraphrase with the same specificity. Preserve all concrete details, at least 60 percent of content words verbatim, and every polarity and modal word exactly. Add and remove no detail. Return one sentence between {neutral_word_min} and {neutral_word_max} words (original: {original_word_count}).\n\nOriginal sentence:\n{sentence_original}"
+    },
+    "dynamic_limits": {
+      "micro_add_word_limit": "max(original_word_count + 3, floor(1.60 * original_word_count))",
+      "de_word_limit": "max(1, floor(1.10 * original_word_count))",
+      "neutral_word_min": "max(1, ceil(0.75 * original_word_count))",
+      "neutral_word_max": "max(1, floor(1.35 * original_word_count))"
+    },
+    "blindness_contract": "Each request contains only the frozen system prompt, direction template with mechanical word bounds, and current original. Corpus, IDs, split, author wording, gates/traces, all scores/labels, other attempts, and other cases are absent."
+  },
+  "automated_gates": {
+    "role": "automatic safeguards and transparent proxies only; not factual, semantic, or human validation",
+    "normalization": "Unicode NFKC, outer strip, collapsed whitespace for comparisons",
+    "universal": {
+      "exact_json_field_only": true,
+      "one_nonempty_line": true,
+      "at_most_one_detected_sentence_boundary": true,
+      "minimum_characters": 5,
+      "maximum_characters": 2000,
+      "must_differ_after_normalization": true,
+      "forbidden_meta_prefixes_casefold": ["edited sentence:", "rewrite:", "here is", "sure,"],
+      "polarity_token_multiset_must_match": true,
+      "modal_token_multiset_must_match": true,
+      "new_non_latin_letter_script_forbidden_when_original_has_none": true
+    },
+    "direction_rules": {
+      "add_specific": {
+        "edited_to_original_token_ratio_min": 0.65,
+        "edited_to_original_token_ratio_max": 2.0,
+        "original_content_anchor_recall_min": 0.55,
+        "original_concrete_marker_recall_min": 1.0,
+        "edited_concrete_marker_count_must_not_decrease": true,
+        "required_change": "edited token count is at least original plus 2 OR edited concrete-marker count is at least original plus 1"
+      },
+      "de_specify": {
+        "edited_to_original_token_ratio_min": 0.4,
+        "edited_to_original_token_ratio_max": 1.1,
+        "original_content_anchor_recall_min": 0.35,
+        "edited_concrete_marker_count_must_not_increase": true,
+        "required_change": "edited token count is at most original minus 1 OR edited concrete-marker count is lower OR content-anchor recall is at most 0.9 with no content-token-count increase"
+      },
+      "irrelevant_rewrite": {
+        "edited_to_original_token_ratio_min": 0.75,
+        "edited_to_original_token_ratio_max": 1.35,
+        "original_content_anchor_recall_min": 0.6,
+        "concrete_marker_multiset_must_match": true
+      }
+    },
+    "positive_control_justification": "Development author controls showed legitimate neutral recall down to 0.636, de ratio to 1.055, and same-length lexical generalizations rejected by QE-A's minus-two-token proxy. Add thresholds were unchanged because all nine development author add controls passed.",
+    "limitations": "Passing does not establish truth, semantic equivalence, or that only specificity changed."
+  },
+  "held_out_gate": {
+    "single_fresh_confirmation": true,
+    "no_revision_after_start": true,
+    "minimum_overall_rate": 0.8,
+    "minimum_cell_rate": 0.75,
+    "exact_minimum_accepted": {
+      "overall:30": 24,
+      "ansible_docs:add_specific:4": 3,
+      "ansible_docs:de_specify:6": 5,
+      "ansible_docs:irrelevant_rewrite:5": 4,
+      "github_docs:add_specific:5": 4,
+      "github_docs:de_specify:5": 4,
+      "github_docs:irrelevant_rewrite:5": 4
+    }
+  },
+  "prohibited_in_qe_r": [
+    "SpeciTeller scoring or outcomes",
+    "Ko scoring or outcomes",
+    "GranuScore scoring or outcomes",
+    "Qwen rubric or self-judgment",
+    "human labels or judgments",
+    "manual output repair or selection"
+  ],
+  "outputs": {
+    "raw_directory": "outputs/round2/qwen_edit_remediation/held_out/v2",
+    "compact_directory": "analysis/round2_qwen_edit_remediation/held_out_v2",
+    "attempt_schema": "schemas/round2_qwen_edit_remediation_v2.schema.json",
+    "privacy_boundary": "Raw text stays ignored. Tracked evidence contains only case IDs, corpus/direction, attempt/status/reasons/metrics, hashes, seeds, counts, thresholds, and provenance; held-out text is never printed or interactively inspected."
+  }
+}

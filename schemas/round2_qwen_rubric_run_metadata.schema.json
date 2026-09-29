@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "round2_qwen_rubric_run_metadata.schema.json",
+  "title": "Round 2 Qwen rubric run metadata",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "completed_at_utc",
+    "outcome_blind_freeze_commit",
+    "protocol",
+    "model",
+    "coverage",
+    "determinism_smoke_passed",
+    "outputs",
+    "claim_boundary"
+  ],
+  "properties": {
+    "schema_version": {"const": "round2_qwen_rubric_results_v1"},
+    "completed_at_utc": {"type": "string"},
+    "outcome_blind_freeze_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "protocol": {
+      "type": "object",
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string"},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "model": {
+      "type": "object",
+      "required": ["ollama_version", "model", "model_list_id", "backing_blob_sha256"]
+    },
+    "coverage": {
+      "type": "object",
+      "required": ["total_rows", "rows_per_corpus", "coverage_rate"],
+      "properties": {
+        "total_rows": {"const": 80},
+        "rows_per_corpus": {"const": 40},
+        "coverage_rate": {"const": 1.0}
+      }
+    },
+    "determinism_smoke_passed": {"const": true},
+    "outputs": {"type": "object"},
+    "claim_boundary": {"type": "string"}
+  }
+}

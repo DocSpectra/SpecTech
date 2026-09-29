@@ -1,0 +1,156 @@
+{
+  "schema_version": "round2_qwen_rubric_v1",
+  "frozen_at_utc": "2026-08-10T04:47:41Z",
+  "outcome_blind_freeze": true,
+  "authorization": {
+    "existing_pilot_rows_only": true,
+    "new_human_annotation": false,
+    "relabeling": false,
+    "model_training": false,
+    "qwen_project_outcomes_inspected_before_freeze": false
+  },
+  "pilot": {
+    "manifest": "configs/round2_pilot_sent_ids_v1.csv",
+    "manifest_sha256": "41c6f7819a283e7fb482dbfd907b8266759304c0f049459412677405e7ac46bc",
+    "corpus_order": ["ansible_docs", "github_docs"],
+    "required_rows_per_corpus": 40,
+    "required_rows_total": 80,
+    "sentence_inputs": {
+      "ansible_docs": {
+        "path": "outputs/sentences/ansible_docs.csv",
+        "sha256": "41512e89148ea510d589a8f7ba88d1519a51d42ae51a3fa5924ab711cae8eab9"
+      },
+      "github_docs": {
+        "path": "outputs/sentences/github_docs.csv",
+        "sha256": "c492128bb408fde37419b7dedd141db8aae90a360d16d11b3c8f853691947177"
+      }
+    },
+    "existing_analysis_protocol": {
+      "path": "configs/round2_pilot_model_human_comparison_v1.json",
+      "sha256": "ab926ffd3cecf2f31163b064853a8bd2095b40faf0975a5c01bb5fd4393a0603"
+    }
+  },
+  "rubric": {
+    "source": "reviewed manuscript appendix at paper commit 7e6763d27d71a3b9b5e8b833de1ea9dd068830cf",
+    "source_file_sha256": "65e36964d96c46a3452da33e61aa02e6323d82d53d63fb6c80711afd6b5ba130",
+    "scale": {
+      "1": "very vague or very general",
+      "2": "somewhat vague",
+      "3": "moderately specific",
+      "4": "specific",
+      "5": "very specific or highly concrete"
+    },
+    "more_specific": "mentions concrete details such as versions, file paths, commands, parameters, identifiers, numbers, identifiable entities, or explicit operational information",
+    "less_specific": "uses general language, makes high-level statements without details, or lacks concrete identifiers",
+    "instruction": "Use your first impression. There are no right or wrong answers.",
+    "generic_illustration": "Restart the service is likely lower specificity; Restart the nginx service using systemctl restart nginx on host web-03 is likely higher specificity.",
+    "zero_shot_boundary": "No pilot sentence, human label, model score, bucket, corpus identity, or numeric worked input-output example appears in the prompt. The generic illustration mirrors the human instructions and is not a labeled pilot example."
+  },
+  "qwen": {
+    "ollama_version": "0.32.5",
+    "model": "qwen3:14b",
+    "model_list_id": "bdbd181c33f2",
+    "backing_blob_sha256": "a8cc1361f3145dc01f6d77c6c82c9116b9ffe3c97b34716fe20418455876c40e",
+    "backing_blob_size_bytes": 9276184896,
+    "license": "Apache-2.0 as emitted by ollama show",
+    "api_url": "http://127.0.0.1:11434/api/chat",
+    "external_network_required": false,
+    "role": "zero-shot ordinal rubric judge",
+    "thinking": false,
+    "stream": false,
+    "keep_alive": "30m",
+    "options": {
+      "temperature": 0.0,
+      "top_k": 1,
+      "top_p": 1.0,
+      "repeat_penalty": 1.0,
+      "seed": 20260809,
+      "num_ctx": 4096,
+      "num_predict": 16
+    },
+    "response_schema": {
+      "type": "object",
+      "properties": {
+        "score": {"type": "integer", "minimum": 1, "maximum": 5}
+      },
+      "required": ["score"],
+      "additionalProperties": false
+    },
+    "attempts_per_sentence": 1,
+    "fresh_conversation_per_sentence": true,
+    "project_row_order": "manifest corpus order then pilot_position; no randomization",
+    "raw_response_contains_sentence": false
+  },
+  "prompt": {
+    "system": "Assign one sentence-specificity score using this fixed five-point rubric. 1 = very vague or very general; 2 = somewhat vague; 3 = moderately specific; 4 = specific; 5 = very specific or highly concrete. A sentence is more specific when it mentions concrete details such as versions, file paths, commands, parameters, identifiers, numbers, identifiable entities, or explicit operational information. A sentence is less specific when it uses general language, makes high-level statements without details, or lacks concrete identifiers. Use your first impression; there are no right or wrong answers. As a generic illustration, 'Restart the service' is likely lower specificity, while 'Restart the nginx service using systemctl restart nginx on host web-03' is likely higher specificity. Judge only the supplied sentence without assuming surrounding context. Return only a JSON object with the integer field score and no explanation.",
+    "user_template": "Sentence:\n{sent_text}"
+  },
+  "determinism_smoke": {
+    "repetitions": 3,
+    "fixtures": [
+      "The service should be restarted.",
+      "Restart nginx 1.24.0 with systemctl restart nginx on host web-03.",
+      "For details, see the relevant configuration documentation."
+    ],
+    "gate": "Every repetition of a fixture must produce the same valid integer score; response timing fields may differ."
+  },
+  "scoring_contract": {
+    "key": ["corpus_id", "sent_id"],
+    "required_coverage_rate": 1.0,
+    "valid_scores": [1, 2, 3, 4, 5],
+    "missing_or_invalid": "stop; no imputation, repair prompt, or row deletion",
+    "resume": "resume is allowed only from validated raw JSONL rows with identical protocol/model/input hashes",
+    "privacy": "raw and compact Qwen outputs contain sent_id and score but no sentence text, human labels, participant identifiers, notes, or absolute paths"
+  },
+  "analysis": {
+    "principal_measure": "Spearman rank correlation using average ranks for ties",
+    "human_targets": ["ann_a", "ann_b", "ann_c", "pooled_human_mean"],
+    "comparison_models": [
+      "speciteller_frozen_round1",
+      "ko_official_release_run01",
+      "ko_official_release_run02",
+      "ko_official_release_run03"
+    ],
+    "paired_contrasts": "Qwen-minus-each-comparison-model correlation with the same human target under joint sentence resampling",
+    "model_agreement": "Qwen versus each comparison model by corpus",
+    "ordinal_secondary": "mean absolute ordinal distance for each human target; exact and within-one agreement for individual annotators only",
+    "score_distribution": "count and proportion at each integer score by corpus",
+    "bootstrap": {
+      "unit": "sentence row within corpus",
+      "joint_resampling": "reuse the existing pilot corpus-specific stream derivation and apply each index draw jointly to Qwen, comparison models, and human targets",
+      "replicates": 10000,
+      "master_seed": 20260809,
+      "interval": "two-sided percentile 95% interval",
+      "minimum_valid_fraction": 0.95
+    },
+    "multiplicity": "descriptive; no p-value selection, multiplicity-adjusted testing, or winner declaration",
+    "claim_boundary": "Qwen-human correspondence is not gold-standard accuracy, expert judgment, or proof that Qwen measures latent specificity"
+  },
+  "outputs": {
+    "raw_directory": "outputs/round2/qwen_rubric",
+    "compact_directory": "analysis/round2_qwen_rubric",
+    "raw_responses": "raw_responses.jsonl",
+    "smoke": "determinism_smoke.json",
+    "tables": [
+      "qwen_scores.csv",
+      "coverage.csv",
+      "qwen_human_agreement.csv",
+      "qwen_vs_model_human_contrasts.csv",
+      "qwen_model_agreement.csv",
+      "ordinal_agreement.csv",
+      "score_distribution.csv",
+      "paper_table.csv"
+    ],
+    "metadata": "run_metadata.json"
+  },
+  "stop_conditions": [
+    "protocol, manifest, sentence, prior-analysis protocol, Ollama version, model ID, or backing-blob mismatch",
+    "determinism smoke score mismatch or invalid response",
+    "manifest does not contain exactly 40 unique rows per corpus",
+    "any canonical sentence is missing or duplicated",
+    "any response is missing, duplicated, non-JSON, outside 1--5, or contains fields beyond score",
+    "Qwen score coverage is not exactly 40/40 per corpus",
+    "fewer than 95% of bootstrap replicates are valid for any reported interval or contrast",
+    "a scientific, prompt, join, parsing, or retry rule would need to change after project outcome inspection"
+  ]
+}

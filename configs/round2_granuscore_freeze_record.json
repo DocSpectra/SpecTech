@@ -1,0 +1,39 @@
+{
+  "schema_version": "round2_granuscore_freeze_record_v1",
+  "recorded_at_utc": "2026-08-10T06:04:50Z",
+  "outcome_blind_method_commit": "86e92234a577ee9d23b759ef2c0642567e2efbb4",
+  "analysis_implementation_commit": "b5fb55103d256d298e940dea8a600e61d50e4b29",
+  "mechanical_fix_commit": "9cc4abd",
+  "scientific_method_changed": false,
+  "trigger": {
+    "corpus_id": "python_312_html",
+    "failure": "Python csv module default 131072-byte field limit was exceeded by a canonical HTML-derived record",
+    "score_rows_written_before_failure": 0,
+    "comparative_project_outcomes_inspected_before_fix": false
+  },
+  "fix": {
+    "scope": "Set csv.field_size_limit(sys.maxsize) before reading and record the scoring-runner SHA-256 in metadata",
+    "runner_sha256": "b079032eec2713168779fd4c04b7002e35b3f9b02ac7d6e497e219bef7df0235",
+    "final_image_id": "sha256:d637a2aebb397a6c067e59d0cfaa4bfb4ac72a24615c0e089b0e3798542a41df",
+    "published_example_gate_max_abs_error": 0.000003283691413002998,
+    "published_example_gate_tolerance": 0.0001,
+    "published_example_gate_passed": true
+  },
+  "pre_fix_execution": {
+    "ansible_docs_complete_rows": 44452,
+    "ansible_docs_score_sha256": "b408ea624be65eb770f84f93ca3c06f774104ad8e4dacba05ea0f46b6b2f0c96",
+    "github_docs_partial": true,
+    "wikipedia_en_partial": true,
+    "python_312_html_failed_before_scoring": true,
+    "scientific_use_authorized": false
+  },
+  "post_fix_equivalence_check": {
+    "corpus_id": "ansible_docs",
+    "row_count": 44452,
+    "pre_fix_score_sha256": "b408ea624be65eb770f84f93ca3c06f774104ad8e4dacba05ea0f46b6b2f0c96",
+    "post_fix_score_sha256": "b408ea624be65eb770f84f93ca3c06f774104ad8e4dacba05ea0f46b6b2f0c96",
+    "exact_match": true,
+    "post_fix_runner_sha256": "b079032eec2713168779fd4c04b7002e35b3f9b02ac7d6e497e219bef7df0235"
+  },
+  "final_execution_rule": "All controlled-edit and four-corpus outputs used in analysis must be regenerated with the final image and must carry the frozen runner SHA-256."
+}

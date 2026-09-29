@@ -1,0 +1,5 @@
+[
+  {"direction":"add_specific","text":"The invented service restarts after the fixture check."},
+  {"direction":"de_specify","text":"The invented service restarts at exactly 09:15 after the fixture check."},
+  {"direction":"irrelevant_rewrite","text":"The invented fixture writes a temporary sample record."}
+]

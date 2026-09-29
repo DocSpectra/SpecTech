@@ -1,0 +1,46 @@
+corpora:
+  - corpus_id: github_docs
+    source_type: git
+    source_ref: https://github.com/github/docs
+    snapshot: "5b8a8c96f169e50278e1c6bdc573495173f7b339"
+    local_path: data/corpora/github_docs
+    include_globs:
+      - "**/*.md"
+    exclude_globs:
+      - "**/node_modules/**"
+    language: en
+    notes: "GitHub platform documentation."
+
+  - corpus_id: ansible_docs
+    source_type: git
+    source_ref: https://github.com/ansible/ansible-documentation
+    snapshot: "83bbdd618bb67097f92f9282a8ca7ae12fe6ed4f"
+    local_path: data/corpora/ansible_docs
+    include_globs:
+      - "**/*.md"
+      - "**/*.rst"
+    exclude_globs: []
+    language: en
+    notes: "Ansible documentation (Markdown + reStructuredText)."
+
+  - corpus_id: python_312_html
+    source_type: html_zip
+    source_ref: https://docs.python.org/3.12/download.html
+    snapshot: "python-3.12-docs-html.zip sha256:9e98419a01ef306c5f1471126a54b33f4393636c0a827b4bc59061e9d16cd2af"
+    local_path: data/corpora/python_312_html
+    include_globs:
+      - "**/*.html"
+    exclude_globs: []
+    language: en
+    notes: "Python 3.12 HTML reference docs (unzipped)."
+
+  - corpus_id: wikipedia_en
+    source_type: wiki_dump
+    source_ref: https://dumps.wikimedia.org/enwiki/
+    snapshot: "multistream1-p1p41242 sha256:5b08ca86a17f19deea634c5a526aeceeab0fdbebdbb0a7e195fa816789675957"
+    local_path: data/corpora/wikipedia_en
+    include_globs:
+      - "**/*.txt"
+    exclude_globs: []
+    language: en
+    notes: "Wikipedia plaintext via WikiExtractor or pre-extracted files."

@@ -1,0 +1,42 @@
+{
+  "schema_version": "round2_gptoss_controlled_editor_freeze_record_v1",
+  "method_freeze_commit": "ca7ab7eeb71e1d4fb9ce9447a9a5ec7e27246491",
+  "comparison_base_commit": "95c7f95eed6d6be8de87cbf58927e5d9472b22e7",
+  "config_sha256": "80784fd0885b51c4a2204bb9d7e4d947492b551b6bfb6ac78c6665f0b77721b8",
+  "base_gemma_config_sha256": "cc6b14d91486553b94c6817b50f5ee4aa6ae70090602b9fb8e32360270075c57",
+  "attempt_schema_sha256": "016fca2559d938ce18761ed2b46cbb531294c0f4bd6ce82f1e6fcddbbec9b585",
+  "review_schema_sha256": "5bb29f7f131ad8181344e9899b1513d978ca4155cc47ff2ad64abf01545557cb",
+  "method_frozen_before_any_project_gptoss_generation": true,
+  "project_gptoss_text_or_outcome_inspected_before_freeze": false,
+  "gemma_output_text_or_case_outcome_used_for_freeze": false,
+  "qwen_output_score_label_or_scorer_outcome_used_for_freeze": false,
+  "author_edited_text_used_for_prompt_or_gate_selection": false,
+  "model_installation": {
+    "ollama_version": "0.32.5",
+    "gptoss_20b_installed": true,
+    "gemma4_12b_preserved": true,
+    "qwen3_14b_preserved": true,
+    "models_resident_after_smoke_and_before_freeze_commit": []
+  },
+  "non_project_smoke": {
+    "project_inputs_used": false,
+    "invented_fixture_directions": ["add_specific", "de_specify", "irrelevant_rewrite"],
+    "structured_json_passed": 3,
+    "response_model_identity_passed": 3,
+    "done_reason_stop_passed": 3,
+    "low_reasoning_final_content_passed": 3,
+    "low_reasoning_thinking_present": 3,
+    "thinking_false_trials": 2,
+    "thinking_false_empty_final_content": 2,
+    "warm_wall_seconds": [17.091, 1.154, 1.08],
+    "reasoning_text_printed_or_persisted": false,
+    "sole_residency": {
+      "model": "gpt-oss:20b",
+      "digest": "17052f91a42e97930aa6e28a6c6c06a983e6a58dbb00434885a0cf5313e376f7",
+      "size_bytes": 12736213810,
+      "size_vram_bytes": 12736213810,
+      "processor": "100% GPU",
+      "context_length": 4096
+    }
+  }
+}

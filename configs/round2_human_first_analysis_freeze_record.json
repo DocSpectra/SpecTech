@@ -1,0 +1,23 @@
+{
+  "schema_version": "round2_human_first_analysis_freeze_record_v1",
+  "method_freeze_commit": "97fa1a1333a61294f937fdaa68d0449c5b157c13",
+  "method_freeze_committed_at": "2026-08-11T15:46:24-07:00",
+  "config_sha256": "81d33b690e393ea05e59b3765c9e0f805695af77b6fad1c931e73bb2bd6a6034",
+  "schema_sha256": "52ce8f06b351376b7b6189b8d9b8d046e2cc0189aeb0ce43f1b7f37fad44a174",
+  "spec_sha256": "5bc76081196db755b87867fff496d158de64826d23b8a8e9a365fcb30b5089d1",
+  "freeze_test_sha256": "d682f1e721cdb5cdd8c1000039b70373ea1904c16aad0491c418bc367bca6541",
+  "released_workbook_sha256": "07d294645a7fbdb4a10c74cb4ce8b959d1db97c7cc8979922435a9dc159d82d9",
+  "completed_workbook_sha256": "73312e07427d7d4b9aada98261c91b22d6e287cf134cbfed0c22cf36253430e7",
+  "pre_unblinding_validation_passed": true,
+  "validated_review_rows": 180,
+  "validated_allowed_score_rows": 180,
+  "review_id_a_b_exact_by_released_packet_row": true,
+  "instruction_content_unchanged": true,
+  "unexpected_review_cells": 0,
+  "clerical_corrections": [],
+  "hidden_answer_key_opened_before_freeze": false,
+  "hidden_predictor_values_opened_before_freeze": false,
+  "hidden_proxy_decisions_opened_before_freeze": false,
+  "hidden_policy_mappings_opened_before_freeze": false,
+  "unblinded_outcomes_computed_before_freeze": false
+}

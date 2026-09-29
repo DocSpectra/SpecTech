@@ -1,0 +1,51 @@
+{
+  "schema_version": "ko_container_artifacts_v1",
+  "upstream": {
+    "url": "https://github.com/wjko2/Domain-Agnostic-Sentence-Specificity-Prediction",
+    "commit": "36f8e835e9dc6087d5b6763accf302db175947b1",
+    "archive_url": "https://github.com/wjko2/Domain-Agnostic-Sentence-Specificity-Prediction/archive/36f8e835e9dc6087d5b6763accf302db175947b1.tar.gz",
+    "archive_sha256": "4c1e9bead56684f8f74f2fef0462bdfb7ccbc4de7cb714b0e4ad1575be567892",
+    "official_cpu_patch_path": "no_cuda.zip",
+    "official_cpu_patch_sha256": "623fd4d762d5eaf45c034a4c10759babeebd374575d3d1ff53fcfe050d3604f5",
+    "identity_status": "post-publication diagnostic candidate; not a verified exact paper-era implementation",
+    "paper_era_commit": "bee414ad5994f960d445cb5454c66199aa3920c6",
+    "paper_era_commit_date": "2018-11-12T03:09:03-06:00",
+    "distribution_loss_change_commit": "cb6243c174ce9283e1155c7a97ef55d14f587bc0",
+    "distribution_loss_change_date": "2019-05-29T17:23:02-07:00",
+    "cpu_patch_commit": "aced390bd0af3caa1f53d1d57c564db238eafda0",
+    "cpu_patch_date": "2020-04-12T09:32:22+08:00",
+    "pretrained_checkpoint_available": false
+  },
+  "runtime": {
+    "base_image": "python:3.6.15-buster",
+    "base_image_linux_amd64_digest": "sha256:08c787fde0ef9fac8d9244e0d49939ce3dfca27198fac37ac2748c2d3c8fc987",
+    "torch": {
+      "version": "1.0.0",
+      "url": "https://download.pytorch.org/whl/cpu/torch-1.0.0-cp36-cp36m-linux_x86_64.whl",
+      "sha256": "0373ca29af27a0232536f73b233e1298b036c8390b9abf559641bc79644b1761"
+    },
+    "numpy": {
+      "version": "1.16.4",
+      "wheel": "numpy-1.16.4-cp36-cp36m-manylinux1_x86_64.whl",
+      "sha256": "27e11c7a8ec9d5838bc59f809bfa86efc8a4fd02e58960fa9c49d998e14332d5"
+    },
+    "scipy": {
+      "version": "1.2.1",
+      "wheel": "scipy-1.2.1-cp36-cp36m-manylinux1_x86_64.whl",
+      "sha256": "f31338ee269d201abe76083a990905473987371ff6f3fdb76a3f9073a361cf37"
+    }
+  },
+  "glove": {
+    "url": "https://nlp.stanford.edu/data/glove.840B.300d.zip",
+    "zip_sha256": "c06db255e65095393609f19a4cfca20bf3a71e20cc53e892aafa490347e3849f",
+    "text_sha256": "9641ef45628fd8c5c0bc555c8944f7bad7bce36ae7be3cafff0bb109fe60883e",
+    "distribution": "840B Common Crawl, 2.2M cased vocabulary, 300 dimensions"
+  },
+  "released_smoke_inputs": {
+    "twitters.txt_sha256": "42c7d20ae79d83a83fcaa063cfaa6f55cc30965be399a8567eb33da371ef6512",
+    "twitteru.txt_sha256": "14d204b0e0e7ce995de93107b6df27ea3c4cb031d6c15a279683f97e67f05837",
+    "twitterv.txt_sha256": "2079a0f3bf232e2bc42bb8bb2b13cfe1e9db16d57fd03bd30ba5c41d6dc61a9e",
+    "data.txt_sha256": "1c31cf3aaf6d1e57b58bbe3841e1e1e7e3654ca89d4d4546897e86f1364dd9c8",
+    "label.txt_sha256": "ea2bf0b36f50a9beea5c50550d38fa9ac9f4979e0c865fa1ad200a868aef1872"
+  }
+}

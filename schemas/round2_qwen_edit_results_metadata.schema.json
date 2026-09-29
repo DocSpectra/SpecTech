@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spectech.invalid/schemas/round2_qwen_edit_results_metadata.schema.json",
+  "title": "QE-A result metadata",
+  "type": "object",
+  "required": ["schema_version", "completed_at_utc", "outcome_blind_freeze_commit", "protocol", "generation", "scoring", "analysis", "outputs", "claim_boundary", "privacy_boundary"],
+  "properties": {
+    "schema_version": {"const": "round2_qwen_edit_source_results_v1"},
+    "completed_at_utc": {"type": "string"},
+    "outcome_blind_freeze_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "protocol": {"type": "object", "required": ["path", "sha256"]},
+    "generation": {"type": "object", "required": ["planned_cases", "accepted_cases", "failed_cases", "attempt_rows", "coverage_gate_passed"]},
+    "scoring": {"type": "object", "required": ["required_join_passed", "models"]},
+    "analysis": {"type": "object", "required": ["bootstrap_replicates", "bootstrap_master_seed"]},
+    "outputs": {"type": "object"},
+    "claim_boundary": {"type": "string"},
+    "privacy_boundary": {"type": "string"}
+  }
+}

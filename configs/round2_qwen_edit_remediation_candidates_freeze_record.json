@@ -1,0 +1,12 @@
+{
+  "schema_version": "round2_qwen_edit_remediation_candidates_freeze_record_v1",
+  "candidate_freeze_commit": "c1eb615132875b9a04987720f397dabf0fd65bd7",
+  "candidate_freeze_commit_utc": "2026-08-10T23:49:51Z",
+  "candidate_config_path": "configs/round2_qwen_edit_remediation_candidates_v1.json",
+  "candidate_config_sha256": "b4ad0af52c50b8a9db8f3121a14447fc1eee04151397f8aa322ead581b52cb4b",
+  "frozen_before_fresh_development_generation": true,
+  "candidate_count": 3,
+  "execution_round": 1,
+  "maximum_attempts_per_case": 3,
+  "scorer_rubric_human_or_held_out_outcomes_used": false
+}

@@ -1,0 +1,152 @@
+{
+  "schema_version": "round2_dgx_gptoss120b_human_first_v1",
+  "study_label": "GPT-OSS-120B human-first controlled-edit candidate reranking pilot",
+  "outcome_blind_method_freeze": true,
+  "authorization": {
+    "phase_b_review_commit": "7a70bb06c97edb59a326b1b2e6e1237d7880bc9b",
+    "provenance_disposition": "accepted_with_author_provenance_waiver",
+    "provenance_config": {
+      "path": "configs/round2_dgx_gptoss120b_provenance_disposition_v1.json",
+      "sha256": "23b4d074cb13ed75547a02111feb921429f47242af9c96180724a3705ef477c1"
+    },
+    "acceptance_summary": {
+      "path": "analysis/round2_dgx_gptoss120b_provenance_acceptance/acceptance_summary.json",
+      "sha256": "db94418122bb14f23eb78197355ded5b25c3c538b4e1df7b9f94fe9a03c73278"
+    },
+    "new_model_calls": false,
+    "candidate_text_inspected_before_freeze": false,
+    "scorer_outcomes_inspected_before_freeze": false,
+    "human_outcomes_available": false,
+    "manuscript_changes_authorized": false
+  },
+  "inherited_protocol": {
+    "path": "configs/round2_human_first_reranking_v1.json",
+    "sha256": "c14fc73dbf12c4e1cf603044d0eaadcdcea7b6f4177dab9ba147101496f274e0",
+    "ordered_case_sha256": "c46c1e7182a34a0f89dbb2826a6fcd2c0eec73f56842a5d484cf7675d95ed7ec",
+    "ordered_source_hashes_sha256": "9933af0092e81883ccb2b68386ca62b962f7921ea9eaf4fd6023b378c9f87db8",
+    "source_cases": 60,
+    "candidate_slots_per_source": 3,
+    "candidate_rows": 180,
+    "corpus_order": ["ansible_docs", "github_docs"],
+    "source_files": {
+      "ansible_docs": {
+        "path": "outputs/round2/granuscore/controlled_edits/ansible_docs_manual_controlled_edits.csv",
+        "sha256": "d6eb585c3c87295cb7f7862476cead64f8d4b47fd30c682a01095220004f2e3f",
+        "rows": 30,
+        "direction_counts": {"add_specific": 8, "de_specify": 12, "irrelevant_rewrite": 10}
+      },
+      "github_docs": {
+        "path": "outputs/round2/granuscore/controlled_edits/github_docs_manual_controlled_edits.csv",
+        "sha256": "6860b7ae74eb51a589361e8555d7e16c889860f45cdf019371948a1e23fd24fc",
+        "rows": 30,
+        "direction_counts": {"add_specific": 10, "de_specify": 10, "irrelevant_rewrite": 10}
+      }
+    }
+  },
+  "returned_candidates": {
+    "archive_workspace_path": "review_artifacts/gpt-spark-run1/spectech-return-dgx-5411bb15be9f.tar.gz",
+    "archive_sha256": "bf6f5d9b5564dd7191640e7ef6b29fbb1ce34b92409f39415ad8d1c9a934bfd6",
+    "member_path": "spectech-return-dgx-5411bb15be9f/retained_candidates.csv",
+    "member_sha256": "2cbeed1b2723af2e1ad0a8650223b505ca35e6ee85d9d6b6d25575fdd119d4e3",
+    "member_bytes": 113687,
+    "run_id": "dgx-5411bb15be9f",
+    "model_identity": "gpt-oss:120b@sha256:a951a23b46a1f6093dafee2ea481d634b4e31ac720a8a16f3f91e04f5a40ecd9",
+    "generation_config_sha256": "011938206afcb0fc8b45734ba1126c3bc8e38e6d883c4d24ddb6c73366f34998",
+    "generation_freeze_id": "d6642412988bf2b002d7283984c944df7a9a136e",
+    "candidate_structure_serialization": "CSV order; case_id NUL candidate_slot NUL remote_candidate_id NUL source_text_sha256 NUL candidate_text_sha256 LF",
+    "candidate_structure_sha256": "4ec9180830962f6dc549dd3f13a6f48d74921fefefa048bd31aa16517d08d513",
+    "expected_rows": 180,
+    "expected_unique_remote_ids": 180,
+    "required_retained_attempt": 1,
+    "hidden_cell_candidate_counts": {
+      "ansible_docs:add_specific": 24,
+      "ansible_docs:de_specify": 36,
+      "ansible_docs:irrelevant_rewrite": 30,
+      "github_docs:add_specific": 30,
+      "github_docs:de_specify": 30,
+      "github_docs:irrelevant_rewrite": 30
+    }
+  },
+  "local_alias": {
+    "namespace": "dgx-gptoss120b-human-first-alias-v1",
+    "formula": "sha256(utf8(namespace + NUL + remote_candidate_id + NUL + case_id + NUL + decimal_candidate_slot))",
+    "remote_alias_serialization": "CSV order; remote_candidate_id NUL local_candidate_alias LF",
+    "remote_alias_bijection_sha256": "ca10e13cbd10bc82bf088c08a8ddcf8f08e4bc5992ab1199799b5f9e04b54296",
+    "expected_unique_aliases": 180,
+    "preserve_remote_id": true
+  },
+  "scoring": {
+    "identity_source": {
+      "path": "configs/round2_qwen_edit_source_v1.json",
+      "sha256": "79e94d7b78e96ef8711d22081d1961627b5c4545e887b89ef2314da195b06b72"
+    },
+    "sentence_set": "All 60 exact originals and all 180 exact returned candidates",
+    "primary": ["speciteller_frozen_round1", "ko_run01", "ko_run02", "ko_run03", "granuscore_native"],
+    "secondary": ["ko_three_run_exact_decimal_arithmetic_mean", "granuscore_direction_aligned", "rank_consensus"],
+    "directions": {
+      "speciteller_frozen_round1": "higher_is_more_specific",
+      "ko_run01": "higher_is_more_specific",
+      "ko_run02": "higher_is_more_specific",
+      "ko_run03": "higher_is_more_specific",
+      "ko_three_run_exact_decimal_arithmetic_mean": "higher_is_more_specific",
+      "granuscore_native": "higher_is_coarser_more_abstract",
+      "granuscore_direction_aligned": "negative_native_score_higher_is_more_specific"
+    },
+    "coverage_gate": "Exactly one finite in-range score per score_id for all 240 rows under SpeciTeller and native GranuScore and all 120 corpus rows under each Ko run; identities and hashes must match; no retraining or substitution.",
+    "timing": "Scoring begins only after this config and its freeze record are committed; scores cannot affect inclusion, review side, or row order."
+  },
+  "automatic_proxy_audit": {
+    "definition_source": {
+      "path": "configs/round2_gemma_controlled_editor_v1.json",
+      "sha256": "cc6b14d91486553b94c6817b50f5ee4aa6ae70090602b9fb8e32360270075c57",
+      "implementation": "src.analysis.gemma_controlled_editor.gate_edit"
+    },
+    "timing": "After the exact 180-row returned set is imported; audit only.",
+    "forbidden_uses": ["exclude", "rank", "repair", "alter", "select", "change reviewer presentation"]
+  },
+  "selection_policies": {
+    "policies": ["unguided_slot01", "speciteller_frozen_round1", "ko_run01", "ko_run02", "ko_run03", "ko_three_run_arithmetic_mean_secondary", "granuscore_direction_aligned", "rank_consensus_secondary"],
+    "rule": "For add_specific select the greatest aligned candidate-minus-original delta; for de_specify select the smallest aligned delta; for irrelevant_rewrite select the smallest absolute aligned delta. Ties select the lowest candidate slot.",
+    "unguided_rule": "candidate_slot 1",
+    "ko_mean_rule": "Convert each saved Ko score string to Decimal, add the three values, divide by Decimal(3), then convert only the final value for downstream numeric use.",
+    "consensus_rule": "Within source and direction, order slots independently under SpeciTeller, Ko run01, run02, run03, and aligned GranuScore using the same direction rule with lowest-slot tie resolution; assign ranks 1..3, sum ranks, and select lowest sum then lowest slot.",
+    "freeze_before_human_outcomes": true
+  },
+  "blinding": {
+    "review_id_seed": 2026081301,
+    "review_id_namespace": "dgx-gptoss120b-human-first-review-v1",
+    "review_id": "DHF- plus first 12 RFC4648 base32 characters without padding of sha256(seed:namespace:local_candidate_alias)",
+    "side_seed": 2026081302,
+    "side_assignment": "Within each hidden corpus-by-direction cell, sort by sha256(seed:local_candidate_alias); candidate is A for the first exact half and B for the second, yielding 50/50 in every cell and 90/90 overall.",
+    "row_order_seed": 2026081303,
+    "row_order": "Sort all packet rows by sha256(seed:review_id).",
+    "packet_columns": ["Review ID", "A", "B", "Score"],
+    "score_values": {
+      "1": "A clearly more specific",
+      "2": "A slightly more specific",
+      "3": "about the same specificity",
+      "4": "B slightly more specific",
+      "5": "B clearly more specific",
+      "X": "no usable comparison because meaning/factuality/grammar is not acceptably preserved"
+    },
+    "forbidden_packet_information": ["source/candidate role", "corpus", "direction", "generator", "candidate slot", "remote or local candidate ID", "predictor or rubric value", "proxy outcome", "policy mapping", "prior result"],
+    "freshness": "All review-ID, side, and order seeds and namespaces differ from the prior Gemma packet."
+  },
+  "outputs": {
+    "raw_directory": "outputs/round2/dgx_gptoss120b_human_first",
+    "review_csv": "dgx_gptoss120b_review_packet.csv",
+    "review_xlsx": "dgx_gptoss120b_review_packet.xlsx",
+    "completed_filename": "dgx_gptoss120b_review_packet_done.xlsx",
+    "compact_directory": "analysis/round2_dgx_gptoss120b_human_first",
+    "tracked": ["README.md", "packet_manifest.json", "generation_coverage.csv", "proxy_aggregate.csv"],
+    "privacy": "Text-bearing candidates, scoring inputs/outputs, key, mappings, and review packet remain ignored. Track only content-free counts, hashes, method records, tests, and handoffs."
+  },
+  "stop_conditions": [
+    "any archive, member, source, candidate, alias, provenance, run, model, config, freeze, scorer, or checkpoint binding differs",
+    "coverage is not exactly 60 sources, 180 candidates, three slots per source, and 240 scorer rows",
+    "any primary score is missing, duplicated, nonfinite, or out of native range",
+    "any proxy or score affects inclusion or reviewer presentation",
+    "packet count, bijection, side balance, CSV/XLSX equality, privacy, validation, or rendering fails",
+    "a scientific rule would need to change after scorer outcomes"
+  ]
+}

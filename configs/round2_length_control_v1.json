@@ -1,0 +1,103 @@
+{
+  "method_version": "round2_length_control_v1",
+  "frozen_at_utc": "2026-08-09T05:33:29Z",
+  "outcome_blind_freeze": true,
+  "outcome_blind_inputs": [
+    "canonical sentence corpus_id, sent_id, and doc_path",
+    "canonical feature sent_id, token_count, and char_count",
+    "strict_natural_language_v1 sent_id and keep status"
+  ],
+  "outcomes_not_inspected_before_freeze": [
+    "SpeciTeller scores",
+    "raw or adjusted corpus score contrasts",
+    "score-by-length relationships"
+  ],
+  "estimand": "For each original/strict variant and corpus, the mean observed SpeciTeller score standardized to an equally weighted four-corpus token-count distribution over exact token counts satisfying common-support thresholds in that variant.",
+  "variants": [
+    "original",
+    "strict_natural_language_v1"
+  ],
+  "common_support": {
+    "variable": "token_count",
+    "strata": "exact positive integer token counts",
+    "minimum_rows_per_corpus_per_stratum": 100,
+    "minimum_documents_per_corpus_per_stratum": 20,
+    "require_all_four_corpora": true,
+    "apply_separately_by_variant": true,
+    "exclude_all_rows_outside_eligible_exact_counts": true,
+    "observed_outcome_blind_support": {
+      "original": {
+        "eligible_exact_counts": "1-38",
+        "stratum_count": 38,
+        "reference_quantile_counts_q05_q275_q50_q725_q95": [1, 5, 10, 16, 30]
+      },
+      "strict_natural_language_v1": {
+        "eligible_exact_counts": "5-36",
+        "stratum_count": 32,
+        "reference_quantile_counts_q05_q275_q50_q725_q95": [6, 11, 14, 20, 31]
+      }
+    }
+  },
+  "reference_distribution": {
+    "definition": "Within common support, normalize each corpus token-count distribution to sum to one, then take the unweighted arithmetic mean of the four corpus-specific probabilities at every exact token count.",
+    "corpus_weights": "0.25 each",
+    "fixed_during_uncertainty_resampling": true
+  },
+  "weights": {
+    "row_weight": "reference_probability_at_token_count divided by corpus_probability_at_token_count_within_support",
+    "normalization": "weights sum to the corpus common-support row count, and weighted means equal direct exact-stratum standardization",
+    "cap": null,
+    "maximum_allowed_weight_ratio": 10.0,
+    "action_if_exceeded": "fail the analysis rather than silently cap weights or change the target distribution",
+    "diagnostics": [
+      "minimum and maximum weight",
+      "weight quantiles",
+      "Kish effective sample size",
+      "row and document counts",
+      "support loss by corpus and variant"
+    ]
+  },
+  "primary_uncertainty": {
+    "method": "nonparametric document-cluster bootstrap within each corpus",
+    "cluster_key": "doc_path",
+    "replicates": 1000,
+    "master_seed": 20260809,
+    "confidence_interval": "2.5th and 97.5th percentile",
+    "reference_distribution_reestimated": false
+  },
+  "regression_sensitivity": {
+    "analysis_rows": "same variant-specific exact common-support rows as primary standardization",
+    "model": "ordinary least squares of score on corpus indicators and a five-knot restricted cubic spline of log(token_count)",
+    "reference_corpus": "wikipedia_en",
+    "knot_probability_rule": [0.05, 0.275, 0.5, 0.725, 0.95],
+    "knot_source": "variant-specific equally weighted four-corpus reference distribution",
+    "uncertainty": "CR1 document-cluster-robust sandwich covariance with doc_path clusters nested within corpus",
+    "reported_contrasts": "Wikipedia minus each technical corpus; additive model contrasts and interaction-model length-specific contrasts",
+    "character_count": "not included in the primary or token-regression model; any character-count analysis must be labeled a separate robustness model"
+  },
+  "interaction_diagnostic": {
+    "model": "add corpus-by-restricted-cubic-spline interactions to the frozen additive model",
+    "evaluation_token_counts": "variant-specific reference-distribution quantiles at probabilities 0.10, 0.25, 0.50, 0.75, and 0.90",
+    "substantial_if": "For any Wikipedia-to-technical contrast, the maximum minus minimum point contrast across evaluation counts is at least 0.10 score units, or the point contrasts change sign.",
+    "additional_diagnostics": [
+      "interaction-model partial R-squared relative to additive model",
+      "cluster-robust intervals for length-specific contrasts"
+    ],
+    "reporting_rule": "Always export length-specific contrasts; if substantial, categorize the affected variant/contrast as heterogeneous rather than summarize it only by one additive adjusted effect."
+  },
+  "categorization": {
+    "priority_order": [
+      "heterogeneous",
+      "reversed",
+      "eliminated",
+      "attenuated",
+      "persistent"
+    ],
+    "heterogeneous": "interaction diagnostic is substantial for the contrast",
+    "reversed": "standardized point gap has the opposite sign from the raw point gap and its 95% interval excludes zero",
+    "eliminated": "standardized 95% interval includes zero or the absolute standardized point gap is below 0.02",
+    "attenuated": "same-sign non-eliminated standardized gap has absolute magnitude below 80% of the raw gap",
+    "persistent": "same-sign non-eliminated standardized gap retains at least 80% of the raw gap",
+    "language_boundary": "Categories describe observed SpeciTeller score differences after measured length adjustment; they are not causal domain-effect labels."
+  }
+}

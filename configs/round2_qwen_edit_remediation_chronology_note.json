@@ -1,0 +1,29 @@
+{
+  "schema_version": "round2_qwen_edit_remediation_chronology_note_v1",
+  "recorded_after_run": true,
+  "purpose": "Correct administrative draft timestamps without modifying immutable scientific protocols or results.",
+  "issue": "The candidate config frozen_at_utc value 2026-08-11T00:00:00Z and v2 config frozen_at_utc value 2026-08-11T00:15:00Z were nominal draft timestamps. They are later than the actual signed freeze commits and must not be used for chronology.",
+  "authoritative_rule": "Signed Git commit timestamps and hash-bound freeze records are authoritative. The scientific configs, prompts, gates, runtime, schemas, seeds, outputs, and results remain unchanged after generation began.",
+  "candidate_chronology": {
+    "candidate_config_commit": "c1eb615132875b9a04987720f397dabf0fd65bd7",
+    "candidate_config_commit_utc": "2026-08-10T23:49:51Z",
+    "candidate_freeze_record_commit": "be1bc3a64cfbf858a9c8296b922d663d5cac2edb",
+    "candidate_freeze_record_commit_utc": "2026-08-10T23:50:45Z",
+    "first_saved_model_response_utc": "2026-08-10T23:50:58.2672176Z",
+    "last_saved_model_response_utc": "2026-08-10T23:52:35.9907103Z",
+    "attempt_rows": 137,
+    "freeze_precedes_first_response": true
+  },
+  "held_out_chronology": {
+    "v2_config_commit": "d08b6678d28478c229bf7f429720cc8e675586d2",
+    "v2_config_commit_utc": "2026-08-10T23:56:44Z",
+    "v2_freeze_record_commit": "746a3ada926df1fc87a8dd443250caa54092c37f",
+    "v2_freeze_record_commit_utc": "2026-08-10T23:57:15Z",
+    "first_saved_model_response_utc": "2026-08-10T23:57:31.1041385Z",
+    "last_saved_model_response_utc": "2026-08-10T23:58:08.3630930Z",
+    "attempt_rows": 50,
+    "freeze_precedes_first_response": true
+  },
+  "scientific_rule_changed": false,
+  "output_or_disposition_changed": false
+}

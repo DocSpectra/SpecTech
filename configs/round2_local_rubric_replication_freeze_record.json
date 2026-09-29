@@ -1,0 +1,24 @@
+{
+  "schema_version": "round2_local_rubric_replication_freeze_record_v1",
+  "method_freeze_commit": "1251ec7cda56371fc2a2ca1e7fa3e22deb30881b",
+  "method_frozen_before_any_project_judge_output": true,
+  "project_judge_calls_before_freeze": 0,
+  "project_outcomes_inspected_before_freeze": false,
+  "chronology_audit": {
+    "expected_base_commit": "ec545763ed32b833d3b7822f23c43b256fb1127d",
+    "expected_base_committed_at_utc": "2026-08-12T01:16:55Z",
+    "method_freeze_committed_at_utc": "2026-08-12T01:36:35Z",
+    "pre_freeze_ollama_chat_calls_after_base": 1,
+    "pre_freeze_non_project_smoke_calls_after_base": 1,
+    "pre_freeze_project_sentence_calls_after_base": 0,
+    "sole_pre_freeze_chat_completed_at_utc": "2026-08-12T01:27:03Z",
+    "sole_pre_freeze_fixture_sha256": "6a59c7343cab5d998bcaf59992b04543c035a6567de5f5cd9e7dfcf0baddb94b",
+    "sole_pre_freeze_fixture_role": "first invented determinism fixture; not a project sentence",
+    "evidence": "Archived execution record invokes only the three declared invented fixtures; the Ollama server log contains exactly one completed chat call before interruption; the project raw, determinism-smoke, and compact output directories do not exist."
+  },
+  "analysis_addendum_frozen_before_project_calls": {
+    "ko_official_release_run_mean": "secondary row-wise arithmetic mean sensitivity only; never a fourth independent Ko instance",
+    "project_run_variability": "one frozen call per project sentence per judge; repeated-call variability is assessed only by the three-by-three invented determinism smoke and the single-run limitation is explicit"
+  },
+  "scope": "Matched 80-sentence Gemma and GPT-OSS zero-shot replication of the checksum-bound Qwen 1--5 protocol, with frozen interface differences, identities, sole-residency gates, and joint paired-bootstrap comparisons."
+}

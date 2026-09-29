@@ -1,0 +1,52 @@
+{
+  "schema_version": "round2_dgx_gptoss120b_freeze_record_v1",
+  "experiment_id": "round2_gptoss120b_generator_replication_v1",
+  "method_freeze_commit": "d6642412988bf2b002d7283984c944df7a9a136e",
+  "preliminary_method_commit": "86ffd6fbcb35100445df99171627f48e625be974",
+  "frozen_utc_date": "2026-08-12",
+  "method_frozen_before_any_gptoss120b_project_output": true,
+  "gptoss120b_project_sentences_sent_to_model_before_freeze": false,
+  "development_fixture_correction": "A clean-room fixture-mode run before this final freeze mechanically routed frozen packet inputs through the local fake adapter rather than an external model. No model call occurred, no output was scientifically inspected, the diagnostic result was discarded, and commit 6538491 makes fixture mode generate invented inputs without reading packet inputs.",
+  "gptoss120b_project_outputs_inspected_before_freeze": false,
+  "bindings": {
+    "generation_delta": {
+      "path": "configs/round2_dgx_gptoss120b_generation_delta_v1.json",
+      "sha256": "011938206afcb0fc8b45734ba1126c3bc8e38e6d883c4d24ddb6c73366f34998"
+    },
+    "rubric_delta": {
+      "path": "configs/round2_dgx_gptoss120b_rubric_delta_v1.json",
+      "sha256": "20bf7900d793c176d4d25ae2c4a487b32cdc62cb660ed582ffdd7eca968be84a"
+    },
+    "feasibility_spec": {
+      "path": "specs/round2_dgx_gptoss120b_feasibility.md",
+      "sha256": "860c8a4c3b4c15f7285fc95370c4b0190201c6c7270a664a7057d26eae6ebd69"
+    },
+    "packet_spec": {
+      "path": "specs/round2_dgx_gptoss120b_packet.md",
+      "sha256": "f44b97e70b4790c86b18d4425337469a67ccb06d80ffaa95c1eaffbddac944c9"
+    },
+    "schemas": {
+      "capability_compatibility.schema.json": "dead265863205b29d214fa4b50cc236303f805875e9a1050211b00fb7bd90fba",
+      "capability_extension.schema.json": "9c3c39b52b17f55fa531548c596df8790d2ec71f205ae1a95b4ef809fbeb66c2",
+      "experiment_registration.schema.json": "181564c338a896cf5a6e6992f051c9b1411f800442319953fb9b236bef9571fa",
+      "generation_attempt.schema.json": "3913899ff0f6471814767617915b9ffc812836c6531769bd636c82e6ba09220b",
+      "operator_action.schema.json": "523358ec4f06b1bcb1e119db585abda9d62744024efa95ca561593e3ad953b15",
+      "packet_manifest.schema.json": "2d72c55fe715aa138579291b02bb1ec4b8e8cfc11a9d44412a2bdbeb8011e079",
+      "return_manifest.schema.json": "03ede0100fecbf792837910977941a2384ad5200e78966816e5e0923b98a632a",
+      "run_receipt.schema.json": "261fe0a82238c4e0d840fc494f13e0477eb165b38bb5ec29ae329d2aeeed4c3e",
+      "spark_capability_report.schema.json": "c4c76e23d61b02d1b517744775537d89d1f15514ea5ba517c299b5aaba30512b"
+    },
+    "invented_fixtures": {
+      "fake_success.json": "cc0787a3dea71305a5bd0a003461507270db48868935a37e65b62e968841bfe9",
+      "fake_timeout_then_resume.json": "d4476f37e60f7fc0e9a8746c4aaa06347175021e158425a99131d0af10da1db3",
+      "model_smoke.json": "6b9e5f6c7eb60342157e7bbf7ab95e0a8eaa76774943e653cbd31f9a6dbb7967",
+      "spark_fail_memory.json": "cbe0c4ea5503d91b9625d11a5c159f470fbee2265078906ed96645c8d65942db",
+      "spark_pass.json": "f152c0409797850a57433a87ffee2861860e539ad9a0667fe065a074f11e2063"
+    },
+    "ordered_primary_input_sha256": "c46c1e7182a34a0f89dbb2826a6fcd2c0eec73f56842a5d484cf7675d95ed7ec",
+    "runtime_archive_sha256": "aa7e06b5683ee66c4a3ec68ea7236db43b5a5d0821f0dfe2c5a215f4462bddf4",
+    "model_manifest_sha256": "a951a23b46a1f6093dafee2ea481d634b4e31ac720a8a16f3f91e04f5a40ecd9",
+    "model_blob_sha256": "6be6d66a3f546d8c19b130dc41dc24b2fc159f84ffbc76a0ee0676205083cf5a"
+  },
+  "authorization_boundary": "Implementation and packaging may realize this committed protocol but may not alter scientific semantics, inspect project outputs, or send project sentences during packet qualification."
+}

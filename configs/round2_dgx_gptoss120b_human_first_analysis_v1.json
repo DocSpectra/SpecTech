@@ -1,0 +1,135 @@
+{
+  "schema_version": "round2_dgx_gptoss120b_human_first_analysis_v1",
+  "study_label": "GPT-OSS-120B blinded human-first controlled-edit analysis and paired Gemma generator replication",
+  "outcome_blind_method_freeze": true,
+  "authorization": {
+    "phase_c_review_commit": "fbce1b2b6799847ee101c9bac18d6f61e6143bc6",
+    "provenance_disposition": "accepted_with_author_provenance_waiver",
+    "human_outcome_analysis_authorized": true,
+    "manuscript_changes_authorized": false,
+    "new_model_calls_authorized": false
+  },
+  "inputs": {
+    "released_packet": {
+      "csv_path": "outputs/round2/dgx_gptoss120b_human_first/dgx_gptoss120b_review_packet.csv",
+      "csv_sha256": "835fda0e7e0c3c2a36538752c74c98d1129b03235117485d5a9fe6a133587a4b",
+      "released_xlsx_sha256": "00fd77981f86d991c5a516072577c6532f26812c0ca72f4150f6432e7d43ba9c",
+      "artifact_inspection_path": "outputs/round2/dgx_gptoss120b_human_first/dgx_gptoss120b_review_packet.xlsx.inspect.ndjson",
+      "artifact_inspection_sha256": "5800b888f13a52c536f2a011d69495b406d6c4ea908f6a4b6ac4e38295dea139"
+    },
+    "completed_workbook": {
+      "path": "outputs/round2/dgx_gptoss120b_human_first/completed_returns/dgx_gptoss120b_review_packet__sha256_5c84775834cf2d711196f2c400dd1a72e2f53a8cf6cdd9947ff32f082f7ace23.xlsx",
+      "sha256": "5c84775834cf2d711196f2c400dd1a72e2f53a8cf6cdd9947ff32f082f7ace23",
+      "review_rows": 180,
+      "allowed_scores": ["1", "2", "3", "4", "5", "X"]
+    },
+    "gptoss120b_hidden": {
+      "private_review_key": {"path": "outputs/round2/dgx_gptoss120b_human_first/private_review_key.csv", "sha256": "a04c686d24921ec95ac272dab130b315dd4a7a064e9f422871c81da586a27392"},
+      "candidate_metrics": {"path": "outputs/round2/dgx_gptoss120b_human_first/candidate_metric_deltas.csv", "sha256": "34d23e26728a6da62199e7684a72d17bfd82995180dd25b03823d2e5b066d77f"},
+      "policy_selections": {"path": "outputs/round2/dgx_gptoss120b_human_first/policy_selections.csv", "sha256": "9986e5152811d0c4094583d2e2384f7625d20179956fb28beadf21e516155ca6"},
+      "automatic_proxy_audit": {"path": "outputs/round2/dgx_gptoss120b_human_first/automatic_proxy_audit.csv", "sha256": "3100f959ead367eadc6b747915a7e760236ac075326c387be8c2e5e25c1df521"}
+    },
+    "gemma_reviewed_arm": {
+      "analysis_config": {"path": "configs/round2_human_first_analysis_v1.json", "sha256": "81d33b690e393ea05e59b3765c9e0f805695af77b6fad1c931e73bb2bd6a6034"},
+      "completed_workbook": {"path": "outputs/round2/human_first_reranking/human_first_review_packet_done.xlsx", "sha256": "73312e07427d7d4b9aada98261c91b22d6e287cf134cbfed0c22cf36253430e7"},
+      "private_review_key": {"path": "outputs/round2/human_first_reranking/private_review_key.csv", "sha256": "f2d7f09cf284ac4b16abe22144ad7dad5702cc8fa8947be274c5b0bbe5175a46"},
+      "candidate_metrics": {"path": "outputs/round2/human_first_reranking/candidate_metric_deltas.csv", "sha256": "80aa55e47d3d2c203fec19b6893c99793ef04bf191663b8074beb3c899fab261"},
+      "policy_selections": {"path": "outputs/round2/human_first_reranking/policy_selections.csv", "sha256": "9421f760131d2f0fba8d364fc7c40ec56ce83f679aee1ea992f65dff0d7cfc61"},
+      "automatic_proxy_audit": {"path": "outputs/round2/human_first_reranking/automatic_proxy_audit.csv", "sha256": "11c7044928be9ea006dba78d252effc9ebd4103f71bafb9aa8194947af631d88"},
+      "reviewed_analysis_manifest": {"path": "analysis/round2_human_first_reranking_analysis/analysis_manifest.json", "sha256": "e5ec55045a6fb8656e7fb2b5eea38dedc1803040f60712ac6c4e44a958c3847c"},
+      "review_commit": "210a94176a7abfa0925fd990a8ea7f91d04a77ae"
+    },
+    "packet_protocol": {"path": "configs/round2_dgx_gptoss120b_human_first_v1.json", "sha256": "e98905ccddc95272f7a370ab06ae7a0a6798578dc8acc6fe15ebd51ef2882668"}
+  },
+  "pre_unblinding_validation": {
+    "required": [
+      "completed SHA-256 matches the hash-named immutable ignored copy",
+      "exactly 180 Review rows and 180 unique Review IDs",
+      "Review ID, A, and B equal the released CSV row by row",
+      "every Score is one of 1,2,3,4,5,X and no Score is blank",
+      "Instructions A1:B8 equal the released packet instructions",
+      "no formulas, macros, external links, hidden sheets, or unexpected nonempty cells"
+    ],
+    "clerical_corrections": []
+  },
+  "annotation_protocol": {
+    "score_meanings": {"1": "A clearly more specific", "2": "A slightly more specific", "3": "about the same specificity", "4": "B slightly more specific", "5": "B clearly more specific", "X": "no usable comparison because meaning, factuality, or grammar is not acceptably preserved"},
+    "score_3_rule": "Candidate-minus-original specificity delta is zero. It is direction-valid only for irrelevant_rewrite and is not treated as proof of semantic preservation.",
+    "x_rule": "X is direction-invalid in all-case rates, excluded from ordinal utility and correlation, and reported separately.",
+    "no_recode": true,
+    "evaluator": "the same single evaluator as the reviewed Gemma arm, in a separate blinded review session"
+  },
+  "orientation": {
+    "candidate_delta": "candidate specificity minus original specificity on -2,-1,0,1,2",
+    "candidate_side_A": {"1": 2, "2": 1, "3": 0, "4": -1, "5": -2, "X": null},
+    "candidate_side_B": {"1": -2, "2": -1, "3": 0, "4": 1, "5": 2, "X": null},
+    "direction_aligned_utility": {"add_specific": "candidate_delta", "de_specify": "-candidate_delta", "irrelevant_rewrite": "-abs(candidate_delta)"},
+    "direction_validity": {"add_specific": "candidate_delta > 0", "de_specify": "candidate_delta < 0", "irrelevant_rewrite": "candidate_delta == 0", "X": "false"}
+  },
+  "analysis_sets": {
+    "primary": {"name": "all_180", "review_positions": "1..180"},
+    "order_descriptive": [{"name": "first_60", "review_positions": "1..60"}, {"name": "middle_60", "review_positions": "61..120"}, {"name": "final_60", "review_positions": "121..180"}],
+    "order_sensitivity": [{"name": "exclude_first_20", "review_positions": "21..180"}, {"name": "exclude_first_30", "review_positions": "31..180"}],
+    "transformations": "none"
+  },
+  "policies": {
+    "reference": "unguided_slot01",
+    "primary": ["unguided_slot01", "speciteller_frozen_round1", "ko_run01", "ko_run02", "ko_run03", "granuscore_direction_aligned"],
+    "secondary": ["ko_three_run_arithmetic_mean_secondary", "rank_consensus_secondary"],
+    "estimands": ["direction-validity with X as failure", "X rate", "comparable-only mean aligned ordinal utility", "guided-minus-unguided paired validity difference", "paired ordinal win/loss/tie"],
+    "strata": ["overall", "corpus_id", "edit_type"]
+  },
+  "candidate_associations": {
+    "metrics": ["speciteller_frozen_round1", "ko_run01", "ko_run02", "ko_run03", "ko_three_run_arithmetic_mean_secondary", "granuscore_direction_aligned"],
+    "estimand": "Spearman correlation between aligned metric delta and non-X human candidate delta",
+    "strata": ["overall", "corpus_id", "edit_type"]
+  },
+  "automatic_proxy": {
+    "human_positive": "direction-validity",
+    "proxy_positive": "proxy_pass",
+    "cells": ["true_accept", "false_accept", "false_reject", "true_reject"],
+    "rates": ["false_accept_rate", "false_reject_rate"],
+    "strata": ["overall", "corpus_id", "edit_type"],
+    "analysis_sets": ["all_180", "exclude_first_20", "exclude_first_30"]
+  },
+  "generator_comparison": {
+    "arms": ["gemma4_12b", "gpt_oss_120b"],
+    "shared_source_cases": 60,
+    "candidate_slots_per_source": 3,
+    "estimands": [
+      "per-source fraction of three candidates direction-valid",
+      "per-source X fraction and comparable-only aligned ordinal summaries",
+      "each frozen policy selected-candidate validity by arm",
+      "paired arm difference in each guided-minus-unguided policy gain",
+      "candidate-metric/human association by arm",
+      "automatic-proxy confusion and false-accept/false-reject behavior by arm"
+    ],
+    "pairing": "shared source case with all three candidate slots clustered",
+    "resampling": "paired source cases stratified by frozen corpus_id-by-edit_type cells",
+    "review_session_boundary": "two separate blinded review sessions by one evaluator",
+    "causal_claims_forbidden": ["causal model-size effect", "general editing superiority", "controlled architecture comparison", "population-human preference"]
+  },
+  "uncertainty": {
+    "method": "deterministic nonparametric source-case bootstrap",
+    "replicates": 20000,
+    "confidence_level": 0.95,
+    "interval": "percentile",
+    "master_seed": 2026081304,
+    "unit": "shared source case",
+    "overall_resampling": "resample within frozen corpus_id-by-edit_type cells and concatenate",
+    "candidate_independent_resampling_forbidden": true
+  },
+  "outputs": {
+    "raw_directory": "outputs/round2/dgx_gptoss120b_human_first_analysis",
+    "compact_directory": "analysis/round2_dgx_gptoss120b_human_first_analysis",
+    "tracked": ["README.md", "analysis_manifest.json", "rating_order_distribution.csv", "policy_summary.csv", "policy_contrasts.csv", "predictor_agreement.csv", "proxy_confusion.csv", "generator_comparison.csv", "generator_policy_gain_contrasts.csv"],
+    "privacy": "Only aggregates, hashes, stable method labels, counts, and intervals are tracked; no text, row labels, reversible IDs, mappings, or row-level ratings."
+  },
+  "reporting": {
+    "report_favorable_null_adverse_heterogeneous_order_and_session_results": true,
+    "all_three_ko_runs_primary": true,
+    "no_size_or_superiority_claims": true,
+    "paper_use_gate": "method validity and independent primary review, never favorable sign",
+    "phase_e_locked": true
+  }
+}

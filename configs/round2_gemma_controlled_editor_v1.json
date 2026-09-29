@@ -1,0 +1,246 @@
+{
+  "schema_version": "round2_gemma_controlled_editor_v1",
+  "study_label": "Post-final Gemma 4 controlled-editor pilot with author-blinded validation",
+  "outcome_blind_method_freeze": true,
+  "authorization": {
+    "user_authorized_at_local_date": "2026-08-11",
+    "existing_controlled_edit_originals_only": true,
+    "required_cases": 60,
+    "new_source_sampling": false,
+    "expansion_to_180": false,
+    "paper_integration": false,
+    "rubric_study": false,
+    "scorer_invocation": false,
+    "manual_generation_selection_or_repair": false
+  },
+  "isolation": {
+    "allowed_method_inputs": [
+      "existing frozen original sentences and direction labels",
+      "documented QE-R failure modes: overlong additions, neutral paraphrase anchor sensitivity, de-specific proxy mismatch, and script-integrity risk",
+      "documented score-blind development positive-control constraints"
+    ],
+    "prohibited_method_or_generation_inputs": [
+      "Qwen generated text or case-level attempts",
+      "Qwen acceptance status, failure trace, or case-level gate outcome",
+      "SpeciTeller, Ko, GranuScore, Qwen-rubric, or any other scorer outcome",
+      "human pilot labels or prior human judgments",
+      "author-edited sentence text in a model request",
+      "corpus identity, stable IDs, review IDs, gates, or other cases in a model request"
+    ],
+    "prompt_gate_selection_rule": "The frozen protocol may respond only to documented prior process failure modes and score-blind positive-control constraints; it is not selected using any prior generated output, score, label, case-level acceptance, or scorer outcome."
+  },
+  "inputs": {
+    "corpus_order": ["ansible_docs", "github_docs"],
+    "source_files": {
+      "ansible_docs": {
+        "path": "outputs/round2/granuscore/controlled_edits/ansible_docs_manual_controlled_edits.csv",
+        "sha256": "d6eb585c3c87295cb7f7862476cead64f8d4b47fd30c682a01095220004f2e3f",
+        "rows": 30,
+        "direction_counts": {"add_specific": 8, "de_specify": 12, "irrelevant_rewrite": 10}
+      },
+      "github_docs": {
+        "path": "outputs/round2/granuscore/controlled_edits/github_docs_manual_controlled_edits.csv",
+        "sha256": "6860b7ae74eb51a589361e8555d7e16c889860f45cdf019371948a1e23fd24fc",
+        "rows": 30,
+        "direction_counts": {"add_specific": 10, "de_specify": 10, "irrelevant_rewrite": 10}
+      }
+    },
+    "required_total_cases": 60,
+    "case_id": "sha256(utf8(corpus_id + NUL + sent_id + NUL + edit_type + NUL + one_based_source_position))",
+    "order": "corpus_order, then byte-frozen source-file row order",
+    "ordered_case_sha256_algorithm": "sha256 over one LF-terminated UTF-8 record per case: corpus_id NUL position NUL case_id NUL sent_id NUL edit_type NUL sha256(sentence_original UTF-8)",
+    "ordered_case_sha256": "c46c1e7182a34a0f89dbb2826a6fcd2c0eec73f56842a5d484cf7675d95ed7ec",
+    "model_request_field": "sentence_original only",
+    "author_edit_loaded_for_generation": false
+  },
+  "runtime": {
+    "ollama_version": "0.32.5",
+    "api_url": "http://127.0.0.1:11434/api/chat",
+    "model": "gemma4:12b",
+    "model_tag_digest": "4eb23ef187e2c5462566d6a1d3bbbc2f1346d0b4327cbb66d58fffbcc9b2b05c",
+    "model_list_id": "4eb23ef187e2",
+    "installed_size_bytes": 7556508396,
+    "family": "gemma4",
+    "parameter_size": "11.9B",
+    "parameter_count": 11907350576,
+    "quantization": "Q4_K_M",
+    "format": "gguf",
+    "model_blob_sha256": "1278394b693672ac2799eadc9a83fd98259a6a88a40acfb1dcaa6c6fc895a606",
+    "model_blob_size_bytes": 7381382048,
+    "projector_blob_sha256": "675ad6e68101ca9413ec806855c452362f0213f2dfc5800996b086fdb8119842",
+    "projector_blob_size_bytes": 175115584,
+    "projector_family": "clip",
+    "projector_parameter_count": 52379904,
+    "license": "Apache-2.0 as emitted by ollama show",
+    "official_source": "https://ollama.com/library/gemma4:12b",
+    "official_source_checked_utc_date": "2026-08-11",
+    "official_source_description": "Ollama official Gemma 4 12B workstation tag, 7.6 GB, model ID 4eb23ef187e2, Q4_K_M",
+    "required_capabilities": ["completion", "thinking"],
+    "thinking": false,
+    "stream": false,
+    "keep_alive": "30m",
+    "fresh_conversation_per_attempt": true,
+    "maximum_attempts_per_case": 3,
+    "attempt_policy": "Generate attempts in ascending order with the identical direction prompt and a fresh context; stop at and retain the first mechanically passing attempt; never repair, rank, or manually select generated text; if all three attempts fail, the case is unretained and the 60/60 packet gate fails.",
+    "master_seed": 2026081101,
+    "seed_derivation": "first 31 bits of sha256(utf8(str(master_seed) + ':' + 'gemma-editor-v1:' + case_id + ':' + str(attempt_index))) interpreted big-endian",
+    "options": {
+      "temperature": 1.0,
+      "top_k": 64,
+      "top_p": 0.95,
+      "repeat_penalty": 1.0,
+      "num_ctx": 4096,
+      "num_predict": 256
+    },
+    "response_schema": {
+      "type": "object",
+      "properties": {"edited_sentence": {"type": "string"}},
+      "required": ["edited_sentence"],
+      "additionalProperties": false
+    },
+    "residency_control": {
+      "preserve_installed_model": "qwen3:14b",
+      "before_run": "ollama stop qwen3:14b and ollama stop gemma4:12b; then use one non-project explicit-tag warm-up and require ollama ps to contain exactly gemma4:12b with list ID 4eb23ef187e2",
+      "during_run": "Every API request names gemma4:12b explicitly; every response model must equal gemma4:12b; /api/ps must contain exactly the pinned Gemma tag and digest after warm-up and after generation.",
+      "after_run": "ollama stop gemma4:12b and require ollama ps to be empty; do not remove either installed model."
+    }
+  },
+  "prompts": {
+    "system": "You generate one controlled rewrite for a sentence-specificity study. Preserve the main proposition, factual commitments, polarity, modality, and communicative intent. Make only the requested minimal change. Do not invent a name, value, identifier, version, command, location, cause, outcome, or condition that is not supported by the sentence. Do not assume hidden document context. Keep every polarity and modal word exactly as written. Produce exactly one grammatical sentence on one line. Do not mention the task, models, scores, labels, authors, or instructions. Return only the required JSON object with edited_sentence and no explanation.",
+    "user_templates": {
+      "add_specific": "Make one minimal edit that makes the sentence more specific by clarifying exactly one existing detail, referent, action, relation, or condition. Preserve every existing substantive detail. Do not add an example, explanation, purpose, background claim, or unsupported fact. If a proper name, number, identifier, version, command, or location is not licensed by the sentence, do not invent it. Return one sentence of at most {add_word_limit} words (original: {original_word_count}).\n\nOriginal sentence:\n{sentence_original}",
+      "de_specify": "Make one minimal edit that makes the sentence less specific by removing or generalizing exactly one concrete detail or qualifier. Add nothing. Preserve all other wording and factual commitments, including polarity and modality. Return one sentence no longer than {de_word_limit} words (original: {original_word_count}).\n\nOriginal sentence:\n{sentence_original}",
+      "irrelevant_rewrite": "Make one minimal wording or syntax paraphrase with approximately the same specificity. Preserve every concrete detail and factual commitment, at least 60 percent of content words verbatim, and every polarity and modal word exactly. Add or remove no detail. Return one sentence between {neutral_word_min} and {neutral_word_max} words (original: {original_word_count}).\n\nOriginal sentence:\n{sentence_original}"
+    },
+    "dynamic_limits": {
+      "add_word_limit": "max(original_word_count + 3, floor(1.60 * original_word_count))",
+      "de_word_limit": "max(1, floor(1.10 * original_word_count))",
+      "neutral_word_min": "max(1, ceil(0.75 * original_word_count))",
+      "neutral_word_max": "max(1, floor(1.35 * original_word_count))"
+    },
+    "blindness_contract": "Each request contains only the frozen system prompt, one direction-matched template with mechanical word bounds, and the current original sentence. Corpus, IDs, author wording, gates, prior attempts, all scores and labels, review information, and other cases are absent."
+  },
+  "automated_gates": {
+    "role": "Outcome-blind mechanical safeguards and transparent directional proxies only; passing is not factual, semantic, grammatical, or manipulation validation.",
+    "normalization": "Unicode NFKC, outer strip, and collapsed whitespace for comparisons; retained text preserves model content after outer stripping.",
+    "word_token_regex": "(?u)\\b\\w+(?:[-./:]\\w+)*\\b",
+    "content_tokens": "casefold word tokens of length at least 3 excluding the implementation's frozen English stopword list",
+    "polarity_tokens": ["no", "not", "never", "none", "neither", "nor", "without", "cannot", "can't", "won't", "don't", "doesn't", "isn't", "aren't", "wasn't", "weren't"],
+    "modal_tokens": ["can", "could", "may", "might", "must", "shall", "should", "will", "would"],
+    "concrete_marker_classes": ["URL", "absolute_or_relative_path", "command_flag", "integer_or_decimal_or_version", "snake_case_identifier", "camelCase_or_PascalCase_identifier", "backtick_code_content"],
+    "universal": {
+      "exact_json_field_only": true,
+      "one_nonempty_line": true,
+      "at_most_one_detected_sentence_boundary": true,
+      "minimum_characters": 5,
+      "maximum_characters": 2000,
+      "must_differ_after_normalization": true,
+      "forbidden_meta_prefixes_casefold": ["edited sentence:", "rewrite:", "here is", "sure,"],
+      "polarity_token_multiset_must_match": true,
+      "modal_token_multiset_must_match": true,
+      "new_non_latin_letter_script_forbidden_when_original_has_none": true
+    },
+    "direction_rules": {
+      "add_specific": {
+        "edited_to_original_token_ratio_min": 0.65,
+        "edited_to_original_token_ratio_max": 2.0,
+        "original_content_anchor_recall_min": 0.55,
+        "original_concrete_marker_recall_min": 1.0,
+        "edited_concrete_marker_count_must_not_decrease": true,
+        "required_change": "edited token count is at least original plus 2 OR edited concrete-marker count is at least original plus 1"
+      },
+      "de_specify": {
+        "edited_to_original_token_ratio_min": 0.4,
+        "edited_to_original_token_ratio_max": 1.1,
+        "original_content_anchor_recall_min": 0.35,
+        "edited_concrete_marker_count_must_not_increase": true,
+        "required_change": "edited token count is at most original minus 1 OR edited concrete-marker count is lower OR content-anchor recall is at most 0.9 with no content-token-count increase"
+      },
+      "irrelevant_rewrite": {
+        "edited_to_original_token_ratio_min": 0.75,
+        "edited_to_original_token_ratio_max": 1.35,
+        "original_content_anchor_recall_min": 0.6,
+        "concrete_marker_multiset_must_match": true
+      }
+    }
+  },
+  "generation_gate": {
+    "required_retained_total": 60,
+    "required_exact_cell_counts": {
+      "ansible_docs:add_specific": 8,
+      "ansible_docs:de_specify": 12,
+      "ansible_docs:irrelevant_rewrite": 10,
+      "github_docs:add_specific": 10,
+      "github_docs:de_specify": 10,
+      "github_docs:irrelevant_rewrite": 10
+    },
+    "failure_action": "Stop without releasing an incomplete blinded-review packet. Preserve complete attempt accounting and report aggregate non-content failure diagnostics only; do not change prompts, gates, attempts, or selection."
+  },
+  "blinded_review": {
+    "review_schema": "schemas/round2_gemma_blinded_review_v1.schema.json",
+    "review_id": "'GCE-' plus the first 12 RFC4648 base32 characters (without padding) of sha256(utf8(str(review_id_seed) + ':' + review_id_namespace + ':' + case_id))",
+    "review_id_seed": 2026081102,
+    "review_id_namespace": "gemma-editor-blinded-id-v1",
+    "side_assignment_seed": 2026081103,
+    "side_assignment": "Within each hidden corpus-by-direction cell, sort by sha256(utf8(str(side_assignment_seed) + ':' + case_id)); assign retained Gemma candidate to A for the first exact half and to B for the remainder, yielding exact 50/50 balance in every cell and 30/30 overall.",
+    "row_order_seed": 2026081104,
+    "row_order": "Sort all rows by sha256(utf8(str(row_order_seed) + ':' + review_id)); expose only the resulting one-based row number and review_id.",
+    "packet_fields": [
+      "review_row", "review_id", "sentence_a", "sentence_b",
+      "factual_correctness_a", "factual_correctness_b", "semantic_preservation",
+      "grammar_naturalness_a", "grammar_naturalness_b", "more_specific",
+      "confidence", "notes"
+    ],
+    "packet_forbidden_fields": [
+      "case_id", "corpus_id", "edit_type", "sent_id", "source_position",
+      "original_side", "candidate_side", "model", "attempt_index", "seed",
+      "gate_status", "target_direction", "expected_answer"
+    ],
+    "instructions": "Judge each presented sentence independently for factual correctness and grammaticality/naturalness; judge the pair for semantic preservation; choose which sentence is more specific or tie; record confidence and optional notes. Ordering is randomized. Do not try to infer provenance or intended direction.",
+    "answer_key": "Private ignored CSV mapping review_id to case identity, hidden corpus/direction, original/candidate side, retained attempt, and exact text hashes; never reveal it until all 60 responses are frozen.",
+    "reversible_integrity": "Validation must prove a 60-row bijection among packet, key, retained candidates, and frozen originals; verify both sentence hashes and side roles for every row; reconstruct the hidden six cells and exact candidate-side balance; and bind packet, key, attempts, retained candidates, and completed responses by SHA-256."
+  },
+  "human_gate": {
+    "review_completion_required": "exactly one completed response for each of 60 unique review IDs before unblinding",
+    "allowed_factual_values": ["correct", "incorrect", "uncertain", "not_assessable"],
+    "allowed_semantic_values": ["preserved", "mostly_preserved", "not_preserved", "uncertain"],
+    "allowed_grammar_values": ["natural", "minor_issue", "major_issue", "uncertain"],
+    "allowed_specificity_values": ["A", "B", "tie", "uncertain"],
+    "confidence_scale": [1, 2, 3, 4, 5],
+    "case_pass_rule": "After unblinding: the candidate-side factual judgment is correct; semantic_preservation is preserved; the candidate-side grammar judgment is natural or minor_issue; and more_specific selects the candidate side for add_specific, selects the original side for de_specify, or is tie for irrelevant_rewrite. Confidence and notes are reported but do not determine pass status.",
+    "minimum_overall_passed": 48,
+    "exact_minimum_passed_by_hidden_cell": {
+      "ansible_docs:add_specific:8": 6,
+      "ansible_docs:de_specify:12": 9,
+      "ansible_docs:irrelevant_rewrite:10": 8,
+      "github_docs:add_specific:10": 8,
+      "github_docs:de_specify:10": 8,
+      "github_docs:irrelevant_rewrite:10": 8
+    },
+    "pass_disposition": "The pilot is eligible for the user's time-based decision about a separately frozen 180-source expansion. Passing does not itself authorize expansion, scoring, rubric judgment, paper integration, or a claim of editor validity.",
+    "failure_disposition": "Do not expand or score. Report component and balanced-coverage failures without prompt/gate revision or accepted-only scientific inference."
+  },
+  "outputs": {
+    "raw_directory": "outputs/round2/gemma_controlled_editor",
+    "attempt_schema": "schemas/round2_gemma_editor_attempt_v1.schema.json",
+    "attempts": "generation_attempts.jsonl",
+    "retained_candidates": "retained_candidates.csv",
+    "review_packet": "blinded_review_packet.csv",
+    "review_answer_key": "blinded_review_answer_key.csv",
+    "review_responses": "blinded_review_responses.csv",
+    "raw_run_metadata": "run_metadata.json",
+    "compact_directory": "analysis/round2_gemma_controlled_editor",
+    "compact_outputs": ["generation_coverage.csv", "generation_failure_reasons.csv", "packet_manifest.json", "README.md"],
+    "tracked_boundary": "Track configs, schemas, specification, implementation, tests, privacy-safe aggregate diagnostics, and content-free packet hashes/counts only. Original, candidate, A/B packet, answer key, completed responses, request/response bodies, and other text-bearing artifacts remain ignored under outputs/."
+  },
+  "stop_conditions": [
+    "Ollama version, exact Gemma tag/digest/blob identity, license/source, installed size, options, or API response model differs",
+    "qwen3:14b or any model other than pinned gemma4:12b is resident during a project request",
+    "source hashes, row counts, direction counts, case IDs, ordered-case digest, or original hashes differ",
+    "a model request contains any forbidden field or prior attempt text",
+    "any prompt, decoding, seed, schema, gate, attempt, retention, review randomization, review question, pass threshold, privacy, or claim rule would change after project generation starts",
+    "fewer than 60 cases retain a mechanically passing candidate after three attempts",
+    "packet/key reversibility, exact 30/30 candidate-side balance, response completeness, or hash integrity fails",
+    "any scorer, Qwen output, rubric label, prior human label, or author-edited text would enter generation, selection, or the pre-unblinding review packet"
+  ]
+}

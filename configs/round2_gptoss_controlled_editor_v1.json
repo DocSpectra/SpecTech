@@ -1,0 +1,86 @@
+{
+  "schema_version": "round2_gptoss_controlled_editor_v1",
+  "study_label": "Post-final GPT-OSS controlled-editor comparison with author-blinded validation",
+  "outcome_blind_method_freeze": true,
+  "scientific_protocol_base": {
+    "path": "configs/round2_gemma_controlled_editor_v1.json",
+    "sha256": "cc6b14d91486553b94c6817b50f5ee4aa6ae70090602b9fb8e32360270075c57",
+    "source_method_commit": "4597b5264125020735c7126ab7af32033e1aa74d",
+    "binding": "Load the checksum-pinned Gemma protocol and apply only the exact JSON-pointer overrides below. Every other value, including inputs/order/directions, prompts, dynamic bounds, response contract, numeric decoding options, attempts, master seed and seed derivation, mechanical gates, first-pass selection, 60/60 release gate, blind questions/randomization seeds, and human thresholds, is byte-value identical after merge."
+  },
+  "authorized_model_runtime_overrides": {
+    "/schema_version": "round2_gptoss_controlled_editor_v1",
+    "/study_label": "Post-final GPT-OSS controlled-editor comparison with author-blinded validation",
+    "/runtime/model": "gpt-oss:20b",
+    "/runtime/model_tag_digest": "17052f91a42e97930aa6e28a6c6c06a983e6a58dbb00434885a0cf5313e376f7",
+    "/runtime/model_list_id": "17052f91a42e",
+    "/runtime/installed_size_bytes": 13793441244,
+    "/runtime/family": "gptoss",
+    "/runtime/parameter_size": "20.9B",
+    "/runtime/parameter_count": 20914757184,
+    "/runtime/quantization": "MXFP4",
+    "/runtime/model_blob_sha256": "e7b273f9636059a689e3ddcab3716e4f65abe0143ac978e46673ad0e52d09efb",
+    "/runtime/model_blob_size_bytes": 13793422144,
+    "/runtime/projector_blob_sha256": null,
+    "/runtime/projector_blob_size_bytes": 0,
+    "/runtime/projector_family": null,
+    "/runtime/projector_parameter_count": 0,
+    "/runtime/official_source": "https://ollama.com/library/gpt-oss:20b",
+    "/runtime/official_source_description": "Official Ollama OpenAI GPT-OSS 20B tag, 14 GB listing, 20.9B parameters, MXFP4",
+    "/runtime/required_capabilities": ["completion", "tools", "thinking"],
+    "/runtime/thinking": "low",
+    "/runtime/thinking_interface_note": "GPT-OSS uses the Harmony reasoning interface. In non-project smoke, think=false returned empty final content; the official configurable low reasoning level returned the required structured final response. Reasoning text is never printed, retained, gated, selected, or exposed; only its character count and SHA-256 are recorded as runtime metadata.",
+    "/runtime/residency_control": {
+      "preserve_installed_models": ["gemma4:12b", "qwen3:14b"],
+      "before_run": "ollama stop qwen3:14b, gemma4:12b, and gpt-oss:20b; then use one non-project explicit-tag warm-up and require ollama ps to contain exactly gpt-oss:20b with list ID 17052f91a42e",
+      "during_run": "Every API request names gpt-oss:20b explicitly; every response model must equal gpt-oss:20b; /api/ps must contain exactly the pinned GPT-OSS tag and digest after warm-up and after generation.",
+      "after_run": "ollama stop gpt-oss:20b and require ollama ps to be empty; do not remove GPT-OSS, Gemma, or Qwen."
+    },
+    "/blinded_review/review_schema": "schemas/round2_gptoss_blinded_review_v1.schema.json",
+    "/blinded_review/review_id": "'GOE-' plus the first 12 RFC4648 base32 characters (without padding) of sha256(utf8(str(review_id_seed) + ':' + review_id_namespace + ':' + case_id))",
+    "/blinded_review/review_id_namespace": "gptoss-editor-blinded-id-v1",
+    "/blinded_review/answer_key": "Private ignored CSV mapping review_id to case identity, hidden corpus/direction, original/candidate side, retained attempt, and exact text hashes; never reveal it until all 60 responses are frozen.",
+    "/outputs/raw_directory": "outputs/round2/gptoss_controlled_editor",
+    "/outputs/attempt_schema": "schemas/round2_gptoss_editor_attempt_v1.schema.json",
+    "/outputs/compact_directory": "analysis/round2_gptoss_controlled_editor"
+  },
+  "allowed_override_pointers": [
+    "/schema_version", "/study_label", "/runtime/model", "/runtime/model_tag_digest",
+    "/runtime/model_list_id", "/runtime/installed_size_bytes", "/runtime/family",
+    "/runtime/parameter_size", "/runtime/parameter_count", "/runtime/quantization",
+    "/runtime/model_blob_sha256", "/runtime/model_blob_size_bytes",
+    "/runtime/projector_blob_sha256", "/runtime/projector_blob_size_bytes",
+    "/runtime/projector_family", "/runtime/projector_parameter_count",
+    "/runtime/official_source", "/runtime/official_source_description",
+    "/runtime/required_capabilities", "/runtime/thinking", "/runtime/thinking_interface_note",
+    "/runtime/residency_control", "/blinded_review/review_schema",
+    "/blinded_review/review_id", "/blinded_review/review_id_namespace",
+    "/blinded_review/answer_key", "/outputs/raw_directory", "/outputs/attempt_schema",
+    "/outputs/compact_directory"
+  ],
+  "interface_controls": {
+    "scientific_output_contract_unchanged": true,
+    "reasoning_effort": "low",
+    "reasoning_text_policy": "Never print, inspect, persist, select on, or pass to a gate; record only SHA-256 and character count.",
+    "unsupported_control_stop_rule": "If any unchanged prompt, response schema, numeric option, seed, attempt, gate, or release/review rule cannot be honored, stop before project calls."
+  },
+  "provenance": {
+    "ollama_version": "0.32.5",
+    "model_manifest_sha256": "17052f91a42e97930aa6e28a6c6c06a983e6a58dbb00434885a0cf5313e376f7",
+    "model_manifest_size_bytes": 859,
+    "license_layer_sha256": "f60356777647e927149cbd4c0ec1314a90caba9400ad205ddc4ce47ed001c2d6",
+    "license": "Apache-2.0 as emitted by ollama show and the official OpenAI model card",
+    "official_model_card": "https://openai.com/index/gpt-oss-model-card/",
+    "official_repository": "https://github.com/openai/gpt-oss",
+    "official_sources_checked_utc_date": "2026-08-11",
+    "hardware": {
+      "gpu": "NVIDIA GeForce RTX 4080 SUPER",
+      "gpu_memory_mib": 16376,
+      "driver_version": "595.95",
+      "smoke_resident_size_bytes": 12736213810,
+      "smoke_resident_vram_bytes": 12736213810,
+      "smoke_processor": "100% GPU",
+      "smoke_context_length": 4096
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "round2_qwen_edit_remediation_v2.schema.json",
+  "title": "QE-R v2 raw generation attempt",
+  "type": "object",
+  "required": [
+    "case_id", "corpus_id", "edit_type", "attempt_index", "attempt_seed",
+    "status", "reason_codes", "edited_sentence", "protocol_sha256",
+    "model_blob_sha256", "edited_sha256"
+  ],
+  "properties": {
+    "case_id": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "corpus_id": {"enum": ["ansible_docs", "github_docs"]},
+    "edit_type": {"enum": ["add_specific", "de_specify", "irrelevant_rewrite"]},
+    "attempt_index": {"type": "integer", "minimum": 1, "maximum": 3},
+    "attempt_seed": {"type": "integer", "minimum": 0},
+    "status": {"enum": ["accepted", "rejected"]},
+    "reason_codes": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "edited_sentence": {"type": "string"},
+    "edited_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "protocol_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "model_blob_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  },
+  "additionalProperties": true
+}

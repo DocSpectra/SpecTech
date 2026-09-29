@@ -1,0 +1,29 @@
+{
+  "schema_version": "round2_dgx_gptoss120b_rubric_analysis_freeze_record_v1",
+  "kickoff_head": "982d78717b98a2399da87f35bb3fe64df29675ab",
+  "method_freeze_commit": "4a932113ec49fa1e7eb24f6c097080ef7ca5cea7",
+  "method_config": {
+    "path": "configs/round2_dgx_gptoss120b_rubric_analysis_v1.json",
+    "sha256": "bec4873f4990ae3bcba6bc6d30e5c5da991f483d77d49abe6425d83026fb40e6"
+  },
+  "phase_a": {
+    "review_commit": "982d78717b98a2399da87f35bb3fe64df29675ab",
+    "disposition": "accepted_with_author_provenance_waiver",
+    "acceptance_summary_sha256": "db94418122bb14f23eb78197355ded5b25c3c538b4e1df7b9f94fe9a03c73278"
+  },
+  "returned_rubric_binding": {
+    "archive_sha256": "bf6f5d9b5564dd7191640e7ef6b29fbb1ce34b92409f39415ad8d1c9a934bfd6",
+    "member_sha256": "078ff10a2ad361a16ad14d616950acff6a620e57c83277b35b4afe9140955bed",
+    "case_id_order_sha256": "9e029e0fad6a00c067adb0096421ee2d67e3f2b7da61d14955a5370f0497fb3b",
+    "rows": 80,
+    "unique_case_ids": 80,
+    "exact_frozen_input_order": true
+  },
+  "chronology": {
+    "rubric_score_values_inspected_before_method_commit": false,
+    "rubric_score_values_inspected_before_binding_record": false,
+    "only_content_blind_hash_order_id_and_range_audits_before_binding": true,
+    "new_or_repeated_project_model_calls": 0
+  },
+  "scope": "Exact matched aggregate analysis of the 80 returned GPT-OSS-120B rubric scores under the committed analysis family; no candidate analysis, candidate text inspection, manuscript edit, or Phase C work."
+}

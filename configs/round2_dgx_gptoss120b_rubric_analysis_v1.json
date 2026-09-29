@@ -1,0 +1,168 @@
+{
+  "schema_version": "round2_dgx_gptoss120b_rubric_analysis_v1",
+  "frozen_at_utc": "2026-08-13T03:15:00Z",
+  "outcome_blind_freeze": true,
+  "authorization": {
+    "phase_a_review_commit": "982d78717b98a2399da87f35bb3fe64df29675ab",
+    "provenance_disposition": "accepted_with_author_provenance_waiver",
+    "provenance_config": {
+      "path": "configs/round2_dgx_gptoss120b_provenance_disposition_v1.json",
+      "sha256": "23b4d074cb13ed75547a02111feb921429f47242af9c96180724a3705ef477c1"
+    },
+    "acceptance_summary": {
+      "path": "analysis/round2_dgx_gptoss120b_provenance_acceptance/acceptance_summary.json",
+      "sha256": "db94418122bb14f23eb78197355ded5b25c3c538b4e1df7b9f94fe9a03c73278"
+    },
+    "new_model_calls": false,
+    "repeated_project_calls": false,
+    "label_changes": false,
+    "post_outcome_method_changes": false,
+    "rubric_score_values_inspected_before_freeze": false
+  },
+  "returned_rubric": {
+    "archive_workspace_path": "review_artifacts/gpt-spark-run1/spectech-return-dgx-5411bb15be9f.tar.gz",
+    "archive_sha256": "bf6f5d9b5564dd7191640e7ef6b29fbb1ce34b92409f39415ad8d1c9a934bfd6",
+    "member_path": "spectech-return-dgx-5411bb15be9f/rubric_scores.csv",
+    "member_sha256": "078ff10a2ad361a16ad14d616950acff6a620e57c83277b35b4afe9140955bed",
+    "run_id": "dgx-5411bb15be9f",
+    "judge_id": "gptoss_120b_zero_shot_rubric",
+    "model_identity": "gpt-oss:120b@a951a23b46a1f6093dafee2ea481d634b4e31ac720a8a16f3f91e04f5a40ecd9",
+    "expected_rows": 80,
+    "case_id_order_serialization": "UTF-8 rubric_case_id values in CSV row order, each followed by LF",
+    "case_id_order_sha256": "9e029e0fad6a00c067adb0096421ee2d67e3f2b7da61d14955a5370f0497fb3b",
+    "required_score_field": "score_1_to_5",
+    "valid_scores": [1, 2, 3, 4, 5]
+  },
+  "pilot_inputs": {
+    "sealed_packet_sha256": "c361781bdde8b577e0b8d6f895ed77c3b6930b5568d91a58d20d0319f8572b1e",
+    "rubric_input_member": "spectech-dgx-gptoss120b-v1/input/rubric_inputs.csv",
+    "rubric_input_sha256": "3d756567f22b972946207c91c08083a49e2a86950d09ec689e0cfc4b93ab5449",
+    "case_id_order_sha256": "9e029e0fad6a00c067adb0096421ee2d67e3f2b7da61d14955a5370f0497fb3b",
+    "pilot_manifest": {
+      "path": "configs/round2_pilot_sent_ids_v1.csv",
+      "sha256": "41c6f7819a283e7fb482dbfd907b8266759304c0f049459412677405e7ac46bc"
+    },
+    "corpus_order": ["ansible_docs", "github_docs"],
+    "required_rows_per_corpus": 40,
+    "required_rows_total": 80
+  },
+  "inherited_protocol": {
+    "qwen_protocol": {
+      "path": "configs/round2_qwen_rubric_v1.json",
+      "sha256": "41686f9c2a9819d45485be7c952d852368a09884290b2b522ed52d37eb268cc7"
+    },
+    "dgx_rubric_delta": {
+      "path": "configs/round2_dgx_gptoss120b_rubric_delta_v1.json",
+      "sha256": "20bf7900d793c176d4d25ae2c4a487b32cdc62cb660ed582ffdd7eca968be84a"
+    },
+    "rubric_wording_unchanged": true,
+    "zero_shot_blindness_unchanged": true,
+    "fresh_conversation_per_sentence": true,
+    "attempts_per_sentence": 1,
+    "score_direction": "higher_is_more_specific",
+    "prompt_contains_no_human_or_predictor_outcome": true
+  },
+  "human_targets": {
+    "protocol": {
+      "path": "configs/round2_pilot_model_human_comparison_v1.json",
+      "sha256": "ab926ffd3cecf2f31163b064853a8bd2095b40faf0975a5c01bb5fd4393a0603"
+    },
+    "labels": [
+      {"corpus_id": "ansible_docs", "target_id": "ann_a", "path": "outputs/round2/pilot_model_human/labels/raw/ansible_docs__ann_a.csv", "sha256": "57a67323d54b757eedbf90bc80f483714093d4078a362c57298de8e3ea424987"},
+      {"corpus_id": "ansible_docs", "target_id": "ann_b", "path": "outputs/round2/pilot_model_human/labels/raw/ansible_docs__ann_b.csv", "sha256": "e9259d453e0af3cbbf9e2abe7b7067978a91f2f457d40a23de61c615d97f506c"},
+      {"corpus_id": "ansible_docs", "target_id": "ann_c", "path": "outputs/round2/pilot_model_human/labels/raw/ansible_docs__ann_c.csv", "sha256": "1ab3a7dfde44f70139bba74f784728df6a55af069464a3f554b82f3934abfe5c"},
+      {"corpus_id": "github_docs", "target_id": "ann_a", "path": "outputs/round2/pilot_model_human/labels/raw/github_docs__ann_a.csv", "sha256": "65f6d6192e51fe9b889487c5084e3be3a5d71630cf0b0df1ee08713bfd89c43f"},
+      {"corpus_id": "github_docs", "target_id": "ann_b", "path": "outputs/round2/pilot_model_human/labels/raw/github_docs__ann_b.csv", "sha256": "c1282e6b82a164e7404d6c9442be85119ac5e227a0858344c763db3c13f9891d"},
+      {"corpus_id": "github_docs", "target_id": "ann_c", "path": "outputs/round2/pilot_model_human/labels/raw/github_docs__ann_c.csv", "sha256": "2957076dc0a2dd0cd18d5053a939afb52fe9de103676da003977d20262dc1f31"}
+    ],
+    "target_order": ["ann_a", "ann_b", "ann_c", "pooled_human_mean"],
+    "pooling_rule": "rowwise exact arithmetic mean of complete ann_a, ann_b, and ann_c integer labels"
+  },
+  "judge_inputs": [
+    {"judge_id": "qwen3_14b_zero_shot_rubric", "path": "analysis/round2_qwen_rubric/qwen_scores.csv", "sha256": "f45c8f533e446352392e658bce5b8d77035a4dba1bea8c0096c09f6ec635cd35"},
+    {"judge_id": "gemma4_12b_zero_shot_rubric", "path": "outputs/round2/local_rubric_replication/gemma4_12b_zero_shot_rubric/raw_responses.jsonl", "sha256": "734d9f8755c62cd4df97989d2aa2e6b292c24bed01eba0b9ffe23e2b8b216728"},
+    {"judge_id": "gptoss_20b_zero_shot_rubric", "path": "outputs/round2/local_rubric_replication/gptoss_20b_zero_shot_rubric/raw_responses.jsonl", "sha256": "97220d858c330668d22e83e5a8d3e38ac7ea4743bc88eb13822747b10e435df9"}
+  ],
+  "predictor_inputs": {
+    "speciteller": {
+      "ansible_docs": {"path": "outputs/speciteller/ansible_docs_scores.tsv", "sha256": "0c03b748d7052c57821930f13dfc457855f350e0ff1db9d31a3a0f29f91cec47"},
+      "github_docs": {"path": "outputs/speciteller/github_docs_scores.tsv", "sha256": "d0d616fdad6898d4c2af6def7a17fc899e8859485bf1e97033bd0d2b1ab8a083"}
+    },
+    "ko_primary_runs": [
+      {"corpus_id": "ansible_docs", "run_id": "run01", "path": "outputs/round2/ko_official_release/runs/ansible_docs/run01/scores.csv", "sha256": "ff522001181be873d21a5713215aa78f6ca61f385263b6c73b0066afb6c21bc3"},
+      {"corpus_id": "ansible_docs", "run_id": "run02", "path": "outputs/round2/ko_official_release/runs/ansible_docs/run02/scores.csv", "sha256": "c9b7befa9f8ee97b0637de93f7d6dfcd20e1d634ef651d1b669ceffbde534841"},
+      {"corpus_id": "ansible_docs", "run_id": "run03", "path": "outputs/round2/ko_official_release/runs/ansible_docs/run03/scores.csv", "sha256": "d19196e6c6bba0495f84d79bf6b6462b5d422dec179ab01371270eaeced99e12"},
+      {"corpus_id": "github_docs", "run_id": "run01", "path": "outputs/round2/ko_official_release/runs/github_docs/run01/scores.csv", "sha256": "221dd63491abdfc6e232a758244736cf77e4c2d8973b417d5da32164fde4ece6"},
+      {"corpus_id": "github_docs", "run_id": "run02", "path": "outputs/round2/ko_official_release/runs/github_docs/run02/scores.csv", "sha256": "3b514937aaf58f2f20473588d3df2b80ae8f03e7c6448c56d09d5d323828aedc"},
+      {"corpus_id": "github_docs", "run_id": "run03", "path": "outputs/round2/ko_official_release/runs/github_docs/run03/scores.csv", "sha256": "72a4ba84c7a478a6b288ae816f8b523d2b67dc3b5272be85aed22aecd3ba8f5d"}
+    ],
+    "ko_mean_secondary": "secondary rowwise Decimal sum of the three frozen CSV values divided by Decimal(3), converted to float only after exact averaging",
+    "granuscore_secondary": {
+      "direction_alignment": "negative native percentile so higher rank is more specific",
+      "ansible_docs": {"path": "outputs/round2/granuscore/scores/ansible_docs.csv", "sha256": "b408ea624be65eb770f84f93ca3c06f774104ad8e4dacba05ea0f46b6b2f0c96"},
+      "github_docs": {"path": "outputs/round2/granuscore/scores/github_docs.csv", "sha256": "f40856ccf81718c3319e751ed3d0b76ab1d018f232a0dfae05c4c36bdef1eaa9"}
+    }
+  },
+  "analysis": {
+    "principal_measure": "Spearman rank correlation",
+    "ties": "exact average ranks; no jitter",
+    "score_distribution": "counts and proportions for every integer 1 through 5",
+    "ordinal_summary": "minimum, linear-method first quartile, median, linear-method third quartile, and maximum",
+    "corpus_specific": true,
+    "judge_human": "GPT-OSS-120B with ann_a, ann_b, ann_c, and pooled_human_mean; intervals for every target and pooled highlighted",
+    "judge_agreement": "GPT-OSS-120B with Qwen3-14B, Gemma4-12B, and GPT-OSS-20B",
+    "judge_contrasts": "GPT-OSS-120B minus each other judge in correspondence to the same human target under joint sentence resampling",
+    "predictor_agreement": "GPT-OSS-120B with SpeciTeller and each Ko run as primary; exact-decimal Ko mean and direction-aligned GranuScore as secondary",
+    "predictor_contrasts": "GPT-OSS-120B minus each predictor in correspondence to the same human target under joint sentence resampling",
+    "bootstrap": {
+      "unit": "sentence row within corpus",
+      "replicates": 10000,
+      "confidence_level": 0.95,
+      "interval": "two-sided percentile at quantiles 0.025 and 0.975",
+      "master_seed": 20260809,
+      "stream_derivation": "SHA-256 of master seed and corpus_id, first 8 bytes interpreted unsigned little-endian",
+      "corpus_seeds": {"ansible_docs": 16090150990932269746, "github_docs": 1405329673207500964},
+      "joint_resampling": "one sentence-index draw is applied jointly to every judge, predictor, and human target in a corpus",
+      "degenerate_replicates": "exclude only when a required member is constant or its correlation is nonfinite",
+      "paired_contrast_validity": "both contrasted correlations must be finite in the same replicate",
+      "minimum_valid_fraction": 0.95
+    }
+  },
+  "existing_output_invariance": {
+    "metadata_path": "analysis/round2_local_rubric_replication/run_metadata.json",
+    "metadata_sha256": "abbbd35488e04b63e07520c9e7795b62254b6d4f7f4a1ca6c0fd7fa94380970d",
+    "require_all_13_deterministic_compact_files_byte_identical": true
+  },
+  "reporting": {
+    "track_only_aggregates": true,
+    "raw_row_scores_ignored": true,
+    "candidate_text_forbidden": true,
+    "complete_40_40_coverage_required": true,
+    "report_favorable_adverse_null_heterogeneous_and_provenance_results": true,
+    "native_rubric_and_predictor_values_not_numerically_compared": true,
+    "claim_boundary": "Descriptive rubric-judge correspondence is not accuracy, gold-standard validation, expert judgment, a winner test, a controlled model-size experiment, or evidence about GPT-OSS-120B generated-edit quality."
+  },
+  "outputs": {
+    "compact_directory": "analysis/round2_dgx_gptoss120b_rubric",
+    "raw_import_directory": "outputs/round2/dgx_gptoss120b_rubric",
+    "tables": [
+      "coverage.csv",
+      "score_distribution.csv",
+      "ordinal_summary.csv",
+      "judge_human_agreement.csv",
+      "judge_pair_agreement.csv",
+      "judge_pair_human_contrasts.csv",
+      "judge_comparator_agreement.csv",
+      "judge_vs_comparator_human_contrasts.csv"
+    ]
+  },
+  "stop_conditions": [
+    "any config, input, archive, member, provenance, row identity/order, label, judge matrix, predictor, or comparator hash mismatch",
+    "returned rubric coverage is not exactly 80 unique rows in frozen order or does not map to exactly 40 rows per corpus",
+    "any score is outside integer range 1 through 5",
+    "any full-sample required Spearman value is undefined",
+    "fewer than 9500 of 10000 replicates are valid for any reported interval",
+    "any existing three-judge deterministic compact output differs byte-for-byte on replay",
+    "a scientific, join, tie, bootstrap, contrast, reporting, or claim rule would need to change after outcome inspection"
+  ]
+}

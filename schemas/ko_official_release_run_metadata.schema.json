@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spectech.invalid/schemas/ko_official_release_run_metadata.schema.json",
+  "title": "Ko official-release comparator run metadata",
+  "type": "object",
+  "required": [
+    "schema_version", "corpus_id", "run_id", "training_run_id", "adaptation_context",
+    "row_count", "input_sha256", "score_sha256", "prediction_sha256",
+    "teacher_model_sha256", "comparator_config_sha256", "upstream_commit"
+  ],
+  "properties": {
+    "schema_version": {"const": "ko_official_release_run_v1"},
+    "corpus_id": {"type": "string"},
+    "run_id": {"type": "string"},
+    "training_run_id": {"type": "string"},
+    "adaptation_context": {"type": "string"},
+    "row_count": {"type": "integer", "minimum": 50},
+    "input_sha256": {"pattern": "^[0-9a-f]{64}$"},
+    "score_sha256": {"pattern": "^[0-9a-f]{64}$"},
+    "prediction_sha256": {"pattern": "^[0-9a-f]{64}$"},
+    "teacher_model_sha256": {"pattern": "^[0-9a-f]{64}$"},
+    "comparator_config_sha256": {"pattern": "^[0-9a-f]{64}$"},
+    "upstream_commit": {"pattern": "^[0-9a-f]{40}$"}
+  }
+}

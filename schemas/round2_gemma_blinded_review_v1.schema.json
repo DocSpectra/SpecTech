@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "round2_gemma_blinded_review_v1.schema.json",
+  "title": "Completed blinded Gemma controlled-editor review row",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "review_row", "review_id", "sentence_a", "sentence_b",
+    "factual_correctness_a", "factual_correctness_b", "semantic_preservation",
+    "grammar_naturalness_a", "grammar_naturalness_b", "more_specific",
+    "confidence", "notes"
+  ],
+  "properties": {
+    "review_row": {"type": "integer", "minimum": 1, "maximum": 60},
+    "review_id": {"type": "string", "pattern": "^GCE-[A-Z2-7]{12}$"},
+    "sentence_a": {"type": "string", "minLength": 1},
+    "sentence_b": {"type": "string", "minLength": 1},
+    "factual_correctness_a": {"enum": ["correct", "incorrect", "uncertain", "not_assessable"]},
+    "factual_correctness_b": {"enum": ["correct", "incorrect", "uncertain", "not_assessable"]},
+    "semantic_preservation": {"enum": ["preserved", "mostly_preserved", "not_preserved", "uncertain"]},
+    "grammar_naturalness_a": {"enum": ["natural", "minor_issue", "major_issue", "uncertain"]},
+    "grammar_naturalness_b": {"enum": ["natural", "minor_issue", "major_issue", "uncertain"]},
+    "more_specific": {"enum": ["A", "B", "tie", "uncertain"]},
+    "confidence": {"type": "integer", "minimum": 1, "maximum": 5},
+    "notes": {"type": "string"}
+  }
+}

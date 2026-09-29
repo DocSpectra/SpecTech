@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/schemas/round2_dgx_gptoss120b_human_first_analysis_v1.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "study_label", "outcome_blind_method_freeze", "authorization", "inputs", "pre_unblinding_validation", "annotation_protocol", "orientation", "analysis_sets", "policies", "candidate_associations", "automatic_proxy", "generator_comparison", "uncertainty", "outputs", "reporting"],
+  "properties": {
+    "schema_version": {"const": "round2_dgx_gptoss120b_human_first_analysis_v1"},
+    "study_label": {"type": "string", "minLength": 1},
+    "outcome_blind_method_freeze": {"const": true},
+    "authorization": {"type": "object", "required": ["phase_c_review_commit", "provenance_disposition", "human_outcome_analysis_authorized", "manuscript_changes_authorized", "new_model_calls_authorized"], "properties": {"phase_c_review_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"}, "provenance_disposition": {"const": "accepted_with_author_provenance_waiver"}, "human_outcome_analysis_authorized": {"const": true}, "manuscript_changes_authorized": {"const": false}, "new_model_calls_authorized": {"const": false}}, "additionalProperties": false},
+    "inputs": {"type": "object", "required": ["released_packet", "completed_workbook", "gptoss120b_hidden", "gemma_reviewed_arm", "packet_protocol"]},
+    "pre_unblinding_validation": {"type": "object", "required": ["required", "clerical_corrections"], "properties": {"required": {"type": "array", "minItems": 6, "items": {"type": "string"}}, "clerical_corrections": {"type": "array", "maxItems": 0}}, "additionalProperties": false},
+    "annotation_protocol": {"type": "object", "required": ["score_meanings", "score_3_rule", "x_rule", "no_recode", "evaluator"]},
+    "orientation": {"type": "object", "required": ["candidate_delta", "candidate_side_A", "candidate_side_B", "direction_aligned_utility", "direction_validity"]},
+    "analysis_sets": {"type": "object", "required": ["primary", "order_descriptive", "order_sensitivity", "transformations"]},
+    "policies": {"type": "object", "required": ["reference", "primary", "secondary", "estimands", "strata"]},
+    "candidate_associations": {"type": "object", "required": ["metrics", "estimand", "strata"]},
+    "automatic_proxy": {"type": "object", "required": ["human_positive", "proxy_positive", "cells", "rates", "strata", "analysis_sets"]},
+    "generator_comparison": {"type": "object", "required": ["arms", "shared_source_cases", "candidate_slots_per_source", "estimands", "pairing", "resampling", "review_session_boundary", "causal_claims_forbidden"]},
+    "uncertainty": {"type": "object", "required": ["method", "replicates", "confidence_level", "interval", "master_seed", "unit", "overall_resampling", "candidate_independent_resampling_forbidden"], "properties": {"method": {"type": "string"}, "replicates": {"const": 20000}, "confidence_level": {"const": 0.95}, "interval": {"const": "percentile"}, "master_seed": {"type": "integer"}, "unit": {"const": "shared source case"}, "overall_resampling": {"type": "string"}, "candidate_independent_resampling_forbidden": {"const": true}}, "additionalProperties": false},
+    "outputs": {"type": "object", "required": ["raw_directory", "compact_directory", "tracked", "privacy"]},
+    "reporting": {"type": "object", "required": ["report_favorable_null_adverse_heterogeneous_order_and_session_results", "all_three_ko_runs_primary", "no_size_or_superiority_claims", "paper_use_gate", "phase_e_locked"]}
+  }
+}

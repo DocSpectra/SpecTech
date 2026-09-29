@@ -1,0 +1,20 @@
+{
+  "schema_version": "round2_qwen_edit_remediation_split_freeze_record_v1",
+  "split_freeze_commit": "bca966334e4685cd354710676167991c0e69c785",
+  "split_freeze_commit_utc": "2026-08-10T23:41:25Z",
+  "split_config_path": "configs/round2_qwen_edit_remediation_split_v1.json",
+  "split_config_sha256": "065cc8023c9ad7baed122b0b27ba09db9fadcbd52cbf747fa144fb36d7a86659",
+  "split_manifest_path": "configs/round2_qwen_edit_remediation_split_v1.csv",
+  "split_manifest_sha256": "54dd2f4d4fad287a6125cdd303196fce82c08ebf2c7f6d535b7cc17381db44f5",
+  "ordered_assignment_sha256": "877b34a6af8c53cc735c5a1c495aeba5381fe3fdfd52606ceb1ccf9152f9e82d",
+  "frozen_before_case_level_qe_a_text_or_acceptance_inspection": true,
+  "frozen_before_development_positive_control_analysis": true,
+  "frozen_before_fresh_development_generation": true,
+  "selection_fields_only": [
+    "corpus_id",
+    "edit_type",
+    "case_id",
+    "one_based_source_position"
+  ],
+  "known_before_freeze": "Only previously published aggregate QE-A corpus-by-direction coverage and aggregate failure-reason counts; no case-level text, acceptance, reason trace, scorer outcome, or label was used."
+}

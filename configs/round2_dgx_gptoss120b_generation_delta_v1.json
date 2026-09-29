@@ -1,0 +1,112 @@
+{
+  "schema_version": "round2_dgx_gptoss120b_generation_delta_v1",
+  "study_label": "DGX Spark GPT-OSS-120B human-first generator replication",
+  "outcome_blind_method_freeze": true,
+  "experiment_id": "round2_gptoss120b_generator_replication_v1",
+  "base_protocol": {
+    "path": "configs/round2_human_first_reranking_v1.json",
+    "sha256": "c14fc73dbf12c4e1cf603044d0eaadcdcea7b6f4177dab9ba147101496f274e0",
+    "ordered_case_sha256": "c46c1e7182a34a0f89dbb2826a6fcd2c0eec73f56842a5d484cf7675d95ed7ec",
+    "required_source_cases": 60,
+    "candidate_slots_per_source": 3,
+    "required_candidate_slots": 180
+  },
+  "authorized_overrides": {
+    "/schema_version": "round2_dgx_gptoss120b_generator_replication_v1",
+    "/study_label": "DGX Spark GPT-OSS-120B human-first generator replication",
+    "/runtime/ollama_version": "0.32.5",
+    "/runtime/model": "gpt-oss:120b",
+    "/runtime/model_tag_digest": "a951a23b46a1f6093dafee2ea481d634b4e31ac720a8a16f3f91e04f5a40ecd9",
+    "/runtime/model_list_id": "a951a23b46a1",
+    "/runtime/installed_size_bytes": 65369818941,
+    "/runtime/family": "gptoss",
+    "/runtime/parameter_size": "117B (5.1B active)",
+    "/runtime/quantization": "MXFP4",
+    "/runtime/format": "gguf",
+    "/runtime/model_blob_sha256": "6be6d66a3f546d8c19b130dc41dc24b2fc159f84ffbc76a0ee0676205083cf5a",
+    "/runtime/model_blob_size_bytes": 65369799840,
+    "/runtime/projector_blob_sha256": null,
+    "/runtime/projector_blob_size_bytes": 0,
+    "/runtime/license": "Apache-2.0",
+    "/runtime/official_source": "https://ollama.com/library/gpt-oss:120b",
+    "/runtime/api_url": "http://127.0.0.1:11434/api/chat",
+    "/runtime/thinking": "low",
+    "/runtime/keep_alive": "30m",
+    "/runtime/master_seed": 2026081201,
+    "/runtime/seed_namespace": "dgx-spark-gptoss120b-candidate-v1",
+    "/runtime/residency": "Before project calls require only the exact registered gpt-oss:120b manifest resident; after the first project call the model/runtime identity is immutable; unload at collection without deleting the sealed model store.",
+    "/outputs/raw_directory": "output/run",
+    "/outputs/compact_directory": "output/return"
+  },
+  "allowed_override_pointers": [
+    "/schema_version", "/study_label", "/runtime/ollama_version",
+    "/runtime/model", "/runtime/model_tag_digest", "/runtime/model_list_id",
+    "/runtime/installed_size_bytes", "/runtime/family", "/runtime/parameter_size",
+    "/runtime/quantization", "/runtime/format", "/runtime/model_blob_sha256",
+    "/runtime/model_blob_size_bytes", "/runtime/projector_blob_sha256",
+    "/runtime/projector_blob_size_bytes", "/runtime/license",
+    "/runtime/official_source", "/runtime/api_url", "/runtime/thinking",
+    "/runtime/keep_alive", "/runtime/master_seed", "/runtime/seed_namespace",
+    "/runtime/residency", "/outputs/raw_directory", "/outputs/compact_directory"
+  ],
+  "runtime_registration": {
+    "version": "0.32.5",
+    "platform": "linux/arm64",
+    "archive": "ollama-linux-arm64.tar.zst",
+    "archive_size_bytes": 1542011985,
+    "archive_sha256": "aa7e06b5683ee66c4a3ec68ea7236db43b5a5d0821f0dfe2c5a215f4462bddf4",
+    "release_url": "https://github.com/ollama/ollama/releases/download/v0.32.5/ollama-linux-arm64.tar.zst",
+    "execution": "packet-owned extracted runtime; no curl-pipe-shell, sudo, service install, or automatic update"
+  },
+  "model_registration": {
+    "repository": "openai/gpt-oss-120b",
+    "official_huggingface_revision": "main resolved and recorded by the Spark preflight before acquisition",
+    "ollama_tag": "gpt-oss:120b",
+    "ollama_manifest_sha256": "a951a23b46a1f6093dafee2ea481d634b4e31ac720a8a16f3f91e04f5a40ecd9",
+    "ollama_model_blob_sha256": "6be6d66a3f546d8c19b130dc41dc24b2fc159f84ffbc76a0ee0676205083cf5a",
+    "ollama_model_blob_size_bytes": 65369799840,
+    "template_blob_sha256": "fa6710a93d78da62641e192361344be7a8c0a1c3737f139cf89f20ce1626b99c",
+    "license_blob_sha256": "f60356777647e927149cbd4c0ec1314a90caba9400ad205ddc4ce47ed001c2d6",
+    "params_blob_sha256": "d8ba2f9a17b3bbdeb5690efaa409b3fcb0b56296a777c7a69c78aa33bbddf182",
+    "license": "Apache-2.0",
+    "harmony": "required",
+    "reasoning_effort": "low",
+    "reasoning_text_policy": "never retain; record character count and SHA-256 only"
+  },
+  "resource_policy": {
+    "required_architecture": "aarch64",
+    "required_gpu_name_fragment": "GB10",
+    "minimum_memory_total_bytes": 128000000000,
+    "minimum_memory_available_before_load_bytes": 100000000000,
+    "minimum_memory_available_after_smoke_bytes": 20000000000,
+    "minimum_packet_disk_free_bytes_connected": 160000000000,
+    "minimum_packet_disk_free_bytes_offline": 220000000000,
+    "model_residency": "sole",
+    "swap_thrash_stop": true
+  },
+  "time_budget": {
+    "smoke_feasibility_target_seconds": 7200,
+    "primary_projection_max_seconds": 64800,
+    "collection_start_deadline_seconds": 68400,
+    "hard_stop_seconds": 72000,
+    "diagnostic_budget_seconds": 2700,
+    "maximum_remediation_actions": 3,
+    "maximum_download_resumes": 2,
+    "primary_formula": "acquisition_if_session + cold_model_load + 540 * generation_smoke_p95 + 1800 validation_and_resume_allowance + 900 collection_allowance",
+    "optional_formula": "80 * rubric_smoke_p95 + 600 rubric_validation_allowance"
+  },
+  "privacy": {
+    "network_default": "disabled",
+    "approved_connected_endpoint_names": ["github_release", "ollama_registry"],
+    "request_fields": ["original sentence", "treatment direction prompt"],
+    "forbidden_inputs": ["author edit", "prior candidate", "predictor score", "selector mapping", "human rating", "annotator identifier", "note", "answer key", "corpus identity"],
+    "remote_scoring": false,
+    "reasoning_text_retained": false
+  },
+  "release": {
+    "required_candidates": 180,
+    "eligible_status": "eligible_complete",
+    "partial_status": "diagnostic_incomplete",
+    "no_repair_or_selective_rerun": true
+  }
+}

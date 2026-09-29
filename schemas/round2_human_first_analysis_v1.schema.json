@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "round2_human_first_analysis_v1.schema.json",
+  "title": "Round 2 human-first reranking analysis protocol",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "outcome_blind_method_freeze",
+    "inputs",
+    "annotation_protocol",
+    "orientation",
+    "analysis_sets",
+    "policies",
+    "automatic_proxy_comparison",
+    "uncertainty",
+    "outputs",
+    "reporting"
+  ],
+  "properties": {
+    "schema_version": {"const": "round2_human_first_analysis_v1"},
+    "outcome_blind_method_freeze": {"const": true},
+    "inputs": {
+      "type": "object",
+      "required": ["released_workbook", "completed_workbook", "private_review_key", "candidate_metrics", "policy_selections", "automatic_proxy_audit"]
+    },
+    "annotation_protocol": {
+      "type": "object",
+      "required": ["score_meanings", "user_rule_caveat", "claim_boundary"]
+    },
+    "orientation": {
+      "type": "object",
+      "required": ["candidate_delta", "candidate_side_A", "candidate_side_B", "direction_aligned_utility", "primary_direction_validity", "x_handling"]
+    },
+    "analysis_sets": {
+      "type": "object",
+      "required": ["primary", "order_drift_descriptive", "order_drift_sensitivity", "transformations"]
+    },
+    "policies": {
+      "type": "object",
+      "required": ["reference", "primary", "secondary", "estimands", "strata"]
+    },
+    "automatic_proxy_comparison": {
+      "type": "object",
+      "required": ["proxy_positive", "human_positive", "confusion_cells", "rates", "strata", "drift_sensitivity"]
+    },
+    "uncertainty": {
+      "type": "object",
+      "required": ["method", "replicates", "confidence_level", "master_seed", "unit", "candidate_independent_resampling_forbidden"]
+    },
+    "outputs": {
+      "type": "object",
+      "required": ["raw_directory", "compact_directory", "tracked", "privacy"]
+    },
+    "reporting": {
+      "type": "object",
+      "required": ["report_all_results_including_unfavorable", "preserve_all_three_ko_runs_as_primary", "one_evaluator_boundary", "independence_boundary", "next_gate"]
+    }
+  },
+  "additionalProperties": true
+}

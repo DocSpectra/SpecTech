@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "round2_gemma_editor_attempt_v1.schema.json",
+  "title": "Gemma controlled-editor raw attempt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "config_sha256", "case_id", "corpus_id", "source_position",
+    "source_sent_id", "edit_type", "original_sha256", "attempt_index", "seed",
+    "model", "model_tag_digest", "request_sha256", "edited_sentence", "edited_sha256",
+    "status", "reason_codes", "gate_metrics", "response_created_at", "done_reason",
+    "load_duration_ns", "prompt_eval_count", "prompt_eval_duration_ns", "eval_count",
+    "eval_duration_ns", "response_content_sha256"
+  ],
+  "properties": {
+    "schema_version": {"const": "round2_gemma_editor_attempt_v1"},
+    "config_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "case_id": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "corpus_id": {"enum": ["ansible_docs", "github_docs"]},
+    "source_position": {"type": "integer", "minimum": 1, "maximum": 30},
+    "source_sent_id": {"type": "string", "minLength": 1},
+    "edit_type": {"enum": ["add_specific", "de_specify", "irrelevant_rewrite"]},
+    "original_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "attempt_index": {"type": "integer", "minimum": 1, "maximum": 3},
+    "seed": {"type": "integer", "minimum": 0, "maximum": 2147483647},
+    "model": {"const": "gemma4:12b"},
+    "model_tag_digest": {"const": "4eb23ef187e2c5462566d6a1d3bbbc2f1346d0b4327cbb66d58fffbcc9b2b05c"},
+    "request_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "edited_sentence": {"type": "string"},
+    "edited_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "status": {"enum": ["accepted", "rejected"]},
+    "reason_codes": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "gate_metrics": {"type": "object"},
+    "response_created_at": {"type": "string", "minLength": 1},
+    "done_reason": {"type": "string"},
+    "load_duration_ns": {"type": "integer", "minimum": 0},
+    "prompt_eval_count": {"type": "integer", "minimum": 0},
+    "prompt_eval_duration_ns": {"type": "integer", "minimum": 0},
+    "eval_count": {"type": "integer", "minimum": 0},
+    "eval_duration_ns": {"type": "integer", "minimum": 0},
+    "response_content_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "schema_version": "round2_qwen_edit_source_freeze_record_v1",
+  "method_freeze_commit": "f7030b051a0c6753f8b4071677e9ce0ad724854e",
+  "method_freeze_commit_utc": "2026-08-10T22:34:34Z",
+  "config_path": "configs/round2_qwen_edit_source_v1.json",
+  "config_sha256": "79e94d7b78e96ef8711d22081d1961627b5c4545e887b89ef2314da195b06b72",
+  "original_frozen_config_sha256": "b16bdf7654d73dfc2f8f815058ef25a7e52b2db3b7fb8e3391d73671f00ab87c",
+  "method_frozen_before_any_project_generation": true,
+  "method_frozen_before_any_new_project_scorer_output": true,
+  "qwen_generated_text_or_scorer_outcomes_inspected_before_freeze": false,
+  "administrative_note": "The config's frozen_at_utc records the completed draft time; the immutable commit timestamp above is the authoritative commit gate. No project generation or new scoring occurred between them.",
+  "outcome_blind_mechanical_correction": {
+    "mechanical_fix_commit": "f324f9655e62374bc68a67e89aefc6f1649d7f49",
+    "trigger": "All 180 pre-fix calls failed before text generation with Ollama HTTP 400: Failed to initialize samplers: failed to parse grammar.",
+    "scope": "Removed only unsupported JSON-Schema minLength and maxLength keywords from edited_sentence; the independent universal 5-to-2000-character gate remains frozen.",
+    "unchanged": "Model/blob, prompts, decoding, seeds, case order, attempts, gates, inclusion, scoring, joins, estimands, bootstrap, stop conditions, privacy, and claims.",
+    "project_generated_text_before_fix": false,
+    "new_project_scorer_output_before_fix": false,
+    "pre_fix_attempt_rows": 180,
+    "pre_fix_attempts_sha256": "047d2dd9ce8a887864abc4ba2722d5e8405a36c20dd8df45a6231e2870d12ae9",
+    "pre_fix_manifest_sha256": "1becd4aa646316079aeb5e97fa6ebda1aa4da1c9a47764785d4088e9d5bb37f0",
+    "pre_fix_summary_sha256": "caf88ed1ac7498980e14c10d330e9b9699394ed2883a294a531553ceb491435d",
+    "non_project_fixture_after_fix_http_status": 200
+  },
+  "outcome_blind_granuscore_wrapper_correction": {
+    "trigger": "First QE-A GranuScore invocation exited in argparse before writing any score row because the host command duplicated the image entrypoint.",
+    "scope": "Removed only the duplicated host-side python and /opt/granuscore/score_csv.py arguments; the frozen image entrypoint, runner, input, scoring options, and analysis are unchanged.",
+    "granuscore_score_rows_before_fix": 0,
+    "scientific_or_inclusion_rule_changed": false
+  }
+}

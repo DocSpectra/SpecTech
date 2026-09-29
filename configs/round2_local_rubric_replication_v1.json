@@ -1,0 +1,96 @@
+{
+  "schema_version": "round2_local_rubric_replication_v1",
+  "frozen_at_utc": "2026-08-11T22:00:00Z",
+  "outcome_blind_freeze": true,
+  "authorization": {
+    "existing_pilot_rows_only": true,
+    "new_human_annotation": false,
+    "relabeling": false,
+    "model_training": false,
+    "generated_text_judgment": false,
+    "manuscript_edit": false,
+    "project_outcomes_inspected_before_freeze": false
+  },
+  "qwen_protocol": {
+    "path": "configs/round2_qwen_rubric_v1.json",
+    "sha256": "41686f9c2a9819d45485be7c952d852368a09884290b2b522ed52d37eb268cc7",
+    "inherit_exactly": [
+      "pilot", "rubric", "prompt", "determinism_smoke", "scoring_contract", "analysis"
+    ]
+  },
+  "judges": [
+    {
+      "judge_id": "gemma4_12b_zero_shot_rubric",
+      "model": "gemma4:12b",
+      "model_list_id": "4eb23ef187e2",
+      "model_tag_digest": "4eb23ef187e2c5462566d6a1d3bbbc2f1346d0b4327cbb66d58fffbcc9b2b05c",
+      "model_blob_sha256": "1278394b693672ac2799eadc9a83fd98259a6a88a40acfb1dcaa6c6fc895a606",
+      "projector_blob_sha256": "675ad6e68101ca9413ec806855c452362f0213f2dfc5800996b086fdb8119842",
+      "identity_source": {"path": "configs/round2_gemma_controlled_editor_v1.json", "sha256": "cc6b14d91486553b94c6817b50f5ee4aa6ae70090602b9fb8e32360270075c57"},
+      "think": false,
+      "num_predict": 16,
+      "interface_difference": "none relative to Qwen structured-output interface"
+    },
+    {
+      "judge_id": "gptoss_20b_zero_shot_rubric",
+      "model": "gpt-oss:20b",
+      "model_list_id": "17052f91a42e",
+      "model_tag_digest": "17052f91a42e97930aa6e28a6c6c06a983e6a58dbb00434885a0cf5313e376f7",
+      "model_blob_sha256": "e7b273f9636059a689e3ddcab3716e4f65abe0143ac978e46673ad0e52d09efb",
+      "projector_blob_sha256": null,
+      "identity_source": {"path": "configs/round2_gptoss_controlled_editor_v1.json", "sha256": "80784fd0885b51c4a2204bb9d7e4d947492b551b6bfb6ac78c6665f0b77721b8"},
+      "think": "low",
+      "num_predict": 128,
+      "interface_difference": "Harmony requires low reasoning; 128-token shared reasoning/final budget; reasoning text excluded from scientific records"
+    }
+  ],
+  "runtime": {
+    "ollama_version": "0.32.9",
+    "api_url": "http://127.0.0.1:11434/api/chat",
+    "stream": false,
+    "keep_alive": "30m",
+    "options_matched_to_qwen": {
+      "temperature": 0.0,
+      "top_k": 1,
+      "top_p": 1.0,
+      "repeat_penalty": 1.0,
+      "seed": 20260809,
+      "num_ctx": 4096
+    },
+    "sole_residency": "stop qwen3:14b, gemma4:12b, and gpt-oss:20b before each judge; after first smoke call and after all 80 project calls require exactly the active pinned tag; stop it and require empty residency after the matrix"
+  },
+  "comparison_inputs": {
+    "qwen_scores": {"path": "analysis/round2_qwen_rubric/qwen_scores.csv", "sha256": "f45c8f533e446352392e658bce5b8d77035a4dba1bea8c0096c09f6ec635cd35"},
+    "qwen_metadata": {"path": "analysis/round2_qwen_rubric/run_metadata.json", "sha256": "44af676de56730fd80976eb3b6c4e4d7af1ed58c2b02891f07229dd30f91edb9"},
+    "granuscore_protocol": {"path": "configs/round2_granuscore_v1.json", "sha256": "d4593c0a2fe93972b2f44703986bfaa2567bc7c2deceeb3d54b30fc887c91325"},
+    "granuscore_scores": {
+      "ansible_docs": {"path": "outputs/round2/granuscore/scores/ansible_docs.csv", "sha256": "b408ea624be65eb770f84f93ca3c06f774104ad8e4dacba05ea0f46b6b2f0c96"},
+      "github_docs": {"path": "outputs/round2/granuscore/scores/github_docs.csv", "sha256": "f40856ccf81718c3319e751ed3d0b76ab1d018f232a0dfae05c4c36bdef1eaa9"}
+    }
+  },
+  "analysis_extension": {
+    "comparators": [
+      "qwen3_14b_zero_shot_rubric",
+      "speciteller_frozen_round1",
+      "ko_official_release_run01",
+      "ko_official_release_run02",
+      "ko_official_release_run03",
+      "granuscore_direction_aligned_secondary"
+    ],
+    "joint_new_judge_comparison": true,
+    "granuscore_alignment": "negative native percentile; rank direction aid only",
+    "claim_boundary": "Local-judge--human correspondence is not gold-standard accuracy, expert judgment, proof of latent specificity, or validation of either judge's own generated text."
+  },
+  "outputs": {
+    "raw_directory": "outputs/round2/local_rubric_replication",
+    "compact_directory": "analysis/round2_local_rubric_replication"
+  },
+  "stop_conditions": [
+    "any frozen protocol, input, comparator, identity, blob, runtime, or sole-residency mismatch",
+    "any smoke fixture is invalid or non-deterministic",
+    "any project response is missing, duplicated, non-JSON, outside 1--5, or contains fields beyond score",
+    "either judge does not cover exactly 40/40 rows per corpus",
+    "fewer than 95% of bootstrap replicates are valid for any reported interval",
+    "a scientific, prompt, join, parsing, retry, or analysis rule would need to change after project outcome inspection"
+  ]
+}

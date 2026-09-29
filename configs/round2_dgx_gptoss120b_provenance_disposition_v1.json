@@ -1,0 +1,59 @@
+{
+  "schema_version": "round2_dgx_gptoss120b_provenance_disposition_v1",
+  "decision_id": "round2-dgx-gptoss120b-run1-author-waiver-v1",
+  "supplement_status": "pending",
+  "authorization": {
+    "author_role": "author",
+    "authorization_date": "2026-08-12",
+    "explicit_author_waiver": true,
+    "authorizing_statements": [
+      "I am highly confident that the results were not tampered with.",
+      "My lab partner will look for the run information tomorrow; in the meantime, kick off the analysis sprint and find out what GPT-OSS adds."
+    ],
+    "authorized_scope": "Use only the exact returned 180 candidates and 80 rubric rows from run dgx-5411bb15be9f for the bounded, separately reviewed local analyses defined by the master integration prompt."
+  },
+  "bindings": {
+    "run_id": "dgx-5411bb15be9f",
+    "return_archive_sha256": "bf6f5d9b5564dd7191640e7ef6b29fbb1ce34b92409f39415ad8d1c9a934bfd6",
+    "source_packet_sha256": "c361781bdde8b577e0b8d6f895ed77c3b6930b5568d91a58d20d0319f8572b1e",
+    "original_audit_sha256": "523e5fc3565a2d8d61771e41d33907d90b39f4f3dc5116797ea1f4de73070cd5",
+    "model_manifest_sha256": "a951a23b46a1f6093dafee2ea481d634b4e31ac720a8a16f3f91e04f5a40ecd9",
+    "model_blob_sha256": "6be6d66a3f546d8c19b130dc41dc24b2fc159f84ffbc76a0ee0676205083cf5a",
+    "runtime_archive_sha256": "aa7e06b5683ee66c4a3ec68ea7236db43b5a5d0821f0dfe2c5a215f4462bddf4"
+  },
+  "positive_evidence": [
+    "The adjacent external SHA-256 and all return-manifest member sizes and hashes reconcile.",
+    "The archive contains ten safe regular members with no traversal, link, device, duplicate, case-collision, or unsafe-mode issue.",
+    "The sealed source packet, source commit, freeze, run ID, model/config labels, source hashes, seeds, and joins reconcile.",
+    "All 60 sources and 180 unique candidates join in exact case/slot order; every candidate text hash matches and every row reports retained attempt 1.",
+    "All 180 returned candidates independently pass the complete frozen retained-text gate.",
+    "All 80 rubric row identities and order, prompt/config/model bindings, uniqueness, and allowed score-range coverage pass.",
+    "The reviewed content-blind audit found no evidence of tampering."
+  ],
+  "unresolved_evidence": {
+    "audit_blocker_codes": [
+      "generation_attempts_missing_from_return",
+      "post_acquisition_model_identity_evidence_missing_from_return",
+      "model_smoke_report_missing_from_return",
+      "rubric_output_not_bound_by_run_receipt",
+      "rubric_timestamps_extend_past_run_receipt_end"
+    ],
+    "human_readable": [
+      "generation_attempts.jsonl was not returned, so complete attempt, retry, status, timing, and reasoning-exclusion accounting cannot be independently verified.",
+      "model_smoke_report.json and independent post-load runtime/model identity evidence were not returned; the capability report is correctly pre-acquisition and cannot establish later residency.",
+      "state.json, the small model manifest, and content-free recomputed runtime/model artifact sizes and hashes were not returned as supplemental provenance evidence.",
+      "The original receipt ended at 2026-08-12T20:01:19Z before the optional rubric calls, which continued through 2026-08-12T20:04:15Z.",
+      "The original receipt did not hash-bind rubric_scores.csv or include the rubric in its final chronology.",
+      "The original receipt's residency fields are assertions that cannot be independently confirmed from the returned post-load records."
+    ],
+    "claims_forbidden": [
+      "Do not claim that complete attempt/retry accounting, smoke, post-load identity/residency, state, model-manifest, runtime/model rehash, or receipt-bound rubric chronology was independently verified or passed."
+    ]
+  },
+  "implementation_deviations": [
+    "The sealed remote runner enforced changed-text and sentence-boundary checks but omitted explicit one-line, 5-to-2000-character, and compatible-script admission checks; the independent local audit applied the complete frozen gate and found zero failures among all 180 returned candidates.",
+    "DGX candidate IDs use the sealed remote-runner namespace rather than the earlier human-first namespace; all 180 IDs recompute deterministically and all joins are complete, so any later local alias must be bijective and preserve both identities.",
+    "The return manifest marked retained_candidates.csv and rubric_scores.csv as not required for import even though both files are present and mechanically audited; downstream use is governed by this derived disposition rather than that weak import flag."
+  ],
+  "later_supplement_policy": "A later no-rerun supplement may strengthen provenance and add a derived corrected chronology, but it may not alter or replace any candidate, rubric score, original receipt, original audit, or this waiver chronology."
+}

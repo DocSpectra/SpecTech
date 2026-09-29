@@ -1,0 +1,44 @@
+{
+  "schema_version": "round2_dgx_gptoss120b_human_first_analysis_freeze_record_v1",
+  "kickoff_head": "bfea9508c68d14df46a5e5690e4aa45bbee7755e",
+  "method_freeze_commit": "cc75e5d0042407295e624467d2470c29dcd5c627",
+  "method_config": {
+    "path": "configs/round2_dgx_gptoss120b_human_first_analysis_v1.json",
+    "sha256": "d040da50dbdd7e415e409108c82d31c3376bf197dde0f6d6f5516746146b2083"
+  },
+  "schema": {
+    "path": "schemas/round2_dgx_gptoss120b_human_first_analysis_v1.schema.json",
+    "sha256": "4ff39da1a9d2955d304c7dd219e21cabe8479378585b5e886a7ec8fb40d90941"
+  },
+  "method_spec": {
+    "path": "specs/round2_dgx_gptoss120b_human_first_analysis.md",
+    "sha256": "d52f8b45f9fa03619135c04a1ee8e9746d34e4bc5a9ff90c72ae38cb02761c70"
+  },
+  "freeze_test": {
+    "path": "tests/test_dgx_gptoss120b_human_first_analysis_freeze.py",
+    "sha256": "3197f78464e2b055011aadb591d8f554f3f34b511aec3cda1e1785af04e7fd61"
+  },
+  "pre_unblinding_gate": {
+    "completed_workbook_sha256": "5c84775834cf2d711196f2c400dd1a72e2f53a8cf6cdd9947ff32f082f7ace23",
+    "released_workbook_sha256": "00fd77981f86d991c5a516072577c6532f26812c0ca72f4150f6432e7d43ba9c",
+    "released_csv_sha256": "835fda0e7e0c3c2a36538752c74c98d1129b03235117485d5a9fe6a133587a4b",
+    "review_rows": 180,
+    "unique_review_ids": 180,
+    "immutable_review_columns_equal": true,
+    "instructions_equal": true,
+    "all_scores_allowed_and_nonblank": true,
+    "score_counts": {"1": 36, "2": 31, "3": 43, "4": 34, "5": 35, "X": 1},
+    "clerical_corrections": [],
+    "formulas": 0,
+    "forbidden_active_or_external_members": 0
+  },
+  "chronology": {
+    "hidden_review_key_opened_before_binding_commit": false,
+    "predictor_values_opened_before_binding_commit": false,
+    "proxy_outcomes_opened_before_binding_commit": false,
+    "policy_mappings_opened_before_binding_commit": false,
+    "gemma_outcomes_opened_before_binding_commit": false,
+    "analysis_method_frozen_before_unblinding": true
+  },
+  "scope": "Phase D aggregate analysis and paired generator comparison only; Phase E manuscript editing and all model calls remain unauthorized."
+}

@@ -1,0 +1,153 @@
+{
+  "schema_version": "round2_granuscore_v1",
+  "frozen_at_utc": "2026-08-10T05:29:46Z",
+  "outcome_blind_freeze": true,
+  "authorization": {
+    "official_example_reproduction_inspected": true,
+    "public_benchmark_inspected": true,
+    "project_granuscore_outcomes_inspected_before_freeze": false,
+    "full_four_corpus_scoring": true,
+    "existing_pilot_scoring": true,
+    "existing_manual_controlled_edit_scoring": true,
+    "new_human_annotation": false,
+    "model_training_or_tuning": false
+  },
+  "identity": {
+    "construct": "semantic_referential_granularity",
+    "construct_boundary": "GranuScore is related to but not identical with sentence specificity",
+    "score_direction": "higher_is_coarser_more_abstract",
+    "specificity_aligned_direction": "negative_granuscore_rank_only_as_explicit_secondary_view",
+    "package": "granuscore==1.0.1",
+    "package_wheel_sha256": "8d0325512243ef5e1fb962ccbdd65e61110f5fd165de699274932cb18d747d0c",
+    "repository": "https://github.com/lukasellinger/granuscore",
+    "repository_commit": "73438cdbb06ab72ec2a50507a0db62c352ec8169",
+    "repository_license": "MIT",
+    "model": "Hierarchy-Transformers/HiT-MiniLM-L12-WordNetNoun",
+    "model_revision": "b170cbfa5bb770f144c69f75f826ccbd6e0c7b53",
+    "model_license": "Apache-2.0"
+  },
+  "runtime": {
+    "base_image": "pytorch/pytorch@sha256:60f22fb80755fd0b470fb47928dbd55816aa9f847edd95cf43c93253507a9ddf",
+    "release_image": "spectech-granuscore:1.0.1-hit-wordnet-v1",
+    "release_image_id": "sha256:d637a2aebb397a6c067e59d0cfaa4bfb4ac72a24615c0e089b0e3798542a41df",
+    "initial_release_image_id": "sha256:4a3ffcdac249cb01788424395ec0e540c45d37ab6a3b8a6ed49b86018649348e",
+    "runner_sha256": "b079032eec2713168779fd4c04b7002e35b3f9b02ac7d6e497e219bef7df0235",
+    "mechanical_freeze_record": "configs/round2_granuscore_freeze_record.json",
+    "discovery_image_id": "sha256:d0ee44c10e1ea01a8cd8b8457b2f3feddf4d5eacac0ac9499f46cb3b566d8ca9",
+    "python": "3.11.14",
+    "torch": "2.9.1+cu130",
+    "cuda": "13.0",
+    "numpy": "2.2.6",
+    "spacy": "3.8.15",
+    "spacy_model": "en_core_web_sm==3.8.0",
+    "spacy_model_sha256": "1932429db727d4bff3deed6b34cfc05df17794f4a52eeb26cf8928f7c1a0fb85",
+    "constraints": "granuscore_container/constraints.txt",
+    "host_install_forbidden": true,
+    "runtime_network_after_build": false
+  },
+  "official_artifacts": {
+    "release": "v1.0.0",
+    "lgb_model_sha256": "5aba55b9e13c09d86561b50773d77e5c21c0a7f7c7092473537e28c247d451b9",
+    "random_anchors_sha256": "92432aabbec27507a71d56595bdd0e8c6ca5aeedafd13ed70af68b01de7e9436",
+    "noun_reference_sha256": "487a2c46afd74af3875058fb2115a5a1dc68d48a7ebde2e7aabeb3b4e2551a53"
+  },
+  "reproduction_gate": {
+    "source": "official notebooks/getting_started.ipynb at repository_commit",
+    "expected": [29.322155, 40.344215, 54.774826, 74.53445, 81.604416],
+    "observed": [29.322154998779297, 40.344215393066406, 54.77482604980469, 74.5344467163086, 81.60441589355469],
+    "maximum_absolute_error": 0.000003283691413002998,
+    "tolerance": 0.0001,
+    "device": "NVIDIA GeForce RTX 4080 SUPER via CUDA; CPU build smoke may drift by up to 0.05 percentile points and is not the scientific reproduction gate",
+    "passed": true
+  },
+  "feasibility_gate": {
+    "public_texts": 1000,
+    "elapsed_seconds": 5.9192038470000625,
+    "rows_per_second": 168.941629,
+    "minimum_rows_per_second_for_full_run": 100.0,
+    "maximum_project_rows": 1295205,
+    "estimated_hours_at_observed_rate": 2.129769,
+    "passed": true
+  },
+  "scoring": {
+    "predictor_type": "hit",
+    "search_method": "random_anchors",
+    "random_anchors_k": 999,
+    "split": true,
+    "splitter": "SpacyNounPhraseSplitter with en_core_web_sm 3.8.0",
+    "pooling": "mean",
+    "pooling_scope": "sentence",
+    "scope_pooling_method": "lower_quantile_mean",
+    "scope_tail_q": 0.8,
+    "return_percentiles": true,
+    "percentile_before_pooling": true,
+    "use_cache": false,
+    "batch_size": 256,
+    "encoding_batch_size": 256,
+    "no_referential_unit_rule": "retain the official NO_FACT_SCORE percentile, flag the row, report its rate, and repeat key analyses excluding flagged rows",
+    "text_rule": "score exact canonical sentence or exact existing edited sentence; no cleanup, repair, truncation, or resplitting"
+  },
+  "full_corpora": {
+    "canonical_order": ["wikipedia_en", "github_docs", "ansible_docs", "python_312_html"],
+    "inputs": {
+      "wikipedia_en": {"path": "outputs/sentences/wikipedia_en.csv", "sha256": "4082fa9086035b2b9b6f559ae886f08cb0a6f34735fd06614d452539f53fb90f", "rows": 900406},
+      "github_docs": {"path": "outputs/sentences/github_docs.csv", "sha256": "c492128bb408fde37419b7dedd141db8aae90a360d16d11b3c8f853691947177", "rows": 170798},
+      "ansible_docs": {"path": "outputs/sentences/ansible_docs.csv", "sha256": "41512e89148ea510d589a8f7ba88d1519a51d42ae51a3fa5924ab711cae8eab9", "rows": 44452},
+      "python_312_html": {"path": "outputs/sentences/python_312_html.csv", "sha256": "7aa8d3a827af5052d52c784c1a92d4edb129130bd1b64228e673b771ccc7873c", "rows": 179549}
+    },
+    "required_total_rows": 1295205,
+    "required_coverage_rate": 1.0,
+    "ordered_join": "exact corpus_id and sent_id order with canonical sentences, SpeciTeller, features, strict manifest, and three Ko runs"
+  },
+  "pilot": {
+    "manifest": "configs/round2_pilot_sent_ids_v1.csv",
+    "manifest_sha256": "41c6f7819a283e7fb482dbfd907b8266759304c0f049459412677405e7ac46bc",
+    "rows_per_corpus": 40,
+    "human_targets": ["ann_a", "ann_b", "ann_c", "pooled_human_mean"],
+    "comparison_models": ["speciteller_frozen_round1", "ko_run01", "ko_run02", "ko_run03", "qwen3_14b_zero_shot_rubric"],
+    "principal_measure": "native-direction Spearman; negative human correlation means finer GranuScore references align with higher specificity labels",
+    "secondary_measure": "sign-aligned negative-GranuScore Spearman, explicitly labeled as a direction aid rather than a scale conversion",
+    "bootstrap_replicates": 10000,
+    "bootstrap_master_seed": 20260809,
+    "bootstrap_unit": "sentence row within corpus",
+    "claim_boundary": "small non-expert pilot correspondence is descriptive, not gold-standard accuracy"
+  },
+  "controlled_edits": {
+    "inputs": {
+      "ansible_docs": {"path": "outputs/round2/granuscore/controlled_edits/ansible_docs_manual_controlled_edits.csv", "sha256": "d6eb585c3c87295cb7f7862476cead64f8d4b47fd30c682a01095220004f2e3f", "rows": 30},
+      "github_docs": {"path": "outputs/round2/granuscore/controlled_edits/github_docs_manual_controlled_edits.csv", "sha256": "6860b7ae74eb51a589361e8555d7e16c889860f45cdf019371948a1e23fd24fc", "rows": 30}
+    },
+    "delta": "edited_granuscore_minus_original_granuscore",
+    "directional_expectations": {"add_specific": "negative", "de_specify": "positive", "irrelevant_rewrite": "near_zero"},
+    "bootstrap_replicates": 10000,
+    "bootstrap_master_seed": 20260809,
+    "bootstrap_unit": "controlled-edit pair",
+    "claim_boundary": "author-created edits are behavioral probes with domain knowledge, not independent ground truth"
+  },
+  "full_analysis": {
+    "native_outputs": ["corpus mean median standard deviation IQR ordering", "Wikipedia-minus-technical gaps", "within-corpus Spearman with SpeciTeller and each Ko run/mean"],
+    "direction_rule": "retain native GranuScore direction in primary tables; do not compare its 0-100 percentiles as interchangeable with SpeciTeller or Ko values",
+    "strict_subset": "reuse strict_natural_language_v1 flags without rescoring or retraining",
+    "length_control": "reuse round2_length_control_v1 exact-token common support and direct standardization; report partial association beyond token count",
+    "bootstrap_replicates": 1000,
+    "bootstrap_master_seed": 20260810,
+    "bootstrap_unit": "doc_path cluster sampled independently within corpus",
+    "no_unit_sensitivity": "repeat key corpus and agreement summaries after excluding flagged no-referential-unit rows",
+    "accuracy_boundary": "without gold labels, agreement, disagreement, or corpus ordering cannot identify the more accurate model"
+  },
+  "outputs": {
+    "raw_directory": "outputs/round2/granuscore",
+    "compact_directory": "analysis/round2_granuscore",
+    "score_pattern": "outputs/round2/granuscore/scores/{corpus_id}.csv",
+    "metadata_pattern": "outputs/round2/granuscore/scores/{corpus_id}.metadata.json"
+  },
+  "stop_conditions": [
+    "published example gate fails",
+    "container/model/artifact/input identity mismatch",
+    "CUDA unavailable for full scoring",
+    "duplicate or missing sent_id, incomplete coverage, or ordered join failure",
+    "nonfinite or out-of-range percentile",
+    "full run projects beyond eight hours at the frozen benchmark gate",
+    "a scoring, join, exclusion, direction, or inference rule would need to change after project outcome inspection"
+  ]
+}

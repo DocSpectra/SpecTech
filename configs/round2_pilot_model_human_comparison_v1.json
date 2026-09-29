@@ -1,0 +1,111 @@
+{
+  "schema_version": "round2_pilot_model_human_comparison_v1",
+  "frozen_at_utc": "2026-08-10T03:28:32Z",
+  "freeze_commit": "345458f09bda6ba673aa4dcaf43b47e64ed9b70b",
+  "outcome_blind_freeze": true,
+  "authorization": {
+    "existing_labels_only": true,
+    "existing_scores_only": true,
+    "new_annotation": false,
+    "relabeling": false,
+    "retraining": false,
+    "rescoring": false,
+    "controlled_edit_expansion": false
+  },
+  "pilot": {
+    "manifest": "configs/round2_pilot_sent_ids_v1.csv",
+    "corpus_order": ["ansible_docs", "github_docs"],
+    "required_rows_per_corpus": 40,
+    "required_annotators": ["ann_a", "ann_b", "ann_c"],
+    "label_scale": {"minimum": 1, "maximum": 5, "ordinal": true},
+    "pooling_rule": "rowwise arithmetic mean of the three complete ordinal labels, preserving the published pilot method",
+    "privacy": "tracked artifacts use Ann. A/B/C only; participant names, raw label rows, notes, and absolute source paths are excluded"
+  },
+  "label_inputs": {
+    "local_directory": "outputs/round2/pilot_model_human/labels/raw",
+    "files": [
+      {"corpus_id": "ansible_docs", "annotator_id": "ann_a", "path": "outputs/round2/pilot_model_human/labels/raw/ansible_docs__ann_a.csv", "sha256": "57a67323d54b757eedbf90bc80f483714093d4078a362c57298de8e3ea424987"},
+      {"corpus_id": "ansible_docs", "annotator_id": "ann_b", "path": "outputs/round2/pilot_model_human/labels/raw/ansible_docs__ann_b.csv", "sha256": "e9259d453e0af3cbbf9e2abe7b7067978a91f2f457d40a23de61c615d97f506c"},
+      {"corpus_id": "ansible_docs", "annotator_id": "ann_c", "path": "outputs/round2/pilot_model_human/labels/raw/ansible_docs__ann_c.csv", "sha256": "1ab3a7dfde44f70139bba74f784728df6a55af069464a3f554b82f3934abfe5c"},
+      {"corpus_id": "github_docs", "annotator_id": "ann_a", "path": "outputs/round2/pilot_model_human/labels/raw/github_docs__ann_a.csv", "sha256": "65f6d6192e51fe9b889487c5084e3be3a5d71630cf0b0df1ee08713bfd89c43f"},
+      {"corpus_id": "github_docs", "annotator_id": "ann_b", "path": "outputs/round2/pilot_model_human/labels/raw/github_docs__ann_b.csv", "sha256": "c1282e6b82a164e7404d6c9442be85119ac5e227a0858344c763db3c13f9891d"},
+      {"corpus_id": "github_docs", "annotator_id": "ann_c", "path": "outputs/round2/pilot_model_human/labels/raw/github_docs__ann_c.csv", "sha256": "2957076dc0a2dd0cd18d5053a939afb52fe9de103676da003977d20262dc1f31"}
+    ]
+  },
+  "score_instances": {
+    "primary": [
+      {"model_instance_id": "speciteller_frozen_round1", "model_family": "SpeciTeller", "run_id": "fixed", "scale_min": 0.0, "scale_max": 1.0, "direction": "higher_is_more_specific"},
+      {"model_instance_id": "ko_official_release_run01", "model_family": "Ko official-release comparator", "run_id": "run01", "scale_min": 0.0, "scale_max": 1.0, "direction": "higher_is_more_specific"},
+      {"model_instance_id": "ko_official_release_run02", "model_family": "Ko official-release comparator", "run_id": "run02", "scale_min": 0.0, "scale_max": 1.0, "direction": "higher_is_more_specific"},
+      {"model_instance_id": "ko_official_release_run03", "model_family": "Ko official-release comparator", "run_id": "run03", "scale_min": 0.0, "scale_max": 1.0, "direction": "higher_is_more_specific"}
+    ],
+    "secondary": {"model_instance_id": "ko_official_release_run_mean", "definition": "rowwise arithmetic mean of run01, run02, and run03", "independent_model": false},
+    "identity_boundary": "Ko run01/run02/run03 are three stochastic instances of one maintained implementation, not three architectures; native raw model scales are not treated as interchangeable"
+  },
+  "input_identities": {
+    "speciteller": {
+      "github_docs": {"path": "outputs/speciteller/github_docs_scores.tsv", "sha256": "d0d616fdad6898d4c2af6def7a17fc899e8859485bf1e97033bd0d2b1ab8a083"},
+      "ansible_docs": {"path": "outputs/speciteller/ansible_docs_scores.tsv", "sha256": "0c03b748d7052c57821930f13dfc457855f350e0ff1db9d31a3a0f29f91cec47"}
+    },
+    "sentences": {
+      "github_docs": {"path": "outputs/sentences/github_docs.csv", "sha256": "c492128bb408fde37419b7dedd141db8aae90a360d16d11b3c8f853691947177"},
+      "ansible_docs": {"path": "outputs/sentences/ansible_docs.csv", "sha256": "41512e89148ea510d589a8f7ba88d1519a51d42ae51a3fa5924ab711cae8eab9"}
+    },
+    "ko_runs": [
+      {"corpus_id": "github_docs", "run_id": "run01", "score_path": "outputs/round2/ko_official_release/runs/github_docs/run01/scores.csv", "score_sha256": "221dd63491abdfc6e232a758244736cf77e4c2d8973b417d5da32164fde4ece6", "checkpoint_sha256": "0ca46365e64a05f3f8cb9bb8644f209ab8b370ccee176d2cd85c9dd420b845af"},
+      {"corpus_id": "github_docs", "run_id": "run02", "score_path": "outputs/round2/ko_official_release/runs/github_docs/run02/scores.csv", "score_sha256": "3b514937aaf58f2f20473588d3df2b80ae8f03e7c6448c56d09d5d323828aedc", "checkpoint_sha256": "7e54050165634c2b2af179ab26be6d13ab3033ae77c75c6493d6b5a280d00d47"},
+      {"corpus_id": "github_docs", "run_id": "run03", "score_path": "outputs/round2/ko_official_release/runs/github_docs/run03/scores.csv", "score_sha256": "72a4ba84c7a478a6b288ae816f8b523d2b67dc3b5272be85aed22aecd3ba8f5d", "checkpoint_sha256": "5815057eb1fdbca900b0202e43bc0bc145257fe873dc33ef04582dd0b52bf3a4"},
+      {"corpus_id": "ansible_docs", "run_id": "run01", "score_path": "outputs/round2/ko_official_release/runs/ansible_docs/run01/scores.csv", "score_sha256": "ff522001181be873d21a5713215aa78f6ca61f385263b6c73b0066afb6c21bc3", "checkpoint_sha256": "38e093f6c8d1109c57fffe6753895a0055c78e1141cced9aedab9f5899042d44"},
+      {"corpus_id": "ansible_docs", "run_id": "run02", "score_path": "outputs/round2/ko_official_release/runs/ansible_docs/run02/scores.csv", "score_sha256": "c9b7befa9f8ee97b0637de93f7d6dfcd20e1d634ef651d1b669ceffbde534841", "checkpoint_sha256": "a9dedb9b21f484aa6c23f6c652eb1d27982a8062e8667daf1167d163137f591f"},
+      {"corpus_id": "ansible_docs", "run_id": "run03", "score_path": "outputs/round2/ko_official_release/runs/ansible_docs/run03/scores.csv", "score_sha256": "d19196e6c6bba0495f84d79bf6b6462b5d422dec179ab01371270eaeced99e12", "checkpoint_sha256": "c34242fe537ab99be1947a30502a5dcc3b5d18964b285199bc6a86b138ef2ee9"}
+    ]
+  },
+  "join_contract": {
+    "key": ["corpus_id", "sent_id"],
+    "cardinality": "one-to-one for manifest, every annotator, every primary score instance, and the secondary aggregate",
+    "required_coverage_rate": 1.0,
+    "required_rows_total": 80,
+    "missing_labels": "forbidden; no listwise deletion or partial pooling",
+    "duplicate_ids": "forbidden",
+    "text_and_legacy_score_fields": "identity audit only; labels join exclusively by sent_id"
+  },
+  "analysis": {
+    "principal_measure": "Spearman rank correlation using average ranks for ties",
+    "corpora_analyzed_separately": true,
+    "human_targets": ["ann_a", "ann_b", "ann_c", "pooled_human_mean"],
+    "model_human_outputs": "each primary score instance versus every human target by corpus",
+    "model_model_outputs": "all unordered pairwise primary score-instance Spearman correlations by corpus",
+    "secondary_outputs": "Ko rowwise mean versus each human target and each primary score instance by corpus",
+    "bootstrap": {
+      "unit": "sentence row within corpus",
+      "joint_resampling": "one index draw per replicate is applied jointly to all score instances and all annotator/pooled-label columns",
+      "replicates": 10000,
+      "master_seed": 20260809,
+      "stream_derivation": "SHA-256 of master seed and corpus_id, first 8 bytes interpreted unsigned little-endian",
+      "interval": "two-sided percentile 95% interval at quantiles 0.025 and 0.975",
+      "paired_contrasts": "within each human target, all unordered differences rho(model_a,human)-rho(model_b,human) use the same replicate draws",
+      "degenerate_replicates": "record and exclude a replicate only when either member is constant or the correlation is nonfinite; paired contrasts require both correlations finite",
+      "minimum_valid_fraction": 0.95
+    },
+    "ties": "average ranks; do not jitter",
+    "multiplicity": "all estimates and intervals are descriptive; no multiplicity-adjusted hypothesis tests, p-value selection, or winner selection",
+    "claim_boundary": "human correspondence and model agreement are not accuracy; labels are non-expert ordinal pilot judgments, not gold-standard truth"
+  },
+  "outputs": {
+    "full_directory": "outputs/round2/pilot_model_human/analysis",
+    "compact_directory": "analysis/round2_pilot_model_human_comparison",
+    "tables": ["coverage.csv", "model_human_agreement.csv", "paired_model_human_contrasts.csv", "model_model_agreement.csv", "ko_run_variability.csv", "paper_table.csv"],
+    "metadata": "run_metadata.json with hashes, identities, coverage, bootstrap validity, command, and environment; no raw labels, participant names, notes, sentences, or absolute paths"
+  },
+  "stop_conditions": [
+    "any config, manifest, sentence, score, checkpoint, or label hash mismatch",
+    "pilot manifest does not contain exactly 40 unique rows per corpus",
+    "annotator sent_id sets or row order differ from the frozen manifest",
+    "any missing, non-integer, or out-of-range label",
+    "any missing, duplicate, nonfinite, or out-of-range model score",
+    "any primary score instance lacks exact 40/40 coverage",
+    "full-sample Spearman is undefined",
+    "fewer than 95% of bootstrap replicates are valid for any reported interval or contrast",
+    "a scientific or join rule would need to change after Ko-human outcome inspection"
+  ]
+}

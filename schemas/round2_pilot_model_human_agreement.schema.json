@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spectech.invalid/schemas/round2_pilot_model_human_agreement.schema.json",
+  "title": "Round 2 pilot model-human agreement result row",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["corpus_id", "model_instance_id", "target_id", "n", "spearman_rho", "ci_low", "ci_high", "bootstrap_valid", "bootstrap_degenerate", "analysis_role"],
+  "properties": {
+    "corpus_id": {"enum": ["ansible_docs", "github_docs"]},
+    "model_instance_id": {"enum": ["speciteller_frozen_round1", "ko_official_release_run01", "ko_official_release_run02", "ko_official_release_run03", "ko_official_release_run_mean"]},
+    "target_id": {"enum": ["ann_a", "ann_b", "ann_c", "pooled_human_mean"]},
+    "n": {"const": 40},
+    "spearman_rho": {"type": "number", "minimum": -1.0, "maximum": 1.0},
+    "ci_low": {"type": "number", "minimum": -1.0, "maximum": 1.0},
+    "ci_high": {"type": "number", "minimum": -1.0, "maximum": 1.0},
+    "bootstrap_valid": {"type": "integer", "minimum": 9500, "maximum": 10000},
+    "bootstrap_degenerate": {"type": "integer", "minimum": 0, "maximum": 500},
+    "analysis_role": {"enum": ["primary", "secondary_sensitivity"]}
+  }
+}

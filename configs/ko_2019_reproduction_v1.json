@@ -1,0 +1,55 @@
+{
+  "schema_version": "ko_2019_reproduction_v1",
+  "outcome_blind_freeze": true,
+  "feasibility_status": "blocked",
+  "project_scoring_authorized": false,
+  "authoritative_paper": "https://arxiv.org/abs/1811.05085",
+  "official_repository": "https://github.com/wjko2/Domain-Agnostic-Sentence-Specificity-Prediction",
+  "upstream_commit": "36f8e835e9dc6087d5b6763accf302db175947b1",
+  "paper_era_commit": "bee414ad5994f960d445cb5454c66199aa3920c6",
+  "upstream_identity_note": "The pinned CPU-capable repository state is post-publication and is a diagnostic candidate, not a verified exact paper-era implementation.",
+  "system": "SE+AD mean-std",
+  "source_training": "official bundled binary-labeled news sentences",
+  "target_adaptation": "official unsupervised target sentences",
+  "native_scale": {
+    "minimum": 0.0,
+    "maximum": 1.0,
+    "direction": "higher_is_more_specific"
+  },
+  "published_training": {
+    "epochs": 30,
+    "batch_size": 32,
+    "optimizer": "Adam",
+    "learning_rate": 0.0001,
+    "teacher_ema_decay": 0.999,
+    "c1_consistency": 1000,
+    "c2_mean_std": 100,
+    "reference_mean_paper": 0.417,
+    "reference_std_paper": 0.227,
+    "reference_mean_code": 0.42,
+    "reference_std_code": 0.23,
+    "word_embedding_noise_std": 0.1,
+    "shallow_feature_noise_std": 0.2,
+    "word_delete_probability": 0.15,
+    "word_insert_branch_probability": 0.15,
+    "word_zero_probability": 0.05,
+    "implementation_note": "Code values and control flow are authoritative for reproduction; differences from rounded paper values are recorded, not corrected."
+  },
+  "released_smoke": {
+    "domain": "twitter",
+    "released_test_rows": 984,
+    "expected_prediction_rows": 983,
+    "deviation_from_published_training": "Infrastructure smoke uses 32 source rows, 32 unlabeled rows, and one epoch; it does not claim to reproduce Table 2 metrics.",
+    "repeat_runs": 2,
+    "mean_absolute_tolerance": 0.02,
+    "maximum_absolute_tolerance": 0.10
+  },
+  "determinism_caveat": "The official code seeds NumPy and Torch with 1234 but does not seed Python random, which controls word augmentation branches.",
+  "project_outcomes_allowed_in_3a": false,
+  "gate_decision": {
+    "released_data_result": "failed",
+    "reason": "The official post-publication CPU path missed all three published Twitter means by more than 32 reported standard deviations; the paper-era source has no matching official CPU patch or checkpoint.",
+    "sprint_3b_authorized": false,
+    "sprint_3c_authorized": false
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "schema_version": "round2_gemma_controlled_editor_freeze_record_v1",
+  "preflight_spec_tech_head": "6bc1a0f42f1cde9e8dd8ceb1d8585b6425c9c107",
+  "preflight_spec_tech_clean": true,
+  "method_freeze_commit": "4597b5264125020735c7126ab7af32033e1aa74d",
+  "method_freeze_commit_local_time": "2026-08-11T03:43:49-07:00",
+  "config_path": "configs/round2_gemma_controlled_editor_v1.json",
+  "config_sha256": "cc6b14d91486553b94c6817b50f5ee4aa6ae70090602b9fb8e32360270075c57",
+  "attempt_schema_path": "schemas/round2_gemma_editor_attempt_v1.schema.json",
+  "attempt_schema_sha256": "1a8c329c32b4b4631ecb837d5c9d127c4f7f14cd31791255b37c87a34ade9232",
+  "review_schema_path": "schemas/round2_gemma_blinded_review_v1.schema.json",
+  "review_schema_sha256": "166d9b61404e5e5e92f030d1ac3442ccaa293ee102804f66b84e56a960e1c4ba",
+  "method_frozen_before_any_project_gemma_generation": true,
+  "project_gemma_text_or_outcome_inspected_before_freeze": false,
+  "qwen_output_score_label_or_scorer_outcome_used_for_freeze": false,
+  "author_edited_text_used_for_prompt_or_gate_selection": false,
+  "model_installation": {
+    "installed_before_method_freeze": true,
+    "ollama_version": "0.32.5",
+    "model": "gemma4:12b",
+    "model_tag_digest": "4eb23ef187e2c5462566d6a1d3bbbc2f1346d0b4327cbb66d58fffbcc9b2b05c",
+    "installed_size_bytes": 7556508396,
+    "model_blob_sha256": "1278394b693672ac2799eadc9a83fd98259a6a88a40acfb1dcaa6c6fc895a606",
+    "projector_blob_sha256": "675ad6e68101ca9413ec806855c452362f0213f2dfc5800996b086fdb8119842",
+    "qwen3_14b_preserved": true,
+    "models_resident_after_smoke_and_before_freeze_commit": []
+  },
+  "non_project_smoke": {
+    "project_inputs_used": false,
+    "fixtures": ["invented add-specific fixture", "invented de-specific fixture", "invented neutral-paraphrase fixture"],
+    "explicit_model_tag": "gemma4:12b",
+    "structured_json_passed": 3,
+    "thinking_disabled_passed": 3,
+    "done_reason_stop_passed": 3,
+    "wall_seconds": [1.45, 0.764, 1.101],
+    "gpu_residency": "ollama ps showed gemma4:12b only, list ID 4eb23ef187e2, 8.1 GB, 100% GPU, context 4096",
+    "outcome_use_boundary": "Smoke established runtime, format, timing, thinking-disable, and model-residency functionality only. No project prompt, text, direction outcome, or gate was inspected."
+  },
+  "freeze_validation": {
+    "focused_tests": "7 passed",
+    "json_parse": "passed for config and both schemas",
+    "git_diff_check": "passed",
+    "working_tree_after_method_commit": "clean before this freeze record was added"
+  }
+}

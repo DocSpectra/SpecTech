@@ -1,0 +1,9 @@
+{
+  "schema_version": "round2_qwen_rubric_freeze_record_v1",
+  "method_freeze_commit": "c538d97ea15db627fe3c2f975a38137b68336682",
+  "method_frozen_before_any_qwen_project_output": true,
+  "mechanical_analysis_fix_commit": "091679e619d5ecad3f7c7ae3354983bd28079952",
+  "scores_completed_before_mechanical_fix": true,
+  "qwen_scores_or_scientific_summaries_inspected_before_mechanical_fix": false,
+  "fix_scope": "convert the tuple-valued HUMAN_TARGETS constant to a list before column-ID concatenation and add a regression fixture; no prompt, score, row, model, join, bootstrap, statistic, or claim rule changed"
+}

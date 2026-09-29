@@ -1,0 +1,38 @@
+{
+  "schema_version": "round2_dgx_gptoss120b_human_first_freeze_record_v1",
+  "kickoff_head": "7a70bb06c97edb59a326b1b2e6e1237d7880bc9b",
+  "method_freeze_commit": "695c68f99744a4ac1fd451bed2d46b456420c7bf",
+  "method_config": {
+    "path": "configs/round2_dgx_gptoss120b_human_first_v1.json",
+    "sha256": "e98905ccddc95272f7a370ab06ae7a0a6798578dc8acc6fe15ebd51ef2882668"
+  },
+  "phase_b": {
+    "review_commit": "7a70bb06c97edb59a326b1b2e6e1237d7880bc9b",
+    "phase_c_authorized": true
+  },
+  "provenance": {
+    "disposition": "accepted_with_author_provenance_waiver",
+    "acceptance_summary_sha256": "db94418122bb14f23eb78197355ded5b25c3c538b4e1df7b9f94fe9a03c73278"
+  },
+  "population_binding": {
+    "return_archive_sha256": "bf6f5d9b5564dd7191640e7ef6b29fbb1ce34b92409f39415ad8d1c9a934bfd6",
+    "retained_candidate_member_sha256": "2cbeed1b2723af2e1ad0a8650223b505ca35e6ee85d9d6b6d25575fdd119d4e3",
+    "ordered_case_sha256": "c46c1e7182a34a0f89dbb2826a6fcd2c0eec73f56842a5d484cf7675d95ed7ec",
+    "ordered_source_hashes_sha256": "9933af0092e81883ccb2b68386ca62b962f7921ea9eaf4fd6023b378c9f87db8",
+    "candidate_structure_sha256": "4ec9180830962f6dc549dd3f13a6f48d74921fefefa048bd31aa16517d08d513",
+    "remote_alias_bijection_sha256": "ca10e13cbd10bc82bf088c08a8ddcf8f08e4bc5992ab1199799b5f9e04b54296",
+    "source_cases": 60,
+    "candidate_rows": 180,
+    "unique_remote_ids": 180,
+    "unique_local_aliases": 180,
+    "complete_local_integrity_failures": 0
+  },
+  "chronology": {
+    "candidate_text_manually_inspected_before_method_commit": false,
+    "scorer_outcomes_before_method_commit": 0,
+    "human_outcomes_before_method_commit": 0,
+    "proxy_or_score_used_for_inclusion": false,
+    "new_model_calls": 0
+  },
+  "scope": "Exact local scoring, audit-only proxy computation, frozen selection maps, and a new 180-row blinded packet; no human-outcome analysis, generator comparison, or manuscript edit."
+}

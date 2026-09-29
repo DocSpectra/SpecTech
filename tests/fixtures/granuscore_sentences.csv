@@ -1,0 +1,4 @@
+corpus_id,doc_path,sent_idx,sent_text,sent_id
+fixture_docs,public-example,0,Tony Hawk was born in San Diego,fixture-001
+fixture_docs,public-example,1,Tony Hawk was born in California,fixture-002
+fixture_docs,public-example,2,A sportsman was born in the United States,fixture-003

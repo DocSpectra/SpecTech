@@ -1,0 +1,16 @@
+{
+  "schema_version": "round2_qwen_edit_remediation_v2_freeze_record_v1",
+  "v2_freeze_commit": "d08b6678d28478c229bf7f429720cc8e675586d2",
+  "v2_freeze_commit_utc": "2026-08-10T23:56:44Z",
+  "v2_config_path": "configs/round2_qwen_edit_remediation_v2.json",
+  "v2_config_sha256": "0d2b715ea015273bbf4be90f2c657a1e9a9f4624ab90c78de840bd3a7971761b",
+  "attempt_schema_path": "schemas/round2_qwen_edit_remediation_v2.schema.json",
+  "attempt_schema_sha256": "738c6b034edba187d09bdce18269b39f2354d1837420b741a82eee8f98e63c73",
+  "selected_candidate_id": "c3_micro_edit",
+  "frozen_before_held_out_generation": true,
+  "held_out_generation_started": false,
+  "no_revision_after_start": true,
+  "single_fresh_confirmation": true,
+  "scoring_in_qe_r": false,
+  "held_out_text_inspected_before_freeze": false
+}

@@ -1,0 +1,198 @@
+{
+  "schema_version": "round2_distribution_saturation_v1",
+  "frozen_at_utc": "2026-08-11T00:52:47Z",
+  "outcome_blind_freeze": true,
+  "authorization": {
+    "pair4_authorized_by_vago_primary_review": true,
+    "new_distribution_outcomes_inspected_before_freeze": false,
+    "manuscript_edits": false,
+    "qwen_rubric_excluded_as_pilot_only": true,
+    "qwen_edit_arm_excluded": true,
+    "vago_excluded_by_failed_release_gate": true
+  },
+  "corpora": {
+    "order": ["wikipedia_en", "github_docs", "ansible_docs", "python_312_html"],
+    "reference_corpus": "wikipedia_en",
+    "row_counts": {
+      "wikipedia_en": 900406,
+      "github_docs": 170798,
+      "ansible_docs": 44452,
+      "python_312_html": 179549
+    },
+    "required_total_rows": 1295205,
+    "strict_row_counts": {
+      "wikipedia_en": 320943,
+      "github_docs": 78701,
+      "ansible_docs": 21568,
+      "python_312_html": 127301
+    },
+    "subsets": ["original", "strict"]
+  },
+  "dependency_contracts": {
+    "round1_artifacts": {"path": "configs/round1_artifact_checksums.csv", "sha256": "4ba81a1ecd396a2d8a58a7eef35f8d153cf433e5ace5d1238c39dadfad53fa36"},
+    "round1_baseline": {"path": "configs/round1_speciteller_baseline.csv", "sha256": "23786ad7ebdf2d70d7770eb95f43d808b9a6a4bff55921b8a55f46e72777bce0"},
+    "strict_rule": {"path": "configs/strict_natural_language_v1.json", "sha256": "ea759d0bb631b87d01d3607a919a3fe9ff592ec42cf25ab5a1516993d8742cc0"},
+    "strict_manifest": {"path": "outputs/round2/preprocessing_ablation/strict_natural_language_v1_manifest.csv", "sha256": "deca3595e088f028d371155188a6dea56403b4844f028c10ba64ab949f8c83cf", "rows": 1295205},
+    "ko_protocol": {"path": "configs/ko_official_release_comparator_v1.json", "sha256": "235dfe8be719d674fd8d4f081f31f35dd787efb8de65b6c47eac858586d4b1fe"},
+    "ko_input_manifest": {"path": "configs/ko_official_release_inputs_v1.csv", "sha256": "35721dcc1b311291037862adb7f1041a5be2c66e989872b32fd3b0ca28dc9d15"},
+    "granuscore_protocol": {"path": "configs/round2_granuscore_v1.json", "sha256": "d4593c0a2fe93972b2f44703986bfaa2567bc7c2deceeb3d54b30fc887c91325"},
+    "granuscore_runner": {"path": "granuscore_container/score_csv.py", "sha256": "b079032eec2713168779fd4c04b7002e35b3f9b02ac7d6e497e219bef7df0235"}
+  },
+  "row_inputs": {
+    "wikipedia_en": {
+      "sentences": {"path": "outputs/sentences/wikipedia_en.csv", "sha256": "4082fa9086035b2b9b6f559ae886f08cb0a6f34735fd06614d452539f53fb90f"},
+      "features": {"path": "outputs/features/wikipedia_en_features.csv", "sha256": "d97706b4786d5f23bc11bcbf8d1266130e55545e6031999b1a7a49cadcf32406"},
+      "ordered_sent_id_sha256": "d70e06a4b7d528b8175f50c73ccf956e324df69f20692b6009f4c01037f156ac"
+    },
+    "github_docs": {
+      "sentences": {"path": "outputs/sentences/github_docs.csv", "sha256": "c492128bb408fde37419b7dedd141db8aae90a360d16d11b3c8f853691947177"},
+      "features": {"path": "outputs/features/github_docs_features.csv", "sha256": "2df74b69c80fe373b6c436739dc668b85c81bd0520f8dc80823ad782fb2a5725"},
+      "ordered_sent_id_sha256": "3350c0cd2e30b7c279d793a6d71928d3fb103621c308933fbb4db98990119477"
+    },
+    "ansible_docs": {
+      "sentences": {"path": "outputs/sentences/ansible_docs.csv", "sha256": "41512e89148ea510d589a8f7ba88d1519a51d42ae51a3fa5924ab711cae8eab9"},
+      "features": {"path": "outputs/features/ansible_docs_features.csv", "sha256": "0f9b7fe5b6912905e29b2687a52b265dc884f75c60963dc7f423a1a70b905606"},
+      "ordered_sent_id_sha256": "481e6b4833679109b95d650a146390eedf4ccfb4b155e556181070cc84fe2dd1"
+    },
+    "python_312_html": {
+      "sentences": {"path": "outputs/sentences/python_312_html.csv", "sha256": "7aa8d3a827af5052d52c784c1a92d4edb129130bd1b64228e673b771ccc7873c"},
+      "features": {"path": "outputs/features/python_312_html_features.csv", "sha256": "2da2801137edd5afca2f1bcaf56e005a26a3801825e0764bdd4f85b0daa99279"},
+      "ordered_sent_id_sha256": "3fa69986e6746a961043ce69d6ed5a6b5c2a5a966043681e1c84871cce35b9ce"
+    }
+  },
+  "score_inputs": {
+    "speciteller": {
+      "wikipedia_en": {"path": "outputs/speciteller/wikipedia_en_scores.tsv", "sha256": "d0f666b2294cbb40542a276f3c9c5e924a6e8803fea122b1ca0f636c25995aa4"},
+      "github_docs": {"path": "outputs/speciteller/github_docs_scores.tsv", "sha256": "d0d616fdad6898d4c2af6def7a17fc899e8859485bf1e97033bd0d2b1ab8a083"},
+      "ansible_docs": {"path": "outputs/speciteller/ansible_docs_scores.tsv", "sha256": "0c03b748d7052c57821930f13dfc457855f350e0ff1db9d31a3a0f29f91cec47"},
+      "python_312_html": {"path": "outputs/speciteller/python_312_html_scores.tsv", "sha256": "95397ca96ea04c642d8e06b98800c935177620d3d782a3869e43cca5dd6fae21"}
+    },
+    "ko_runs": {
+      "wikipedia_en": {
+        "run01": {"path": "outputs/round2/ko_official_release/runs/wikipedia_en/run01/scores.csv", "sha256": "e2968613ea148af3f40e85c16b8c8f905bc2bdf58716c6c7f83137a5404eda1f"},
+        "run02": {"path": "outputs/round2/ko_official_release/runs/wikipedia_en/run02/scores.csv", "sha256": "3db5c3989dcaf255754dda46c26a4a6c31703f21d52bbf47275a07c7c16ba921"},
+        "run03": {"path": "outputs/round2/ko_official_release/runs/wikipedia_en/run03/scores.csv", "sha256": "060737ae851a73643507bd978baba94d08cb120b5c1dfa32eb80eefb6af6125a"}
+      },
+      "github_docs": {
+        "run01": {"path": "outputs/round2/ko_official_release/runs/github_docs/run01/scores.csv", "sha256": "221dd63491abdfc6e232a758244736cf77e4c2d8973b417d5da32164fde4ece6"},
+        "run02": {"path": "outputs/round2/ko_official_release/runs/github_docs/run02/scores.csv", "sha256": "3b514937aaf58f2f20473588d3df2b80ae8f03e7c6448c56d09d5d323828aedc"},
+        "run03": {"path": "outputs/round2/ko_official_release/runs/github_docs/run03/scores.csv", "sha256": "72a4ba84c7a478a6b288ae816f8b523d2b67dc3b5272be85aed22aecd3ba8f5d"}
+      },
+      "ansible_docs": {
+        "run01": {"path": "outputs/round2/ko_official_release/runs/ansible_docs/run01/scores.csv", "sha256": "ff522001181be873d21a5713215aa78f6ca61f385263b6c73b0066afb6c21bc3"},
+        "run02": {"path": "outputs/round2/ko_official_release/runs/ansible_docs/run02/scores.csv", "sha256": "c9b7befa9f8ee97b0637de93f7d6dfcd20e1d634ef651d1b669ceffbde534841"},
+        "run03": {"path": "outputs/round2/ko_official_release/runs/ansible_docs/run03/scores.csv", "sha256": "d19196e6c6bba0495f84d79bf6b6462b5d422dec179ab01371270eaeced99e12"}
+      },
+      "python_312_html": {
+        "run01": {"path": "outputs/round2/ko_official_release/runs/python_312_html/run01/scores.csv", "sha256": "2325e8ccf222d83b50d52bb08bc417eacefc8cf2f969329f271770161d1370b1"},
+        "run02": {"path": "outputs/round2/ko_official_release/runs/python_312_html/run02/scores.csv", "sha256": "e655f279f6b1d501046edb077c84979800882b2d0b04d5055e7421233ac7df17"},
+        "run03": {"path": "outputs/round2/ko_official_release/runs/python_312_html/run03/scores.csv", "sha256": "80278af2010f917186cacf3226a6d46e67951518381089204ccbfa2c4f0f6a03"}
+      }
+    },
+    "granuscore": {
+      "wikipedia_en": {"path": "outputs/round2/granuscore/scores/wikipedia_en.csv", "sha256": "5190dbe22a9b790b6c189941f0b7adf2e1fa608f9460067b36acf986d98e1195"},
+      "github_docs": {"path": "outputs/round2/granuscore/scores/github_docs.csv", "sha256": "f40856ccf81718c3319e751ed3d0b76ab1d018f232a0dfae05c4c36bdef1eaa9"},
+      "ansible_docs": {"path": "outputs/round2/granuscore/scores/ansible_docs.csv", "sha256": "b408ea624be65eb770f84f93ca3c06f774104ad8e4dacba05ea0f46b6b2f0c96"},
+      "python_312_html": {"path": "outputs/round2/granuscore/scores/python_312_html.csv", "sha256": "81b931c3ae6a5216ef135281093f3544a2835416c33a779329ae1ef4c42b462f"}
+    }
+  },
+  "model_instances": [
+    {"model_instance_id": "speciteller_frozen_round1", "model_family": "SpeciTeller", "role": "primary_fixed", "minimum": 0.0, "maximum": 1.0, "direction": "higher_is_more_specific", "bounds_basis": "released probability contract"},
+    {"model_instance_id": "ko_official_release_run01", "model_family": "Ko official release", "role": "primary_stochastic_instance", "minimum": 0.0, "maximum": 1.0, "direction": "higher_is_more_specific", "bounds_basis": "positive-class posterior contract"},
+    {"model_instance_id": "ko_official_release_run02", "model_family": "Ko official release", "role": "primary_stochastic_instance", "minimum": 0.0, "maximum": 1.0, "direction": "higher_is_more_specific", "bounds_basis": "positive-class posterior contract"},
+    {"model_instance_id": "ko_official_release_run03", "model_family": "Ko official release", "role": "primary_stochastic_instance", "minimum": 0.0, "maximum": 1.0, "direction": "higher_is_more_specific", "bounds_basis": "positive-class posterior contract"},
+    {"model_instance_id": "ko_official_release_run_mean", "model_family": "Ko official release", "role": "secondary_arithmetic_mean_not_independent", "minimum": 0.0, "maximum": 1.0, "direction": "higher_is_more_specific", "bounds_basis": "arithmetic mean of three bounded posteriors"},
+    {"model_instance_id": "granuscore_native", "model_family": "GranuScore", "role": "primary_distinct_construct", "minimum": 0.0, "maximum": 100.0, "direction": "higher_is_coarser_more_abstract", "bounds_basis": "official percentile-like output contract"}
+  ],
+  "joins_and_gates": {
+    "required_join": "identical corpus_id and ordered sent_id stream across canonical sentences, SpeciTeller, features, strict manifest, all three Ko runs, and GranuScore",
+    "required_coverage_rate": 1.0,
+    "baseline_gate": "reproduce all frozen Round 1 counts and rounded SpeciTeller mean, median, population standard deviation, and IQR before summaries",
+    "strict_count_gate": "reproduce the four frozen strict_natural_language_v1 counts",
+    "score_gate": "all scores finite and inside the supported theoretical bounds, inclusive",
+    "granuscore_no_unit_gate": "no_referential_unit must equal referential_unit_count==0; no-unit scores must form exactly one native mass point",
+    "outcome_gate": "write no partial scientific table or figure until every identity, hash, coverage, order, baseline, strict-count, direction, and bound gate passes"
+  },
+  "statistics": {
+    "quantiles": [0.01, 0.05, 0.10, 0.25, 0.50, 0.75, 0.90, 0.95, 0.99],
+    "quantile_method": "numpy linear",
+    "primary_robust_span": "p95_minus_p05",
+    "secondary_robust_span": "p99_minus_p01",
+    "iqr": "p75_minus_p25",
+    "occupied_range": "maximum_minus_minimum",
+    "theoretical_range_utilization": "occupied_range_divided_by_theoretical_range",
+    "effective_dynamic_range": "p95_minus_p05_divided_by_theoretical_range",
+    "secondary_effective_dynamic_range": "p99_minus_p01_divided_by_theoretical_range",
+    "exact_unique_count": true,
+    "tie_rate": "one_minus_exact_unique_count_divided_by_n",
+    "top_mass_point_share": "largest_exact_value_count_divided_by_n",
+    "mean_and_population_std": "secondary_consistency_only",
+    "raw_cross_model_value_comparison": false
+  },
+  "boundary_concentration": {
+    "fractions": [0.01, 0.05, 0.10],
+    "primary_fraction": 0.05,
+    "lower_definition": "score <= minimum + fraction * theoretical_range",
+    "upper_definition": "score >= maximum - fraction * theoretical_range",
+    "tails_are_not_saturation": "empirical quantile-tail membership is never labeled saturation; only supported theoretical bounds define boundary regions",
+    "granuscore_unit_only_sensitivity": "repeat every summary and boundary statistic on non-sentinel rows for original and strict subsets"
+  },
+  "bootstrap": {
+    "replicates": 1000,
+    "master_seed": 20260810,
+    "confidence_interval": "percentile 2.5% to 97.5%",
+    "cluster_key": "doc_path",
+    "sampling": "sample documents with replacement independently within each corpus",
+    "boundary_estimand": "sentence-weighted boundary proportion after cluster resampling",
+    "boundary_comparison": "technical_minus_wikipedia at the primary outer-five-percent threshold, lower and upper separately",
+    "document_span_estimand": "equal-document mean of within-document p95-p05 among documents with at least 20 subset rows",
+    "document_span_comparisons": ["technical_minus_wikipedia", "technical_divided_by_wikipedia"],
+    "minimum_rows_per_document_for_span": 20,
+    "minimum_eligible_documents": 20,
+    "zero_denominator_stop": "stop if the Wikipedia document-average span is nonpositive in the point estimate or any retained bootstrap replicate"
+  },
+  "histogram": {
+    "included_models": ["speciteller_frozen_round1", "ko_official_release_run01", "ko_official_release_run02", "ko_official_release_run03", "granuscore_native"],
+    "bins": 50,
+    "edges": "equal-width over each supported theoretical range; left-closed/right-open except inclusive final bin",
+    "normalization": "within model_instance_id x corpus_id x subset proportions summing to one",
+    "facets": "rows are model instances in frozen order; columns are corpora in frozen order",
+    "subsets": "original filled bars and strict step outline in every facet",
+    "x_axes": "fixed native theoretical bounds; probability rows use 0, 0.5, 1 and GranuScore uses 0, 50, 100",
+    "y_axes": "shared within each model row only; lower bound zero and upper bound 1.08 times that row's observed maximum proportion, capped at one",
+    "boundary_guides": "primary lower and upper outer-five-percent thresholds",
+    "cross_scale_axis_sharing": false,
+    "ko_mean_in_primary_figure": false
+  },
+  "comparison_and_claim_rules": {
+    "dynamic_range_categories": {"compressed": "effective_dynamic_range < 0.40", "intermediate": "0.40 <= effective_dynamic_range < 0.70", "broad": "effective_dynamic_range >= 0.70"},
+    "dominant_mass_point": "top_mass_point_share >= 0.10",
+    "boundary_concentrated": "lower_outer_5pct_share >= 0.20 or upper_outer_5pct_share >= 0.20",
+    "histogram_concentrated": "maximum_2pct_bin_share >= 0.20",
+    "smooth_wording_rule": "never claim a mathematically smooth distribution; report broad/graded appearance only when there is no dominant mass point, no boundary concentration, no concentrated histogram bin, and effective dynamic range is broad",
+    "technical_span_relative_to_wikipedia": {"narrower": "ratio <= 0.80", "similar_band": "0.80 < ratio < 1.25", "broader": "ratio >= 1.25"},
+    "technical_boundary_relative_to_wikipedia": {"less": "difference <= -0.05", "similar_band": "-0.05 < difference < 0.05", "more": "difference >= 0.05"},
+    "cross_model_consistency": "consistent only when SpeciTeller, all three Ko runs, and native GranuScore have the same frozen relative category for a corpus/subset; otherwise heterogeneous",
+    "ko_mean_status": "secondary sensitivity only and never counted as a fourth Ko instance or independent model",
+    "construct_boundary": "distribution differences are model behavior, not latent specificity or granularity truth, comparative accuracy, documentation quality, or a causal domain effect"
+  },
+  "outputs": {
+    "full_directory": "outputs/round2/distribution_saturation",
+    "compact_directory": "analysis/round2_distribution_saturation",
+    "tables": ["coverage.csv", "baseline_validation.csv", "distribution_summaries.csv", "boundary_concentration.csv", "granuscore_unit_sensitivity.csv", "boundary_comparisons.csv", "robust_span_comparisons.csv", "histogram_bins.csv", "model_corpus_diagnostics.csv", "cross_model_consistency.csv", "paper_distribution_table.csv"],
+    "figure_svg": "distribution_histograms.svg",
+    "figure_png": "distribution_histograms.png",
+    "metadata_schema": "schemas/round2_distribution_saturation_run_metadata.schema.json"
+  },
+  "stop_conditions": [
+    "any dependency or score hash mismatch",
+    "canonical baseline or strict-count mismatch",
+    "duplicate, missing, extra, or out-of-order sent_id",
+    "coverage below 100 percent for any required model instance",
+    "nonfinite score or value outside a supported theoretical bound",
+    "GranuScore no-unit flag/count inconsistency or more than one no-unit mass point",
+    "fewer than 20 eligible documents for a document-span bootstrap",
+    "nonpositive Wikipedia document-span denominator in a point estimate or bootstrap replicate",
+    "a bin, statistic, comparison, claim, direction, or exclusion rule would need to change after outcome inspection"
+  ]
+}

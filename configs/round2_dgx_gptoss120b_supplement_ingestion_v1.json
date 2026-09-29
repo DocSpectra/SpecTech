@@ -1,0 +1,69 @@
+{
+  "schema_version": "round2_dgx_gptoss120b_supplement_ingestion_v1",
+  "study_id": "round2-dgx-gptoss120b-run1-supplement-v1",
+  "run_id": "dgx-5411bb15be9f",
+  "content_blind": true,
+  "no_model_execution": true,
+  "supplement": {
+    "path_role": "lab_partner_preserved_run_directory_zip",
+    "sha256": "8c2961fae22855df380ffe08013133cc8cb66da33463e0c93952e4f30e15dd27",
+    "adjacent_checksum_present": false,
+    "expected_root": "run",
+    "expected_regular_files": 14
+  },
+  "bindings": {
+    "original_return_archive_sha256": "bf6f5d9b5564dd7191640e7ef6b29fbb1ce34b92409f39415ad8d1c9a934bfd6",
+    "source_packet_sha256": "c361781bdde8b577e0b8d6f895ed77c3b6930b5568d91a58d20d0319f8572b1e",
+    "original_audit_sha256": "523e5fc3565a2d8d61771e41d33907d90b39f4f3dc5116797ea1f4de73070cd5",
+    "prior_acceptance_summary_sha256": "db94418122bb14f23eb78197355ded5b25c3c538b4e1df7b9f94fe9a03c73278",
+    "freeze_id": "d6642412988bf2b002d7283984c944df7a9a136e",
+    "source_git_commit": "6068fe9c0e19c4c2a6ae2c64f93c4709a06d1ab2",
+    "runtime_version": "0.32.5",
+    "model_manifest_sha256": "a951a23b46a1f6093dafee2ea481d634b4e31ac720a8a16f3f91e04f5a40ecd9",
+    "model_blob_sha256": "6be6d66a3f546d8c19b130dc41dc24b2fc159f84ffbc76a0ee0676205083cf5a",
+    "runtime_archive_sha256": "aa7e06b5683ee66c4a3ec68ea7236db43b5a5d0821f0dfe2c5a215f4462bddf4"
+  },
+  "required_members": [
+    "run/state.json",
+    "run/run_receipt.json",
+    "run/retained_candidates.csv",
+    "run/return_manifest.json",
+    "run/spectech_capability_extension.json",
+    "run/return_report.md",
+    "run/model_smoke_report.json",
+    "run/generation_attempts.jsonl",
+    "run/spark_capability_report.json",
+    "run/capability_compatibility.json",
+    "run/operator_report.md",
+    "run/rubric_scores.csv",
+    "run/runtime_redacted.log",
+    "run/operator_actions.jsonl"
+  ],
+  "unchanged_output_members": [
+    "capability_compatibility.json",
+    "operator_actions.jsonl",
+    "operator_report.md",
+    "retained_candidates.csv",
+    "return_manifest.json",
+    "return_report.md",
+    "rubric_scores.csv",
+    "run_receipt.json",
+    "spark_capability_report.json",
+    "spectech_capability_extension.json"
+  ],
+  "acceptance_rule": {
+    "required_attempt_count": 180,
+    "required_accepted_count": 180,
+    "required_rubric_count": 80,
+    "required_smoke_fixture_count": 3,
+    "require_outputs_unchanged": true,
+    "disposition_on_pass": "accepted_with_author_provenance_waiver",
+    "supplement_status_on_pass": "partial_provenance_recovery"
+  },
+  "preservation": {
+    "original_audit_unchanged": true,
+    "prior_author_waiver_unchanged": true,
+    "original_receipt_unchanged": true,
+    "scientific_outputs_unchanged": true
+  }
+}

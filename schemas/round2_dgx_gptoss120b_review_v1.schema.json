@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spectech.local/schemas/round2_dgx_gptoss120b_review_v1.schema.json",
+  "title": "GPT-OSS-120B blinded specificity review row",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["Review ID", "A", "B", "Score"],
+  "properties": {
+    "Review ID": {"type": "string", "pattern": "^DHF-[A-Z2-7]{12}$"},
+    "A": {"type": "string", "minLength": 5, "maxLength": 2000},
+    "B": {"type": "string", "minLength": 5, "maxLength": 2000},
+    "Score": {"type": "string", "enum": ["", "1", "2", "3", "4", "5", "X"]}
+  }
+}

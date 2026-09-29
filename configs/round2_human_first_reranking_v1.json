@@ -1,0 +1,114 @@
+{
+  "schema_version": "round2_human_first_reranking_v1",
+  "study_label": "Fresh human-first Gemma controlled-edit candidate reranking pilot",
+  "outcome_blind_method_freeze": true,
+  "authorization": {
+    "user_authorized_utc_date": "2026-08-11",
+    "prior_generated_outputs_may_be_read_or_reused": false,
+    "manuscript_changes_authorized": false,
+    "gemma_rubric_authorized_in_this_sprint": false
+  },
+  "inputs": {
+    "base_protocol": {"path": "configs/round2_gemma_controlled_editor_v1.json", "sha256": "cc6b14d91486553b94c6817b50f5ee4aa6ae70090602b9fb8e32360270075c57"},
+    "corpus_order": ["ansible_docs", "github_docs"],
+    "source_files": {
+      "ansible_docs": {"path": "outputs/round2/granuscore/controlled_edits/ansible_docs_manual_controlled_edits.csv", "sha256": "d6eb585c3c87295cb7f7862476cead64f8d4b47fd30c682a01095220004f2e3f", "rows": 30, "direction_counts": {"add_specific": 8, "de_specify": 12, "irrelevant_rewrite": 10}},
+      "github_docs": {"path": "outputs/round2/granuscore/controlled_edits/github_docs_manual_controlled_edits.csv", "sha256": "6860b7ae74eb51a589361e8555d7e16c889860f45cdf019371948a1e23fd24fc", "rows": 30, "direction_counts": {"add_specific": 10, "de_specify": 10, "irrelevant_rewrite": 10}}
+    },
+    "required_source_cases": 60,
+    "candidate_slots_per_source": 3,
+    "required_candidate_slots": 180,
+    "case_id": "sha256(utf8(corpus_id + NUL + sent_id + NUL + edit_type + NUL + one_based_source_position))",
+    "ordered_case_sha256": "c46c1e7182a34a0f89dbb2826a6fcd2c0eec73f56842a5d484cf7675d95ed7ec",
+    "order": "corpus_order, byte-frozen source row order, then candidate_slot 1..3",
+    "generation_field": "sentence_original only; author edit columns are not loaded into generation objects"
+  },
+  "runtime": {
+    "ollama_version": "0.32.5",
+    "model": "gemma4:12b",
+    "model_tag_digest": "4eb23ef187e2c5462566d6a1d3bbbc2f1346d0b4327cbb66d58fffbcc9b2b05c",
+    "model_list_id": "4eb23ef187e2",
+    "installed_size_bytes": 7556508396,
+    "family": "gemma4",
+    "parameter_size": "11.9B",
+    "parameter_count": 11907350576,
+    "quantization": "Q4_K_M",
+    "format": "gguf",
+    "model_blob_sha256": "1278394b693672ac2799eadc9a83fd98259a6a88a40acfb1dcaa6c6fc895a606",
+    "model_blob_size_bytes": 7381382048,
+    "projector_blob_sha256": "675ad6e68101ca9413ec806855c452362f0213f2dfc5800996b086fdb8119842",
+    "projector_blob_size_bytes": 175115584,
+    "license": "Apache-2.0 as emitted by ollama show",
+    "official_source": "https://ollama.com/library/gemma4:12b",
+    "api_url": "http://127.0.0.1:11434/api/chat",
+    "thinking": false,
+    "stream": false,
+    "keep_alive": "30m",
+    "fresh_conversation_per_attempt": true,
+    "maximum_attempts_per_slot": 3,
+    "master_seed": 2026081111,
+    "seed_namespace": "human-first-gemma-candidate-v1",
+    "seed_derivation": "first 31 bits of sha256(utf8(master_seed + ':' + seed_namespace + ':' + case_id + ':' + candidate_slot + ':' + attempt_index)), big-endian",
+    "options": {"temperature": 1.0, "top_k": 64, "top_p": 0.95, "repeat_penalty": 1.0, "num_ctx": 4096, "num_predict": 256},
+    "response_schema": {"type": "object", "properties": {"edited_sentence": {"type": "string"}}, "required": ["edited_sentence"], "additionalProperties": false},
+    "residency": "Stop qwen3:14b, gpt-oss:20b, and gemma4:12b; warm exact Gemma tag with a non-project fixture; require exactly the pinned Gemma digest resident before and after all project calls; every response model must match; stop Gemma and require empty ollama ps at close. Preserve all installed models."
+  },
+  "prompts": {
+    "system": "Generate one controlled rewrite for a sentence-specificity study. Preserve the sentence's main meaning, factual commitments, polarity, modality, and communicative intent. Make only the requested kind of change. Do not assume hidden context or invent unsupported facts. Return exactly one grammatical sentence in the required JSON field and no explanation.",
+    "user_templates": {
+      "add_specific": "Rewrite the original sentence so it is more specific while preserving its meaning and factual correctness.\n\nOriginal sentence:\n{sentence_original}",
+      "de_specify": "Rewrite the original sentence so it is less specific while preserving its meaning and factual correctness.\n\nOriginal sentence:\n{sentence_original}",
+      "irrelevant_rewrite": "Paraphrase the original sentence while keeping approximately the same specificity, meaning, and factual correctness.\n\nOriginal sentence:\n{sentence_original}"
+    },
+    "blindness": "No corpus, identifiers, author edit, prior model output, prior attempt, proxy, predictor score, rubric score, human label, or review information enters a request."
+  },
+  "integrity_inclusion": {
+    "retention": "For each slot, retain the first attempt passing all integrity checks. Retry with an independently derived seed and fresh context only after interface/integrity failure. Never repair, rank, or manually select. Stop with no packet if any slot remains missing after three attempts.",
+    "checks": {"exact_json_field_only": true, "one_nonempty_line": true, "minimum_characters": 5, "maximum_characters": 2000, "must_differ_after_nfkc_strip_whitespace_collapse_casefold": true, "at_most_one_detected_sentence_boundary": true, "new_non_latin_letter_script_forbidden_when_original_has_none": true},
+    "explicitly_forbidden_for_inclusion": ["specificity direction", "length ratio", "content anchors", "concrete markers", "polarity", "modality", "SpeciTeller", "Ko", "GranuScore", "author edits", "Qwen rubric", "prior human labels"]
+  },
+  "automatic_proxy_audit": {
+    "timing": "After 180/180 generation completeness and before packet release; never gates, ranks, excludes, or alters a candidate.",
+    "definition_source": {"path": "configs/round2_gemma_controlled_editor_v1.json", "sha256": "cc6b14d91486553b94c6817b50f5ee4aa6ae70090602b9fb8e32360270075c57", "implementation": "src.analysis.gemma_controlled_editor.gate_edit"},
+    "saved_fields": "candidate_id, pass/fail, reason codes, and proxy component metrics in the ignored key-side artifact"
+  },
+  "scoring": {
+    "timing": "Only after generation is complete; scores never affect inclusion or reviewer presentation.",
+    "identity_source": {"path": "configs/round2_qwen_edit_source_v1.json", "sha256": "79e94d7b78e96ef8711d22081d1961627b5c4545e887b89ef2314da195b06b72"},
+    "sentence_set": "All 60 originals and all 180 candidates",
+    "primary": ["speciteller_frozen_round1", "ko_run01", "ko_run02", "ko_run03", "granuscore_native"],
+    "secondary": ["ko_three_run_arithmetic_mean", "rank_consensus"],
+    "directions": {"speciteller_frozen_round1": "higher_is_more_specific", "ko_run01": "higher_is_more_specific", "ko_run02": "higher_is_more_specific", "ko_run03": "higher_is_more_specific", "ko_three_run_arithmetic_mean": "higher_is_more_specific", "granuscore_native": "higher_is_coarser_more_abstract"},
+    "coverage_gate": "Exact one-to-one finite in-range scores for every original and candidate under every primary scorer; exact saved model/checkpoint/image identities; no retraining. Otherwise no packet."
+  },
+  "selection_policies": {
+    "candidate_pool": "exactly three retained candidate slots for each source",
+    "policies": ["unguided_slot01", "speciteller_frozen_round1", "ko_run01", "ko_run02", "ko_run03", "ko_three_run_arithmetic_mean_secondary", "granuscore_direction_aligned", "rank_consensus_secondary"],
+    "rule": "For add_specific select greatest specificity-aligned candidate-minus-original delta; for de_specify select smallest specificity-aligned candidate-minus-original delta; for irrelevant_rewrite select smallest absolute aligned delta. GranuScore aligned score equals negative native score. Ties select lowest candidate_slot.",
+    "unguided_rule": "candidate_slot 1, fixed before generation",
+    "consensus_rule": "Within each source and direction, rank candidate slots independently under SpeciTeller, Ko run01, run02, run03, and aligned GranuScore using the same direction rule; sum ranks; select the lowest sum, then lowest candidate_slot. Secondary only.",
+    "evaluation_boundary": "Policies are evaluated only against completed blinded human scores, never against the metric that selected them. Selection mappings remain private until all 180 reviews are frozen."
+  },
+  "blinding": {
+    "review_id_seed": 2026081112,
+    "review_id_namespace": "human-first-editor-review-v1",
+    "review_id": "HFE- plus first 12 RFC4648 base32 characters without padding of sha256(seed:namespace:candidate_id)",
+    "side_seed": 2026081113,
+    "side_assignment": "Within each hidden corpus-by-direction cell, sort candidates by sha256(seed:candidate_id); candidate is A for the first exact half and B for the second, giving exact 50/50 in every even cell and 90/90 overall.",
+    "row_order_seed": 2026081114,
+    "row_order": "Sort all rows by sha256(seed:review_id).",
+    "packet_columns": ["Review ID", "A", "B", "Score"],
+    "score_values": {"1": "A clearly more specific", "2": "A slightly more specific", "3": "about the same specificity", "4": "B slightly more specific", "5": "B clearly more specific", "X": "not comparable because meaning/factuality/grammar is not acceptably preserved"},
+    "forbidden_packet_information": ["corpus", "direction", "model", "provenance", "source/candidate role", "candidate slot", "proxy result", "metric values", "selector mappings"],
+    "key": "Ignored reversible mapping with case/candidate identity, source and candidate hashes/text, hidden cell/direction, A/B role, slot, attempts, proxy audit, scorer values, and policy mappings. Do not open or expose after construction until all 180 ratings are frozen."
+  },
+  "release_gate": ["180/180 retained candidates", "automatic proxy audit coverage 180/180", "all original/candidate scorer joins complete", "private reversible key bijection and hashes pass", "exact side balance passes", "privacy scan passes", "CSV and XLSX content equivalence passes", "XLSX validation/render/export checks pass"],
+  "outputs": {
+    "raw_directory": "outputs/round2/human_first_reranking",
+    "review_csv": "human_first_review_packet.csv",
+    "review_xlsx": "human_first_review_packet.xlsx",
+    "compact_directory": "analysis/round2_human_first_reranking",
+    "tracked": ["README.md", "packet_manifest.json", "generation_coverage.csv", "proxy_aggregate.csv"],
+    "release_boundary": "All text-bearing generation, candidate, scoring, key, and review packet artifacts remain ignored. Track only portable method/code/tests and content-free aggregate counts/hashes."
+  }
+}

@@ -1,0 +1,104 @@
+{
+  "schema_version": "ko_official_release_comparator_v1",
+  "frozen_at_utc": "2026-08-09T08:15:00Z",
+  "outcome_blind_freeze": true,
+  "project_scoring_authorized": true,
+  "identity": {
+    "model_id": "ko_author_official_release_se_ad_mean_std",
+    "model_version": "official-author-repository-postpublication-36f8e835-cpu-v1",
+    "official_repository": "https://github.com/wjko2/Domain-Agnostic-Sentence-Specificity-Prediction",
+    "upstream_commit": "36f8e835e9dc6087d5b6763accf302db175947b1",
+    "paper_era_commit": "bee414ad5994f960d445cb5454c66199aa3920c6",
+    "distribution_loss_change_commit": "cb6243c174ce9283e1155c7a97ef55d14f587bc0",
+    "identity_label": "author-owned official repository post-publication CPU implementation",
+    "not_claimed": [
+      "reproduced 2019 experimental checkpoint",
+      "author-designated replacement checkpoint",
+      "successful reproduction of published Table 2"
+    ]
+  },
+  "immutable_blocker_reference": {
+    "config": "configs/ko_2019_reproduction_v1.json",
+    "evidence_directory": "analysis/round2_ko_reproduction",
+    "released_twitter_spearman": 0.46860126636291055,
+    "published_twitter_spearman": 0.676,
+    "status": "failed_exact_2019_reproduction_evidence_retained"
+  },
+  "runtime": {
+    "image": "spectech-ko-specificity:36f8e835-official-release-v1",
+    "glove_volume": "spectech-ko-glove-840b-v1",
+    "glove_text_sha256": "9641ef45628fd8c5c0bc555c8944f7bad7bce36ae7be3cafff0bb109fe60883e",
+    "python": "3.6.15",
+    "torch": "1.0.0+cpu",
+    "numpy": "1.16.4",
+    "scipy": "1.2.1",
+    "host_install_forbidden": true,
+    "upstream_license_status": "no license file at pinned commit; upstream source, image, checkpoints, and data are not redistributable absent permission"
+  },
+  "protocol": {
+    "source_training": "official bundled binary-labeled news source data",
+    "target_adaptation_boundary": "one fresh model trained and adapted separately for each target corpus and run",
+    "adaptation_uses_labels": false,
+    "canonical_corpus_order": [
+      "wikipedia_en",
+      "github_docs",
+      "ansible_docs",
+      "python_312_html"
+    ],
+    "canonical_row_order": "byte-frozen order of each canonical outputs/sentences/<corpus>.csv after excluding only rows invalid under the unchanged legacy one-physical-line input contract",
+    "legacy_order_sensitivity": "all target rows enter shallow-feature normalization; only the first 50 valid target rows enter consistency batches because upstream train.py applies modulo 50",
+    "minimum_valid_rows": 50,
+    "run_ids": ["run01", "run02", "run03"],
+    "independence": "separate Docker process and fresh training for every corpus/run pair",
+    "upstream_seed_behavior": "NumPy and Torch are fixed at 1234 by upstream; Python random is intentionally unseeded and controls augmentation branches",
+    "scientific_seed_change_forbidden": true,
+    "score_scale": {
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "direction": "higher_is_more_specific",
+      "meaning": "teacher-network positive-class posterior"
+    },
+    "primary_ko_aggregation": "arithmetic mean of the three native posterior scores for each sent_id",
+    "training_variability": "retain all run-level scores and hashes; report run-level corpus summaries and row-level across-run population standard deviation",
+    "strict_subset": "join strict_natural_language_v1 score-blind keep status onto each already trained/scored original run; never retrain on strict rows",
+    "length_control": "reuse round2_length_control_v1 exact-token common support, reference distribution, weighting, regression, interaction diagnostic, and bootstrap rules"
+  },
+  "coverage_gates": {
+    "validity": "nonempty corpus_id/sent_id/text, unique sent_id, and no CR or LF in canonical sentence text",
+    "required_coverage_rate": 1.0,
+    "action_on_invalid_row": "record failure and stop before any model run; no text repair or silent exclusion",
+    "required_prediction_rate": 1.0,
+    "required_join": "identical ordered sent_id sequence across canonical sentence, SpeciTeller score, features, strict manifest, and every Ko run",
+    "action_on_failure": "stop without comparative analysis"
+  },
+  "analysis": {
+    "bootstrap_replicates": 1000,
+    "bootstrap_master_seed": 20260809,
+    "bootstrap_unit": "doc_path cluster sampled independently within corpus",
+    "cross_model_agreement": "within-corpus Spearman on identical rows; document-cluster bootstrap uses fixed full-sample average ranks and cluster resampling",
+    "cross_model_transforms": [
+      "within-corpus average percentile ranks for disagreement",
+      "within-model pooled z scores for standardized corpus contrasts"
+    ],
+    "native_scale_rule": "never compare raw SpeciTeller and Ko values as interchangeable",
+    "within_model_outputs": [
+      "corpus ordering on native mean and median",
+      "Wikipedia-minus-technical native gaps",
+      "Wikipedia-minus-technical pooled-z gaps"
+    ],
+    "preprocessing_outputs": "original and strict_natural_language_v1 summaries and Wikipedia-minus-technical document-bootstrap gaps",
+    "length_outputs": "round2_length_control_v1 primary direct standardization and regression/interaction sensitivity for both model aggregates",
+    "disagreement_outputs": "absolute within-corpus percentile-rank difference summaries and deterministic top sent_id diagnostics",
+    "accuracy_boundary": "without labels, smaller gaps or stronger agreement are not evidence of greater accuracy",
+    "controlled_edit_expansion": false,
+    "human_pilot": "not run; optional only under existing plan and not required for this comparison"
+  },
+  "stop_conditions": [
+    "canonical baseline checksum or ordered join failure",
+    "less than complete valid-row coverage",
+    "Docker image or external GloVe identity mismatch",
+    "container or prediction-count failure",
+    "nonfinite or out-of-range score",
+    "scientific choice would need to change after outcome inspection"
+  ]
+}

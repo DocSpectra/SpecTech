@@ -1,0 +1,106 @@
+{
+  "schema_version": "round2_qwen_edit_remediation_split_v1",
+  "frozen_at_utc": "2026-08-10T23:30:00Z",
+  "purpose": "Separately labeled development/remediation study; not a continuation of prespecified QE-A inference.",
+  "inputs": {
+    "qe_a_config_path": "configs/round2_qwen_edit_source_v1.json",
+    "qe_a_config_sha256": "79e94d7b78e96ef8711d22081d1961627b5c4545e887b89ef2314da195b06b72",
+    "qe_a_ordered_case_sha256": "c46c1e7182a34a0f89dbb2826a6fcd2c0eec73f56842a5d484cf7675d95ed7ec",
+    "required_total_cases": 60
+  },
+  "split": {
+    "seed": 2026081001,
+    "strata": "corpus_id by edit_type",
+    "ranking_key": "sha256(utf8(str(seed) + ':' + corpus_id + ':' + edit_type + ':' + case_id + ':' + str(one_based_source_position)))",
+    "assignment": "within each stratum sort ascending by ranking_key then case_id; first exact half is development and remainder is held_out",
+    "allowed_selection_fields": [
+      "corpus_id",
+      "edit_type",
+      "case_id",
+      "one_based_source_position"
+    ],
+    "forbidden_selection_fields": [
+      "sentence_original",
+      "sentence_edited",
+      "qe_a_attempt_text",
+      "qe_a_acceptance",
+      "qe_a_reason_codes",
+      "any_model_score",
+      "any_human_or_qwen_label"
+    ],
+    "expected_counts": {
+      "development": {
+        "ansible_docs:add_specific": 4,
+        "ansible_docs:de_specify": 6,
+        "ansible_docs:irrelevant_rewrite": 5,
+        "github_docs:add_specific": 5,
+        "github_docs:de_specify": 5,
+        "github_docs:irrelevant_rewrite": 5
+      },
+      "held_out": {
+        "ansible_docs:add_specific": 4,
+        "ansible_docs:de_specify": 6,
+        "ansible_docs:irrelevant_rewrite": 5,
+        "github_docs:add_specific": 5,
+        "github_docs:de_specify": 5,
+        "github_docs:irrelevant_rewrite": 5
+      }
+    },
+    "manifest_path": "configs/round2_qwen_edit_remediation_split_v1.csv",
+    "manifest_sha256": "54dd2f4d4fad287a6125cdd303196fce82c08ebf2c7f6d535b7cc17381db44f5",
+    "ordered_assignment_sha256": "877b34a6af8c53cc735c5a1c495aeba5381fe3fdfd52606ceb1ccf9152f9e82d"
+  },
+  "development_budget": {
+    "maximum_candidate_configurations": 3,
+    "maximum_execution_rounds": 2,
+    "maximum_attempts_per_case_per_candidate_per_round": 3,
+    "round_1": "Run every predeclared candidate once on all 30 development cases.",
+    "round_2": "Optional deterministic confirmation of exactly one already-predeclared candidate on all 30 development cases; no prompt or gate revision is permitted between rounds.",
+    "maximum_fresh_generation_calls": 360,
+    "candidate_freeze_rule": "All candidate prompts, gates, runtime settings, seeds, and schemas must be committed before the first fresh development generation.",
+    "round_master_seeds": [2026081011, 2026081012],
+    "candidate_selection_rule": [
+      "Exclude any candidate that weakens polarity, modality, one-sentence, mechanical-integrity, or concrete-marker safeguards without a development positive-control justification.",
+      "Among eligible candidates, maximize the minimum development corpus-by-direction case coverage.",
+      "Then maximize overall development case coverage.",
+      "Then prefer fewer safeguard failure modes and fewer attempts per accepted case.",
+      "Break any remaining tie in favor of the candidate with fewer prompt/gate changes from QE-A v1, then lexical candidate_id order."
+    ],
+    "prohibited_selection_inputs": [
+      "SpeciTeller outcomes",
+      "Ko outcomes",
+      "GranuScore outcomes",
+      "Qwen rubric or self-judgment outcomes",
+      "human labels or judgments",
+      "held-out text, acceptance, trace, or aggregate outcome"
+    ]
+  },
+  "held_out_confirmation": {
+    "master_seed": 2026081099,
+    "maximum_attempts_per_case": 3,
+    "single_fresh_run": true,
+    "protocol_must_be_committed_before_start": true,
+    "no_revision_after_start": true,
+    "minimum_overall_rate": 0.8,
+    "minimum_cell_rate": 0.75,
+    "exact_minimum_accepted": {
+      "overall:30": 24,
+      "ansible_docs:add_specific:4": 3,
+      "ansible_docs:de_specify:6": 5,
+      "ansible_docs:irrelevant_rewrite:5": 4,
+      "github_docs:add_specific:5": 4,
+      "github_docs:de_specify:5": 4,
+      "github_docs:irrelevant_rewrite:5": 4
+    },
+    "failure_disposition": "Stop QE-R and recommend omitting the Qwen edit arm and held QE-B disposition paragraph from the submitted paper.",
+    "pass_disposition": "Package accepted outputs and privacy-safe evidence, then recommend a separate primary-reviewed scoring/analysis sprint; do not score in QE-R."
+  },
+  "privacy_and_blinding": {
+    "development_text_access": "Only development-half QE-A attempts, original text, author-positive-control text, and traces may be exposed locally after this split is committed.",
+    "held_out_text_access": "Held-out originals, author edits, QE-A attempts, and fresh v2 outputs must never be printed or interactively inspected in QE-R.",
+    "generation_boundary": "Qwen receives only the current original sentence and direction-matched prompt; author wording, gates, traces, scores, labels, corpus identity, and other cases are absent.",
+    "tracked_release": "Case IDs, split labels, source positions, directions, aggregates, reason codes, metrics, hashes, seeds, and provenance only; no sentence or edit text.",
+    "raw_text_storage": "Ignored outputs only, separated by development and held_out directories.",
+    "positive_controls": "Apply gates only to development-half author edits and report aggregate metric distributions; author wording is never included in generation requests."
+  }
+}

@@ -1,0 +1,183 @@
+{
+  "schema_version": "ko_released_review_diagnostic_v1",
+  "outcome_blind_freeze": true,
+  "freeze_scope": "New supplemental reproduction diagnostic on the authors' released Yelp-review and movie-review conditions; does not reopen or replace the failed Twitter gate and does not change comparator selection.",
+  "identity": {
+    "paper": "Ko, Durrett, and Li (AAAI 2019), Domain Agnostic Real-Valued Specificity Prediction",
+    "paper_url": "https://arxiv.org/abs/1811.05085",
+    "official_repository": "https://github.com/wjko2/Domain-Agnostic-Sentence-Specificity-Prediction",
+    "upstream_commit": "36f8e835e9dc6087d5b6763accf302db175947b1",
+    "implementation_status": "official author-repository post-publication CPU implementation; not the paper-era artifact or an author-designated replacement checkpoint",
+    "system": "SE+AD mean-std",
+    "source_training": "official bundled binary-labeled news sentences",
+    "objective_boundary": "post-publication code regularizes the unlabeled target batch rather than the paper-era labeled source batch"
+  },
+  "immutable_twitter_gate": {
+    "status": "failed_and_closed",
+    "config": "configs/ko_2019_reproduction_v1.json",
+    "config_sha256": "f413e5c3f847dfd4cc8b6cf2b97a9a2064197c863bfbdfe010bc8d2dc1688b29",
+    "evidence_directory": "analysis/round2_ko_reproduction",
+    "evidence_sha256": {
+      "container_build.json": "25222562d92b549f2c6827d093d01e5e89a2199cdb977f8b58debafb029957c0",
+      "no_project_outcomes_audit.json": "9e5dc747567f58ba8ade7d4805b593a6c8f5a88b0c4dbb22b993009ad1fa1708",
+      "README.md": "34ec3bf6bcbbf2464447b35b8c6d36019391d277587ec9a77b8af82394e94371",
+      "released_full_run.json": "d180984f86d82407a6ad71e2d5ec17309b9aaa8a61c05ae3587f990b43dceae2",
+      "released_smoke_run1.json": "e7cacd77631bc0627906cf1fc8ef85f245ab31c8f2ed35208428c24287aa62c1",
+      "released_smoke_run2.json": "9cb9a742d602269d607b92cad4cf558cac934fa233cade3d5927beefff55da67",
+      "released_twitter_metrics.json": "8a77e9c79f798c934b0c8585ea5b168955d80d991da1f7278d46f29346c59630",
+      "smoke_determinism.json": "395b69fb19ceea693e0c23954d213ed338876273f77b167757a75ab9f5fea818",
+      "upstream_timeline.json": "0fc1b9aba57dd0f52e4df394aa38bc42186eb65c6e83d6805673539ac4e8976a",
+      "upstream_timeline_diff.patch": "61ef0ab929629a50639ab7dcafc2ee205180366e506ccedf248ed9d9f720d95c",
+      "validation_summary.json": "a30c4c864f946172e182bea3549fa248f176991d4d22dfba76a915a9fb6d8b49"
+    }
+  },
+  "runtime": {
+    "image": "spectech-ko-specificity:36f8e835-py36-torch100-cpu",
+    "image_id": "sha256:5cfa0a769b15c4e64dbba0553605f66cc0ccaa3410dd898579dbf19877de9aeb",
+    "platform": "linux/amd64",
+    "python": "3.6.15",
+    "torch": "1.0.0",
+    "numpy": "1.16.4",
+    "scipy": "1.2.1",
+    "cuda_available": false,
+    "glove_volume": "spectech-ko-glove-840b-v1",
+    "glove_text_sha256": "9641ef45628fd8c5c0bc555c8944f7bad7bce36ae7be3cafff0bb109fe60883e"
+  },
+  "protocol": {
+    "domains": ["yelp", "movie"],
+    "run_ids": ["run01", "run02", "run03"],
+    "runs_per_domain": 3,
+    "training_epochs": 30,
+    "batch_size": 32,
+    "source_row_count": 4342,
+    "source_data_execution_sha256": "7a5b7254754d387191d7036b1bfa91895de83784e2075dfd113727ad948d7e14",
+    "source_label_execution_sha256": "6c93cfe13385cb8ba9aee523903b6aab5c84332e51175c731cdc484c501d8484",
+    "source_data_released_crlf_equivalent_sha256": "1c31cf3aaf6d1e57b58bbe3841e1e1e7e3654ca89d4d4546897e86f1364dd9c8",
+    "source_label_released_crlf_equivalent_sha256": "ea2bf0b36f50a9beea5c50550d38faf9ac9f4979e0c865fa1ad200a868aef1872",
+    "numpy_seed": 1234,
+    "torch_seed": 1234,
+    "python_random_seed": null,
+    "python_random_boundary": "Upstream imports Python random but never seeds it; augmentation branches remain intentionally variable and each run is a separate Docker process.",
+    "preprocessing": "unmodified pinned repository loaders, shallow features, vocabulary construction, GloVe lookup, target-feature normalization, augmentation, train.py, and test.py",
+    "only_domain_substitution": "--test_data is yelp or movie instead of twitter; data2.py selects the corresponding released annotated, continuous-label, binary-label, and unlabeled files",
+    "label_transform": "continuous Turker label transformed from the released 1--5 scale to [0,1] as (label - 1) / 4",
+    "loader_withholding": "tv=1: the first released annotated sentence and its labels form the development slice and are excluded from test predictions and metrics",
+    "metrics": ["spearman", "kendall_tau", "mae"],
+    "observed_standard_deviation": "population standard deviation across the three run-level metric values (ddof=0)",
+    "score_direction": "higher_is_more_specific",
+    "native_score_range": [0.0, 1.0]
+  },
+  "released_conditions": {
+    "yelp": {
+      "paper_condition": "Yelp review target domain",
+      "annotated_sentences_file": "dataset/data/yelps.txt",
+      "continuous_labels_file": "dataset/data/yelpv.txt",
+      "binary_labels_file": "dataset/data/yelpl.txt",
+      "unlabeled_sentences_file": "dataset/data/yelpu.txt",
+      "annotated_rows": 845,
+      "unlabeled_rows": 95650,
+      "withheld_rows": 1,
+      "expected_prediction_rows": 844,
+      "execution_lf_sha256": {
+        "yelps.txt": "fdb519e84b85065416098e499a709b780f33a4a0b9ddaa293a6531fc269666b3",
+        "yelpv.txt": "8e2a958a8f86c881046a5ec02c78a15e946d578bfea721555d978347cc00379f",
+        "yelpl.txt": "a5c195158d4a7e1bbfe7351a086bfc4bc1911167e4fbb508df362fe51ca46872",
+        "yelpu.txt": "025a89b41476cc9be102384b079b68700c61f663e8e67aee3163e322c3447cc0"
+      },
+      "released_crlf_equivalent_sha256": {
+        "yelps.txt": "091d9df15ad8809e6f5210787aaa95e54471a42e5d76bf6adf28f9550ceb8ae0",
+        "yelpv.txt": "e1d1258d884b5674d774a51802b4395330535920d0c03271ea6d85fa0733b72f",
+        "yelpl.txt": "03a7ea234d997cdc4ae0faee0e84d106f5f6e388fc2cd6b9836c4b00914294ec",
+        "yelpu.txt": "9f0c829c5f89bad578e01547b1f43290fd18f05ac256f895dea11552f9a6f125"
+      },
+      "paper_table_2": {
+        "spearman": {"mean": 0.750, "std": 0.016},
+        "kendall_tau": {"mean": 0.555, "std": 0.010},
+        "mae": {"mean": 0.107, "std": 0.003}
+      }
+    },
+    "movie": {
+      "paper_condition": "Movie review target domain",
+      "annotated_sentences_file": "dataset/data/movies.txt",
+      "continuous_labels_file": "dataset/data/moviev.txt",
+      "binary_labels_file": "dataset/data/moviel.txt",
+      "unlabeled_sentences_file": "dataset/data/movieu.txt",
+      "annotated_rows": 920,
+      "unlabeled_rows": 11855,
+      "withheld_rows": 1,
+      "expected_prediction_rows": 919,
+      "execution_lf_sha256": {
+        "movies.txt": "32502bfac5169c2c71bc77ae9451ae04ad62c1725cdd2f6939406ab9152f8811",
+        "moviev.txt": "1265def85fafe1429a4d36b6f51ce36c99107c2def3db490062ea3e8d91e55ba",
+        "moviel.txt": "3418b8c0e0bc52f67d2bb1b3509fdf89a532f869cf86a3f0c83a772d275a32fe",
+        "movieu.txt": "b01025db8961a4da9ad05b720392e93ead9fed96e9db70314374a0e3e74b9fa7"
+      },
+      "released_crlf_equivalent_sha256": {
+        "movies.txt": "827714cfde580045679ab7b36cc4c839881c26e07b031a4ea519886bdef42af6",
+        "moviev.txt": "39dc4534cfc58cdc6ae81404135b193b61c07001c279e14f4a99fbbc169e4808",
+        "moviel.txt": "7c2f0ddcd1056e9324f785f930eb1e1a01b117ae26c45d68f861cfa504604362",
+        "movieu.txt": "dab48ae2e883ef9205dea0a367261171e7a43054ed35fb8a13814d0063d0d777"
+      },
+      "paper_table_2": {
+        "spearman": {"mean": 0.702, "std": 0.003},
+        "kendall_tau": {"mean": 0.519, "std": 0.015},
+        "mae": {"mean": 0.114, "std": 0.001}
+      }
+    }
+  },
+  "line_ending_provenance": {
+    "execution_bytes": "The checksum-pinned GitHub archive extracted in Linux contains LF line endings and these bytes are executed.",
+    "released_identity_bridge": "Replacing each LF with CRLF and changing no other byte reproduces the previously frozen source/Twitter manifest hashes and the recorded Yelp/Movie released hashes. Both identities are retained; execution uses LF bytes only."
+  },
+  "classification": {
+    "unit": "one domain-by-metric condition",
+    "rounding_allowance": 0.0005,
+    "standard_deviation_convention": "The paper reports standard deviations across three runs but does not state ddof. This diagnostic predeclares population SD (ddof=0), the NumPy default and the convention used by the existing Ko variability evidence; exact run values and deltas remain visible so the convention is auditable.",
+    "match": "absolute observed-minus-paper mean difference <= 2 * paper std + 0.0005 AND absolute observed-minus-paper std difference <= 2 * paper std + 0.0005",
+    "shift": "absolute observed-minus-paper mean difference > 4 * paper std + 0.0005",
+    "indeterminate": "all remaining cases, including a mean in the gray zone or a mean match paired with dispersion outside the match tolerance; dispersion mismatch alone is never a shift",
+    "direction": "For shift, report correlation lower/higher than the paper for Spearman and Kendall tau, and error higher/lower than the paper for MAE.",
+    "domain_classification": "match only if all three metrics match; shift if one or more metrics shift, with metric directions listed; otherwise indeterminate",
+    "no_multiplicity_inference": "Classifications are descriptive reproduction diagnostics, not hypothesis tests."
+  },
+  "gates": {
+    "required_input_hash_match": true,
+    "required_prediction_count_match": true,
+    "required_metric_finiteness": true,
+    "failure_handling": "A run that exits nonzero, lacks any required artifact, fails an input/checkpoint/prediction hash gate, has the wrong prediction count, or emits a nonfinite/out-of-range prediction is a failed attempt. Preserve its attempt record and logs; do not impute or erase it.",
+    "attempt_identity": "Each operational attempt has a unique attempt_id and non-overwriting directory beneath its scientific run_id. A failed attempt may be followed by a new attempt mapped to the same run_id only in a fresh directory; the failure remains first-class evidence.",
+    "condition_indeterminate_rule": "A valid domain requires exactly one completed successful attempt for each of run01, run02, and run03, and exactly three successful runs total. Otherwise all three metric conditions for that domain are indeterminate and no three-run mean/std is treated as observed.",
+    "stop_rule": "Do not inspect or summarize Yelp/Movie outcome values until this config, protocol, runner, analyzer, schemas, and tests have been committed. Stop before execution if any released-file mapping or checksum is unresolved."
+  },
+  "evidence_schema": {
+    "ignored_run_root": "outputs/round2/ko_released_review_diagnostic/runs/<domain>/<run_id>/<attempt_id>/",
+    "attempt_artifacts": ["attempt.json"],
+    "completed_attempt_artifacts": [
+      "predictions.txt",
+      "teacher_model.pickle",
+      "model.sha256",
+      "train.log",
+      "test.log",
+      "metrics.json",
+      "container_run_metadata.json",
+      "run_metadata.json"
+    ],
+    "tracked_compact_root": "analysis/round2_ko_released_review_diagnostic/",
+    "tracked_files": [
+      "README.md",
+      "run_metrics.csv",
+      "comparison.csv",
+      "domain_summary.csv",
+      "run_metadata.json",
+      "validation_summary.json",
+      "recommendation.md"
+    ],
+    "privacy_and_redistribution": "Do not track released sentences, labels, raw predictions, checkpoints, full logs, built images, or GloVe. Track only counts, metrics, hashes, portable identities, classifications, validation, and bounded interpretation."
+  },
+  "pre_execution_hardening": {
+    "trigger": "Two run01 containers were interrupted at primary review before training completed; both exited 137 with no prediction, metric, or checkpoint artifact.",
+    "prior_config_sha256": "a4b711f1f60583d2ff1c9e2aa78e8b88b3bd683040a4018c2620cd6ff208d4d4",
+    "scientific_contract_changed": false,
+    "changes": "Non-overwriting attempt identities, incomplete-domain indeterminate packaging, complete attempt inventory, and frozen runtime-field verification only."
+  }
+}

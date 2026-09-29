@@ -1,0 +1,26 @@
+{
+  "schema_version": "ko_container_licensing_v1",
+  "ko_upstream": {
+    "license_file_present_at_pinned_commit": false,
+    "status": "NOASSERTION",
+    "policy": "Fetch for local research reproduction only. Do not vendor upstream source, publish the built image, redistribute bundled data, or redistribute checkpoints without written permission or a verified license grant."
+  },
+  "glove_vectors": {
+    "license": "Open Data Commons Public Domain Dedication and License 1.0",
+    "license_url": "https://opendatacommons.org/licenses/pddl/1-0/",
+    "source_statement": "https://nlp.stanford.edu/projects/glove/",
+    "policy": "Keep the multi-gigabyte artifact external and checksum-addressed."
+  },
+  "python_base_image": {
+    "source": "https://hub.docker.com/_/python",
+    "policy": "Retain upstream image notices when an image is used locally."
+  },
+  "pytorch_numpy_scipy": {
+    "declared_licenses": {
+      "pytorch_1.0.0": "BSD-3-Clause",
+      "numpy_1.16.4": "BSD-3-Clause",
+      "scipy_1.2.1": "BSD-3-Clause"
+    },
+    "policy": "Installed from checksum-pinned upstream wheels into the local research image; review their included notices before any image distribution."
+  }
+}

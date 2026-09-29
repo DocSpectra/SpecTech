@@ -1,0 +1,240 @@
+{
+  "schema_version": "round2_qwen_edit_source_v1",
+  "frozen_at_utc": "2026-08-10T20:00:00Z",
+  "outcome_blind_freeze": true,
+  "authorization": {
+    "qe_a_authorized": true,
+    "existing_controlled_edit_originals_only": true,
+    "direction_matched_qwen_counterparts": true,
+    "new_human_annotation": false,
+    "manual_editing_or_selection": false,
+    "wikipedia_synthetic_arm": false,
+    "scores_labels_or_author_edits_visible_to_generation": false,
+    "project_scorer_outcomes_inspected_before_freeze": false
+  },
+  "inputs": {
+    "corpus_order": ["ansible_docs", "github_docs"],
+    "source_files": {
+      "ansible_docs": {
+        "path": "outputs/round2/granuscore/controlled_edits/ansible_docs_manual_controlled_edits.csv",
+        "sha256": "d6eb585c3c87295cb7f7862476cead64f8d4b47fd30c682a01095220004f2e3f",
+        "rows": 30,
+        "direction_counts": {"add_specific": 8, "de_specify": 12, "irrelevant_rewrite": 10}
+      },
+      "github_docs": {
+        "path": "outputs/round2/granuscore/controlled_edits/github_docs_manual_controlled_edits.csv",
+        "sha256": "6860b7ae74eb51a589361e8555d7e16c889860f45cdf019371948a1e23fd24fc",
+        "rows": 30,
+        "direction_counts": {"add_specific": 10, "de_specify": 10, "irrelevant_rewrite": 10}
+      }
+    },
+    "required_total_cases": 60,
+    "case_id": "sha256(utf8(corpus_id + NUL + sent_id + NUL + edit_type + NUL + one_based_source_position))",
+    "order": "corpus_order, then byte-frozen source-file row order",
+    "ordered_case_sha256_algorithm": "sha256 over one LF-terminated UTF-8 record per case: corpus_id NUL position NUL case_id NUL sent_id NUL edit_type NUL sha256(sentence_original UTF-8)",
+    "ordered_case_sha256": "c46c1e7182a34a0f89dbb2826a6fcd2c0eec73f56842a5d484cf7675d95ed7ec",
+    "generation_fields": ["case_id", "corpus_id", "sent_id", "edit_type", "sentence_original"],
+    "generation_forbidden_fields": ["sentence_edited", "speciteller_score_original", "speciteller_score_edited", "delta", "human_label", "qwen_rubric_score", "granuscore", "ko_score"]
+  },
+  "qwen": {
+    "ollama_version": "0.32.5",
+    "model": "qwen3:14b",
+    "model_list_id": "bdbd181c33f2",
+    "backing_blob_sha256": "a8cc1361f3145dc01f6d77c6c82c9116b9ffe3c97b34716fe20418455876c40e",
+    "backing_blob_size_bytes": 9276184896,
+    "license": "Apache-2.0 as emitted by ollama show",
+    "api_url": "http://127.0.0.1:11434/api/chat",
+    "role": "isolated controlled-edit generator",
+    "external_network_required": false,
+    "thinking": false,
+    "stream": false,
+    "keep_alive": "30m",
+    "fresh_conversation_per_attempt": true,
+    "maximum_attempts_per_case": 3,
+    "attempt_policy": "generate attempts in ascending order and stop immediately at the first passing output; retain that passing output; retain metadata and reason codes for every failed generated attempt; generate no later attempt after a pass",
+    "seed_derivation": "first 31 bits of sha256(utf8(str(master_seed) + ':' + case_id + ':' + str(attempt_index))) interpreted big-endian",
+    "master_seed": 20260810,
+    "options": {
+      "temperature": 0.2,
+      "top_k": 20,
+      "top_p": 0.9,
+      "repeat_penalty": 1.0,
+      "num_ctx": 4096,
+      "num_predict": 512
+    },
+    "response_schema": {
+      "type": "object",
+      "properties": {"edited_sentence": {"type": "string"}},
+      "required": ["edited_sentence"],
+      "additionalProperties": false
+    }
+  },
+  "prompts": {
+    "system": "You generate one controlled rewrite for a sentence-specificity sensitivity study. Follow only the requested rewrite direction. Preserve the sentence's main proposition, polarity, modality, and communicative intent. Use general world knowledge only; do not assume hidden document context. Do not mention this task, scores, models, labels, authors, or editing instructions. Return only the required JSON object with edited_sentence and no explanation.",
+    "user_templates": {
+      "add_specific": "Rewrite the sentence to be more specific. Preserve every existing substantive detail, then add concrete names, values, identifiers, locations, versions, commands, parameters, or operational conditions that make the same proposition more explicit. Do not merely add adjectives or commentary.\n\nOriginal sentence:\n{sentence_original}",
+      "de_specify": "Rewrite the sentence to be less specific. Preserve the main proposition, polarity, modality, and intent, but remove or generalize concrete names, values, identifiers, locations, versions, commands, parameters, or operational conditions. Do not add new concrete details.\n\nOriginal sentence:\n{sentence_original}",
+      "irrelevant_rewrite": "Paraphrase the sentence while keeping approximately the same specificity. Preserve all concrete names, values, identifiers, locations, versions, commands, parameters, polarity, modality, and main proposition. Change wording or syntax without intentionally adding or removing concrete information.\n\nOriginal sentence:\n{sentence_original}"
+    },
+    "blindness_contract": "Each request contains only the fixed system prompt, the direction-matched template, and sentence_original. Corpus identity, sent_id, author edit, all scores, all labels, failure outcomes from other attempts, and other cases are absent."
+  },
+  "automated_gates": {
+    "role": "outcome-blind safeguards only; they are not human or factual validation",
+    "normalization": "Unicode NFKC, strip outer whitespace, collapse internal whitespace only for comparisons; stored passing text preserves model content after outer stripping",
+    "word_token_regex": "(?u)\\b\\w+(?:[-./:]\\w+)*\\b",
+    "content_tokens": "casefold word tokens of length at least 3 excluding the frozen English stopword list in the implementation",
+    "polarity_tokens": ["no", "not", "never", "none", "neither", "nor", "without", "cannot", "can't", "won't", "don't", "doesn't", "isn't", "aren't", "wasn't", "weren't"],
+    "modal_tokens": ["can", "could", "may", "might", "must", "shall", "should", "will", "would"],
+    "concrete_marker_classes": ["URL", "absolute_or_relative_path", "command_flag", "integer_or_decimal_or_version", "snake_case_identifier", "camelCase_or_PascalCase_identifier", "backtick_code_content"],
+    "universal": {
+      "exact_json_field_only": true,
+      "one_nonempty_line": true,
+      "minimum_characters": 5,
+      "maximum_characters": 2000,
+      "must_differ_after_normalization": true,
+      "forbidden_meta_prefixes_casefold": ["edited sentence:", "rewrite:", "here is", "sure,"],
+      "polarity_token_multiset_must_match": true,
+      "modal_token_multiset_must_match": true
+    },
+    "direction_rules": {
+      "add_specific": {
+        "edited_to_original_token_ratio_min": 0.65,
+        "edited_to_original_token_ratio_max": 2.0,
+        "original_content_anchor_recall_min": 0.55,
+        "original_concrete_marker_recall_min": 1.0,
+        "edited_concrete_marker_count_must_not_decrease": true,
+        "required_change": "edited token count is at least original plus 2 OR edited concrete-marker count is at least original plus 1"
+      },
+      "de_specify": {
+        "edited_to_original_token_ratio_min": 0.4,
+        "edited_to_original_token_ratio_max": 1.05,
+        "original_content_anchor_recall_min": 0.35,
+        "edited_concrete_marker_count_must_not_increase": true,
+        "required_change": "edited token count is at most original minus 2 OR edited concrete-marker count is at most original minus 1"
+      },
+      "irrelevant_rewrite": {
+        "edited_to_original_token_ratio_min": 0.75,
+        "edited_to_original_token_ratio_max": 1.35,
+        "original_content_anchor_recall_min": 0.7,
+        "concrete_marker_multiset_must_match": true
+      }
+    },
+    "failure_handling": "A failed attempt is never repaired or manually edited. The next predeclared seeded attempt uses the identical prompt in a fresh context. A case with no passing attempt is excluded and fully accounted for by corpus, direction, attempt, and reason code.",
+    "coverage_gate": {
+      "minimum_total_acceptance_rate_for_primary_comparison": 0.8,
+      "minimum_cell_acceptance_rate_for_primary_comparison": 0.75,
+      "cell": "corpus_id by edit_type",
+      "below_gate_action": "score accepted outputs and package coverage/failures, but stop paper-facing source-comparison inference; do not tune prompts, thresholds, or attempts"
+    }
+  },
+  "scoring": {
+    "score_order": ["speciteller", "ko_run01", "ko_run02", "ko_run03", "granuscore"],
+    "score_blindness": "No scorer is invoked until generation and gating complete for all 60 planned cases. Scorer outputs are not summarized or comparatively inspected until every required accepted-row score file passes identity, coverage, finiteness, range, and exact-join gates.",
+    "sources_scored": "author edited text for all 60 cases and accepted Qwen edited text; originals use frozen full-corpus scorer outputs except GranuScore, whose frozen controlled-edit original scores are exact joins",
+    "speciteller": {
+      "model_id": "speciteller_frozen_round1",
+      "image": "speciteller:py27",
+      "image_id": "sha256:082c453f28b8c4915bfc42d8f03f745573e4b6f9f3c17d6085a07e694432a142",
+      "repo_commit": "218cb5a389b3e51d393a76e72714ff65e7e81f47",
+      "data_checksum": "dd70443a77b6fc576e3fff88ddc09e6e0777bea3537465a11f339b9de8105fbe",
+      "liblinear_version": "491c9f1188b97ba70847c70a68be363d186ddf9d",
+      "direction": "higher_is_more_specific",
+      "range": [0.0, 1.0],
+      "original_score_inputs": {
+        "ansible_docs": {"path": "outputs/speciteller/ansible_docs_scores.tsv", "sha256": "0c03b748d7052c57821930f13dfc457855f350e0ff1db9d31a3a0f29f91cec47"},
+        "github_docs": {"path": "outputs/speciteller/github_docs_scores.tsv", "sha256": "d0d616fdad6898d4c2af6def7a17fc899e8859485bf1e97033bd0d2b1ab8a083"}
+      }
+    },
+    "ko": {
+      "model_id": "ko_author_official_release_se_ad_mean_std",
+      "model_version": "official-author-repository-postpublication-36f8e835-cpu-v1",
+      "image": "spectech-ko-specificity:36f8e835-official-release-v1",
+      "image_id": "sha256:e72e1dbe27ccd6eefb7211b9f04230cf5c8e075c5bdbdb329ae1ca0844eb5a5d",
+      "upstream_commit": "36f8e835e9dc6087d5b6763accf302db175947b1",
+      "glove_volume": "spectech-ko-glove-840b-v1",
+      "glove_text_sha256": "9641ef45628fd8c5c0bc555c8944f7bad7bce36ae7be3cafff0bb109fe60883e",
+      "direction": "higher_is_more_specific",
+      "range": [0.0, 1.0],
+      "checkpoint_inference": "load each retained per-corpus run checkpoint without retraining; compute shallow-feature normalization and vocabulary from the same frozen full original target-corpus input used for that checkpoint; score author and accepted-Qwen query texts through the unmodified official test path with the existing one-row compensation",
+      "primary_instances": ["run01", "run02", "run03"],
+      "secondary_aggregate": "rowwise arithmetic mean of the three run scores",
+      "runs": {
+        "ansible_docs": {
+          "run01": {"checkpoint_path": "outputs/round2/ko_official_release/runs/ansible_docs/run01/evidence/model.pickle", "checkpoint_sha256": "38e093f6c8d1109c57fffe6753895a0055c78e1141cced9aedab9f5899042d44", "original_score_path": "outputs/round2/ko_official_release/runs/ansible_docs/run01/scores.csv", "original_score_sha256": "ff522001181be873d21a5713215aa78f6ca61f385263b6c73b0066afb6c21bc3"},
+          "run02": {"checkpoint_path": "outputs/round2/ko_official_release/runs/ansible_docs/run02/evidence/model.pickle", "checkpoint_sha256": "a9dedb9b21f484aa6c23f6c652eb1d27982a8062e8667daf1167d163137f591f", "original_score_path": "outputs/round2/ko_official_release/runs/ansible_docs/run02/scores.csv", "original_score_sha256": "c9b7befa9f8ee97b0637de93f7d6dfcd20e1d634ef651d1b669ceffbde534841"},
+          "run03": {"checkpoint_path": "outputs/round2/ko_official_release/runs/ansible_docs/run03/evidence/model.pickle", "checkpoint_sha256": "c34242fe537ab99be1947a30502a5dcc3b5d18964b285199bc6a86b138ef2ee9", "original_score_path": "outputs/round2/ko_official_release/runs/ansible_docs/run03/scores.csv", "original_score_sha256": "d19196e6c6bba0495f84d79bf6b6462b5d422dec179ab01371270eaeced99e12"}
+        },
+        "github_docs": {
+          "run01": {"checkpoint_path": "outputs/round2/ko_official_release/runs/github_docs/run01/evidence/model.pickle", "checkpoint_sha256": "0ca46365e64a05f3f8cb9bb8644f209ab8b370ccee176d2cd85c9dd420b845af", "original_score_path": "outputs/round2/ko_official_release/runs/github_docs/run01/scores.csv", "original_score_sha256": "221dd63491abdfc6e232a758244736cf77e4c2d8973b417d5da32164fde4ece6"},
+          "run02": {"checkpoint_path": "outputs/round2/ko_official_release/runs/github_docs/run02/evidence/model.pickle", "checkpoint_sha256": "7e54050165634c2b2af179ab26be6d13ab3033ae77c75c6493d6b5a280d00d47", "original_score_path": "outputs/round2/ko_official_release/runs/github_docs/run02/scores.csv", "original_score_sha256": "3b514937aaf58f2f20473588d3df2b80ae8f03e7c6448c56d09d5d323828aedc"},
+          "run03": {"checkpoint_path": "outputs/round2/ko_official_release/runs/github_docs/run03/evidence/model.pickle", "checkpoint_sha256": "5815057eb1fdbca900b0202e43bc0bc145257fe873dc33ef04582dd0b52bf3a4", "original_score_path": "outputs/round2/ko_official_release/runs/github_docs/run03/scores.csv", "original_score_sha256": "72a4ba84c7a478a6b288ae816f8b523d2b67dc3b5272be85aed22aecd3ba8f5d"}
+        }
+      },
+      "identity_boundary": "three stochastic instances of the approved maintained post-publication implementation; failed exact-2019 evidence remains immutable"
+    },
+    "granuscore": {
+      "model_id": "granuscore_1_0_1_hit_wordnet",
+      "image": "spectech-granuscore:1.0.1-hit-wordnet-v1",
+      "image_id": "sha256:d637a2aebb397a6c067e59d0cfaa4bfb4ac72a24615c0e089b0e3798542a41df",
+      "runner_sha256": "b079032eec2713168779fd4c04b7002e35b3f9b02ac7d6e497e219bef7df0235",
+      "model_revision": "b170cbfa5bb770f144c69f75f826ccbd6e0c7b53",
+      "direction": "higher_is_coarser_more_abstract",
+      "range": [0.0, 100.0],
+      "author_pair_manifest": {"path": "outputs/round2/granuscore/controlled_edits/scoring_manifest.csv", "sha256": "24bf402dfe57e441acc72e27649be6feddef5beecb176a469c049cd85d689bb4"},
+      "author_pair_scores": {"path": "outputs/round2/granuscore/controlled_edits/scores.csv", "sha256": "29f8e5fffb5e6a0868c1340a7bac1947d1909b6836634e06bb8cf3626f55a3f7"},
+      "no_unit_rule": "retain official NO_FACT_SCORE percentile, flag, and report coverage"
+    },
+    "qwen_rubric_self_judgment": "not run; self-judgment of generated edits would be circular and cannot enter primary inclusion or response comparisons",
+    "required_join": "one-to-one case_id and source_sent_id; exact author/Qwen source labels; original score identical within model/run and case; every accepted Qwen case has every required score; no duplicate, missing, nonfinite, or out-of-range value"
+  },
+  "analysis": {
+    "primary_models": ["speciteller_frozen_round1", "ko_run01", "ko_run02", "ko_run03", "granuscore_native"],
+    "secondary_models": ["ko_three_run_arithmetic_mean"],
+    "native_delta": "edited score minus original score",
+    "expected_native_direction": {
+      "speciteller_frozen_round1": {"add_specific": "positive", "de_specify": "negative", "irrelevant_rewrite": "near_zero"},
+      "ko_run01": {"add_specific": "positive", "de_specify": "negative", "irrelevant_rewrite": "near_zero"},
+      "ko_run02": {"add_specific": "positive", "de_specify": "negative", "irrelevant_rewrite": "near_zero"},
+      "ko_run03": {"add_specific": "positive", "de_specify": "negative", "irrelevant_rewrite": "near_zero"},
+      "granuscore_native": {"add_specific": "negative", "de_specify": "positive", "irrelevant_rewrite": "near_zero"}
+    },
+    "analysis_set": "accepted Qwen cases only, with both author and Qwen arms paired to the same original; unmatched author cases appear only in all-author descriptive summaries and coverage accounting",
+    "cell": "model instance by corpus_id by edit_type",
+    "arm_estimands": ["n", "mean native delta", "median native delta", "mean absolute native delta", "expected-direction response rate for add_specific/de_specify"],
+    "paired_source_estimands": ["mean of Qwen delta minus author delta", "mean of absolute Qwen delta minus absolute author delta", "Qwen expected-direction response rate minus author rate", "pairwise expected-direction concordance rate"],
+    "irrelevant_rewrite_rule": "report signed and absolute delta; do not impose an arbitrary success threshold",
+    "bootstrap": {
+      "replicates": 10000,
+      "master_seed": 20260810,
+      "unit": "controlled-edit case within corpus_id and edit_type",
+      "joint_resampling": "one index draw is applied jointly to author and Qwen arms and all model instances/runs in the cell",
+      "interval": "two-sided percentile 95% interval",
+      "minimum_valid_fraction": 0.95
+    },
+    "multiplicity": "descriptive; no p-values, winner selection, superiority, noninferiority, or accuracy claims",
+    "scale_rule": "compare direction and magnitude only within each native model/run; never compare raw deltas across SpeciTeller, Ko, and GranuScore scales",
+    "reporting": "coverage and failure reasons by corpus and direction precede outcomes; report every arm/cell including unfavorable or sign-reversed results",
+    "claim_boundary": "The comparison tests edit-generator/source robustness of scorer responses. Synthetic Qwen edits are not human-validated for factual correctness, semantic preservation, or a single-factor specificity change. Automated gates are safeguards, not validation."
+  },
+  "outputs": {
+    "raw_directory": "outputs/round2/qwen_edit_source",
+    "compact_directory": "analysis/round2_qwen_edit_source",
+    "raw_attempts": "generation_attempts.jsonl",
+    "accepted_edits": "accepted_edits.csv",
+    "generation_manifest": "generation_manifest.csv",
+    "scoring_manifest": "scoring_manifest.csv",
+    "scores_long": "scores_long.csv",
+    "tables": ["coverage.csv", "failure_reasons.csv", "arm_summaries.csv", "paired_source_contrasts.csv", "paper_table.csv"],
+    "metadata": "run_metadata.json",
+    "release_boundary": "Tracked compact evidence contains case IDs, corpus/direction/source labels, aggregate tables, hashes, counts, and scorer values needed for audit, but no original sentence, author edit, Qwen generated text, human labels, participant information, or absolute host paths. Text-bearing raw inputs/outputs and nonredistributable Ko checkpoints stay ignored."
+  },
+  "stop_conditions": [
+    "protocol, input, model/blob/runtime, scorer image, checkpoint, original-score, or prior GranuScore artifact identity mismatch",
+    "source row count, direction count, case identity, ordered-case digest, or original-text hash mismatch",
+    "any generation request exposes a forbidden field or any resume row has a mismatched protocol/model/input identity",
+    "coverage falls below the frozen gate, in which case scoring continues for accepted rows but paper-facing source-comparison inference stops",
+    "any required accepted-row scorer coverage or exact join fails",
+    "any nonfinite or out-of-range score occurs",
+    "a prompt, attempt, gate, inclusion, scoring, join, bootstrap, estimand, reporting, or claim rule would need to change after generation or scorer outcome inspection"
+  ]
+}

@@ -1,0 +1,5 @@
+corpus_id,display_name,expected_sentence_count,published_mean,published_median,published_std,published_iqr,published_decimals
+wikipedia_en,Wikipedia,900406,0.753,0.884,0.280,0.446,3
+github_docs,GitHub Docs,170798,0.496,0.543,0.323,0.596,3
+ansible_docs,Ansible Docs,44452,0.426,0.369,0.304,0.500,3
+python_312_html,Python 3.12 Reference,179549,0.292,0.154,0.311,0.484,3
