@@ -1,0 +1,21 @@
+cff-version: 1.2.0
+message: "If you use SpecTech, please cite the accepted paper below."
+title: "SpecTech"
+authors:
+  - family-names: "D'Antonio"
+    given-names: "Rocker"
+repository-code: "https://github.com/DocSpectra/SpecTech"
+preferred-citation:
+  type: conference-paper
+  title: "Sentence Specificity Scores for Collaborative Technical Documentation: A Domain-Transfer Study"
+  authors:
+    - family-names: "D'Antonio"
+      given-names: "Rocker"
+    - family-names: "Townsend"
+      given-names: "Thomas Benton"
+    - family-names: "Manias"
+      given-names: "Dimitrios Michael"
+  conference:
+    name: "2026 IEEE International Conference on Collaboration and Internet Computing (CIC)"
+  year: 2026
+  status: in-press
