@@ -53,6 +53,8 @@ Important defaults:
 - bootstrap: 1,000 document-cluster replicates, seed `20260808`
 
 Run `python scripts/preprocessing_ablation.py --help` for relocation and test
-fixture options. Input/output schemas and full restoration commands are in the
-root `README.md` under “Round 2 preprocessing-sensitivity analysis.”
+fixture options. Frozen input identities are in
+`configs/round1_source_provenance.json`,
+`configs/round1_artifact_checksums.csv`, and
+`configs/round1_speciteller_baseline.csv`.
 
