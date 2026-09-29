@@ -46,13 +46,22 @@ are not included here.
 
 The paper's canonical sentence, SpeciTeller-score, and feature tables are
 expected under `outputs/sentences/`, `outputs/speciteller/`, and
-`outputs/features/`. These files are excluded from this snapshot. The root
-`run_pipeline.py` ingestion entry point is also absent, so this checkout alone
-cannot rebuild the canonical tables end to end. The frozen source identities,
-baseline values, and artifact checksums allow restored tables to be checked
-before analysis.
+`outputs/features/`. These files are excluded from this snapshot. Restore the
+four corpora at the exact revisions and hashes in
+[`configs/round1_source_provenance.json`](configs/round1_source_provenance.json)
+before running the root pipeline. Its download helper does not itself enforce
+the pinned Git commits or archive checksums.
 
-After restoring the checksum-matched tables, the main analysis commands are:
+Build the pinned SpeciTeller image, then generate the canonical tables:
+
+```bash
+docker build -t speciteller:py27 speciteller_docker
+python run_pipeline.py --mode full --corpus-ids wikipedia_en github_docs ansible_docs python_312_html
+```
+
+Run the preprocessing gate before later analyses. It checks the generated
+tables against the frozen Round 1 baseline and artifact hashes; stop if the
+gate fails.
 
 ```bash
 python scripts/preprocessing_ablation.py
@@ -64,8 +73,10 @@ natural-language subset. The second uses that subset for exact token-length
 standardization. Further comparator, distribution, granularity, pilot, and
 candidate-selection protocols are documented in [`specs/`](specs/) with their
 corresponding scripts and frozen configurations. Commands that depend on
-excluded source data, model artifacts, or review records require those inputs
-to be restored separately.
+excluded model artifacts or review records require those inputs to be restored
+separately. In particular, this source snapshot cannot regenerate the exact
+human-pilot and candidate-selection results without the excluded completed
+review records.
 
 The Ko et al. (2019) paper-era system was not reproduced. The evaluated
 comparator is the separate pinned post-publication author-repository
